@@ -4,10 +4,11 @@
 ## About Page: `hexo new page about`
 ## Tags Cloud Page: `hexo new page tags`
 menu:
-  博客首页: /Home
-  作品展示: /works
-  留言打卡: /about
-  前端导航: /FrontEndGuide
+  博客首页: /
+  CTF: /CTF
+  程序设计: /Program
+  折腾Linux: /Linux
+  关于: /about
 # 静心阅读: /tags
 # 光影之路: /instagram
 # 随笔: /tags/随笔
@@ -24,12 +25,12 @@ favicon: /img/favicon.png
 ## RSS requires a plugin to take effect | 使用 RSS 需先安装对应插件
 ## https://github.com/hexojs/hexo-generator-feed
 subnav:
-  mail: "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=PAkNDgsKBQ4MCnxNTRJfU1E"
-  github: "https://github.com/luuman"
-  zhihu: "https://www.zhihu.com/people/luuman"
-  weibo: "http://weibo.com/lishangmou"
-  google: "http://i.youku.com/shangmou"
-  twitter: "http: //twitter.com/luuman"
+  mail: "chanxing9@gmail.com"
+  github: "https://github.com/007xiaoxingxing"
+  zhihu: "#"
+  weibo: "#"
+  google: "#"
+  twitter: "#"
   facebook: "#"
   rss: /atom.xml
   # linkedin: "https://www.linkedin.com/in/%E5%BF%A0%E6%88%90-%E6%9D%8E-a48562b1"
@@ -110,7 +111,7 @@ toc_nowrap: false
 
 # 自定义"阅读全文"链接按钮的显示文字
 # Customize the text on excerpt link
-excerpt_link: 大航海 #修改more>>的文字
+excerpt_link: Any more? #修改more>>的文字
 
 # 是否显示边栏中的搜索框（仅样式，未添加搜索功能）
 # Search Box in left column
@@ -130,21 +131,15 @@ tagcloud: true
 # Blogroll, Link exchange | 友情链接
 # friends: false
 friends:
-  MOxFIVE: http://MOxFIVE.github.io/
-  DoubleV: http://www.vsay.cn/
-  兮兮: http://www.ccwebsite.com/
-  翁天信: http://blog.dandyweng.com/
-  潘利强: http://www.plqblog.com/views/index.php
-  hankin: http://www.hankin.cn/
-  waydrow: http://blog.waydrow.com/
+ # waydrow: http://blog.waydrow.com/
 
 #是否开启“关于我”。
-aboutme: 纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中
+aboutme: 信息安全？测绘？智慧旅游？程序猿？
 #aboutme: false
 
 # 是否在新窗口打开链接
 # Open ALL link in a new tab
-open_in_new: false
+open_in_new: true
 
 # Customize feed link 自定义订阅地址
 rss: /atom.xml
@@ -178,7 +173,7 @@ baidu_analytics:
 # http://ibruce.info/2015/04/04/busuanzi/
 visit_counter:
   on: true
-  site_visit: 海贼到访数
+  site_visit: 表哥到访数
   page_visit: 本页阅读量
 
 # A标签提示
