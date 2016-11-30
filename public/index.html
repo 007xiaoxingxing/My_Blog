@@ -221,6 +221,68 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-github-sshkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/30/github-sshkey/" class="article-date">
+      <time datetime="2016-11-30T02:40:45.782Z" itemprop="datePublished">2016-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<p>title: github配置ssh key<br>date: 2016-11-30 10:43:18<br>categories: Program<br>tags:</p>
+<ul>
+<li>github</li>
+<li>ssh key</li>
+</ul>
+<hr>
+<h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</span></div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</div></pre></td></tr></table></figure></p>
+<p>0x2:添加ssh key至github网站<br><img src="http://note.youdao.com/yws/public/resource/9b81f59da40d11de3c042aea1ef77e85/xmlnote/436FF14EB51744D78B225F06676F2C88/1356" alt="image"></p>
+<p>0x3:将私钥添加到本地gitbash<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh-agent bash --login -i</div><div class="line">$ ssh-add ~/.ssh/PCWIN10(你自己的私钥的路径)</div></pre></td></tr></table></figure></p>
+<p>0x4:本地测试是否已经正常<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
+<p>已经认证成功。</p>
+<p>0x4:将https提交类型的remote设置为ssh类型<br>查看当前本地仓库的远程仓库链接，发现是https类型的，提交代码的时候会要求输入github的帐号和密码，比较麻烦，我们将它改成ssh类型的，加上之前设置的ssh key，就可以实现免密码提交代码了。Let’s do it！<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  https://github.com/yourname/My_Blog.git (fetch)</div><div class="line">origin  https://github.com/yourname/My_Blog.git (push)</div></pre></td></tr></table></figure></p>
+<p>更改远程仓库链接为ssh类型<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote <span class="built_in">set</span>-url origin git@github.com:你的github用户名/你的远程仓库名.git</div></pre></td></tr></table></figure></p>
+<p>再次查看远程仓库链接<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  git@github.com:yourname/xxx.git (fetch)</div><div class="line">origin  git@github.com:xxxx/xxx.git (push)</div></pre></td></tr></table></figure></p>
+<p>接下来就可以自由地不用输入帐号密码就可以push了，感觉爽歪歪。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">eval</span> `ssh-agent`</div><div class="line">Agent pid 6720</div><div class="line">$ ssh-add ~/.ssh/PCWIN10</div><div class="line">Identity added: /c/Users/xxx/.ssh/PCWIN10 (/c/Users/xxxx/.ssh/PCWIN10)</div><div class="line">$ git push</div></pre></td></tr></table></figure></p>
+<p>ps: ssh-agent</p>
+<blockquote>
+<p>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，ssh-agent其实就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
+</blockquote>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-HCTF2016-Writeup" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
