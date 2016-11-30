@@ -36,7 +36,7 @@ The key's randomart image is:
 
 ```
 0x2:添加ssh key至github网站
-![image](http://note.youdao.com/yws/public/resource/9b81f59da40d11de3c042aea1ef77e85/xmlnote/436FF14EB51744D78B225F06676F2C88/1356)
+![image](/blogimg/gitsshkey.png)
 
 0x3:将私钥添加到本地gitbash  
 ```bash

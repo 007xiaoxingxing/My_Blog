@@ -22,7 +22,7 @@ Vim是vi的加强版，比vi更容易使用。vi的命令几乎全部都可以�
 #查看VIM编辑器的帮助信息。
 >:help
 
-![image](http://note.youdao.com/yws/public/resource/5238175521f670ee1a4708b399ec53dc/xmlnote/BE3491F91FCD46C5AC471C796C883DC4/1114)
+![image](/blogimg/vim-help.png)
 
 #正常退出退出编辑器
 >:q  
