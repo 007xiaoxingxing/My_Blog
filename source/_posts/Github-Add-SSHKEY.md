@@ -72,13 +72,21 @@ origin  git@github.com:yourname/xxx.git (fetch)
 origin  git@github.com:xxxx/xxx.git (push)
 
 ```
-接下来就可以自由地不用输入帐号密码就可以push了，感觉爽歪歪。
+接下来在"~/.ssh"下新建一个名为config的配置文件，内容如下:
 ```bash
-$ eval `ssh-agent`
-Agent pid 6720
-$ ssh-add ~/.ssh/PCWIN10
-Identity added: /c/Users/xxx/.ssh/PCWIN10 (/c/Users/xxxx/.ssh/PCWIN10)
-$ git push
+$ cat ~/.ssh/config
+Host github.com
+        HostName github.com
+        PreferredAuthentications publickey
+        IdentityFile ~/.ssh/PCWIN10
+
+```
+之后就可以使用密钥来登录github进行操作了，免除了输入帐号，密码的麻烦。
+```bash
+$ ssh -T git@github.com
+Hi xxxx! You've successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)
+
+$ git push（提交一下本地的代码）
 
 ```
 ps: ssh-agent

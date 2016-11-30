@@ -221,10 +221,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-github-sshkey" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Github-Add-SSHKEY" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/30/github-sshkey/" class="article-date">
+      <a href="/2016/11/30/Github-Add-SSHKEY/" class="article-date">
       <time datetime="2016-11-30T02:43:18.000Z" itemprop="datePublished">2016-11-30</time>
 </a>
     </div>
@@ -238,7 +238,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/github-sshkey/">github配置ssh key</a>
+      <a class="article-title" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a>
     </h1>
   
 
@@ -256,7 +256,8 @@
 <p>0x4:将https提交类型的remote设置为ssh类型<br>查看当前本地仓库的远程仓库链接，发现是https类型的，提交代码的时候会要求输入github的帐号和密码，比较麻烦，我们将它改成ssh类型的，加上之前设置的ssh key，就可以实现免密码提交代码了。Let’s do it！<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  https://github.com/yourname/My_Blog.git (fetch)</div><div class="line">origin  https://github.com/yourname/My_Blog.git (push)</div></pre></td></tr></table></figure></p>
 <p>更改远程仓库链接为ssh类型<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote <span class="built_in">set</span>-url origin git@github.com:你的github用户名/你的远程仓库名.git</div></pre></td></tr></table></figure></p>
 <p>再次查看远程仓库链接<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  git@github.com:yourname/xxx.git (fetch)</div><div class="line">origin  git@github.com:xxxx/xxx.git (push)</div></pre></td></tr></table></figure></p>
-<p>接下来就可以自由地不用输入帐号密码就可以push了，感觉爽歪歪。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">eval</span> `ssh-agent`</div><div class="line">Agent pid 6720</div><div class="line">$ ssh-add ~/.ssh/PCWIN10</div><div class="line">Identity added: /c/Users/xxx/.ssh/PCWIN10 (/c/Users/xxxx/.ssh/PCWIN10)</div><div class="line">$ git push</div></pre></td></tr></table></figure></p>
+<p>接下来在”~/.ssh”下新建一个名为config的配置文件，内容如下:<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cat ~/.ssh/config</div><div class="line">Host github.com</div><div class="line">        HostName github.com</div><div class="line">        PreferredAuthentications publickey</div><div class="line">        IdentityFile ~/.ssh/PCWIN10</div></pre></td></tr></table></figure></p>
+<p>之后就可以使用密钥来登录github进行操作了，免除了输入帐号，密码的麻烦。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)</span></div><div class="line"></div><div class="line">$ git push（提交一下本地的代码）</div></pre></td></tr></table></figure></p>
 <p>ps: ssh-agent</p>
 <blockquote>
 <p>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，ssh-agent其实就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
