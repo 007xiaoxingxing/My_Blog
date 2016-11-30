@@ -61,7 +61,7 @@ origin  https://github.com/yourname/My_Blog.git (fetch)
 origin  https://github.com/yourname/My_Blog.git (push)
 
 ```
-更改远程仓库链接为ssh类型
+0x5:更改远程仓库链接为ssh类型
 ```bash
 $ git remote set-url origin git@github.com:你的github用户名/你的远程仓库名.git
 ```
@@ -72,7 +72,7 @@ origin  git@github.com:yourname/xxx.git (fetch)
 origin  git@github.com:xxxx/xxx.git (push)
 
 ```
-接下来在"~/.ssh"下新建一个名为config的配置文件，内容如下:
+0x6:在"~/.ssh"下新建一个名为config的配置文件，内容如下:
 ```bash
 $ cat ~/.ssh/config
 Host github.com
@@ -81,7 +81,7 @@ Host github.com
         IdentityFile ~/.ssh/PCWIN10
 
 ```
-之后就可以使用密钥来登录github进行操作了，免除了输入帐号，密码的麻烦。
+0x7: 使用密钥来登录github进行操作，免除输入帐号，密码的麻烦。
 ```bash
 $ ssh -T git@github.com
 Hi xxxx! You've successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)

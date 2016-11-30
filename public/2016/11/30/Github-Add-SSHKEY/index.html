@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
 <meta property="og:description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥123456789101112131415161718192021222324user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥">
 <meta property="og:image" content="http://note.youdao.com/yws/public/resource/9b81f59da40d11de3c042aea1ef77e85/xmlnote/436FF14EB51744D78B225F06676F2C88/1356">
-<meta property="og:updated_time" content="2016-11-30T04:41:45.626Z">
+<meta property="og:updated_time" content="2016-11-30T04:45:30.630Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="github配置ssh key">
 <meta name="twitter:description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥123456789101112131415161718192021222324user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥">
@@ -270,10 +270,10 @@
 <p>0x4:本地测试是否已经正常<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
 <p>已经认证成功。</p>
 <p>0x4:将https提交类型的remote设置为ssh类型<br>查看当前本地仓库的远程仓库链接，发现是https类型的，提交代码的时候会要求输入github的帐号和密码，比较麻烦，我们将它改成ssh类型的，加上之前设置的ssh key，就可以实现免密码提交代码了。Let’s do it！<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  https://github.com/yourname/My_Blog.git (fetch)</div><div class="line">origin  https://github.com/yourname/My_Blog.git (push)</div></pre></td></tr></table></figure></p>
-<p>更改远程仓库链接为ssh类型<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote <span class="built_in">set</span>-url origin git@github.com:你的github用户名/你的远程仓库名.git</div></pre></td></tr></table></figure></p>
+<p>0x5:更改远程仓库链接为ssh类型<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote <span class="built_in">set</span>-url origin git@github.com:你的github用户名/你的远程仓库名.git</div></pre></td></tr></table></figure></p>
 <p>再次查看远程仓库链接<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  git@github.com:yourname/xxx.git (fetch)</div><div class="line">origin  git@github.com:xxxx/xxx.git (push)</div></pre></td></tr></table></figure></p>
-<p>接下来在”~/.ssh”下新建一个名为config的配置文件，内容如下:<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cat ~/.ssh/config</div><div class="line">Host github.com</div><div class="line">        HostName github.com</div><div class="line">        PreferredAuthentications publickey</div><div class="line">        IdentityFile ~/.ssh/PCWIN10</div></pre></td></tr></table></figure></p>
-<p>之后就可以使用密钥来登录github进行操作了，免除了输入帐号，密码的麻烦。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)</span></div><div class="line"></div><div class="line">$ git push（提交一下本地的代码）</div></pre></td></tr></table></figure></p>
+<p>0x6:在”~/.ssh”下新建一个名为config的配置文件，内容如下:<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cat ~/.ssh/config</div><div class="line">Host github.com</div><div class="line">        HostName github.com</div><div class="line">        PreferredAuthentications publickey</div><div class="line">        IdentityFile ~/.ssh/PCWIN10</div></pre></td></tr></table></figure></p>
+<p>0x7: 使用密钥来登录github进行操作，免除输入帐号，密码的麻烦。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)</span></div><div class="line"></div><div class="line">$ git push（提交一下本地的代码）</div></pre></td></tr></table></figure></p>
 <p>ps: ssh-agent</p>
 <blockquote>
 <p>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，ssh-agent其实就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
@@ -289,7 +289,7 @@
         <p><span>本文标题:</span><a href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
         <p><span>发布时间:</span>2016年11月30日 - 10时43分</p>
-        <p><span>最后更新:</span>2016年11月30日 - 12时41分</p>
+        <p><span>最后更新:</span>2016年11月30日 - 12时45分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/30/Github-Add-SSHKEY/" title="github配置ssh key">http://blog.star-chen.com/2016/11/30/Github-Add-SSHKEY/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/30/Github-Add-SSHKEY/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
