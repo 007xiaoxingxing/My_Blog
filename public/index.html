@@ -143,7 +143,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/HCTF/" style="font-size: 10px;">HCTF</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/tools-reverse/" style="font-size: 10px;">tools reverse</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/萌新第一次/" style="font-size: 10px;">萌新第一次</a>
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/HCTF/" style="font-size: 10px;">HCTF</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tools-reverse/" style="font-size: 10px;">tools reverse</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/萌新第一次/" style="font-size: 10px;">萌新第一次</a>
                     </div>
                 </section>
                 
@@ -225,7 +225,7 @@
   
     <div class="article-meta">
       <a href="/2016/11/30/github-sshkey/" class="article-date">
-      <time datetime="2016-11-30T02:40:45.782Z" itemprop="datePublished">2016-11-30</time>
+      <time datetime="2016-11-30T02:43:18.000Z" itemprop="datePublished">2016-11-30</time>
 </a>
     </div>
   
@@ -234,17 +234,21 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/30/github-sshkey/">github配置ssh key</a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <hr>
-<p>title: github配置ssh key<br>date: 2016-11-30 10:43:18<br>categories: Program<br>tags:</p>
-<ul>
-<li>github</li>
-<li>ssh key</li>
-</ul>
-<hr>
-<h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</span></div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</div></pre></td></tr></table></figure></p>
+        <h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</span></div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</div></pre></td></tr></table></figure></p>
 <p>0x2:添加ssh key至github网站<br><img src="http://note.youdao.com/yws/public/resource/9b81f59da40d11de3c042aea1ef77e85/xmlnote/436FF14EB51744D78B225F06676F2C88/1356" alt="image"></p>
 <p>0x3:将私钥添加到本地gitbash<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh-agent bash --login -i</div><div class="line">$ ssh-add ~/.ssh/PCWIN10(你自己的私钥的路径)</div></pre></td></tr></table></figure></p>
 <p>0x4:本地测试是否已经正常<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
@@ -264,8 +268,16 @@
     <div class="article-info article-info-index">
       
       
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
 
       
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-key/">ssh key</a></li></ul>
+    </div>
+
       
       <div class="clearfix"></div>
     </div>

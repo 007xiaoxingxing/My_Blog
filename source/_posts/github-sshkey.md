@@ -5,8 +5,7 @@ categories: Program
 tags:
 - github
 - ssh key
----  
-
+---
 ### 配置ssh key，免密码提交代码至github  
 0x01:在本机生成ssh所需的公钥和私钥  
 ```bash
