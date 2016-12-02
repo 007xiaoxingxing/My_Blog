@@ -6,3 +6,20 @@ tags:
 - C
 - Helloworld
 ---
+
+```c
+#include <stdio.h>
+int main(){
+  
+  printf("Hello World!\n");
+  return 0;
+}
+```
+
+```bash
+#gcc hello.c -o hello
+#./hello
+#Hello World!
+```
+
+你好世界！Coding  and Hava Fun！
