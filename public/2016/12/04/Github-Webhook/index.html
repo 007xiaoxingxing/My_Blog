@@ -3,14 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>STAR-CHEN&#39;s BLOG</title>
+  <title>利用Github的webhook和tornado实现代码自动部署 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="STAR-CHEN's BLOG">
-<meta property="og:url" content="http://blog.star-chen.com/index.html">
+  <meta name="description" content="0x1:需求来源本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhoo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Github的webhook和tornado实现代码自动部署">
+<meta property="og:url" content="http://blog.star-chen.com/2016/12/04/Github-Webhook/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:description" content="0x1:需求来源本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhoo">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/githook.png">
+<meta property="og:updated_time" content="2016-12-04T03:15:20.968Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STAR-CHEN's BLOG">
+<meta name="twitter:title" content="利用Github的webhook和tornado实现代码自动部署">
+<meta name="twitter:description" content="0x1:需求来源本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhoo">
+<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/githook.png">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -24,9 +30,6 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
-    
-    
-  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -37,8 +40,8 @@
       var yiliaConfig = {
           fancybox: true,
           animate: true,
-          isHome: true,
-          isPost: false,
+          isHome: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -219,9 +222,7 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-Github-Webhook" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Github-Webhook" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/12/04/Github-Webhook/" class="article-date">
@@ -237,12 +238,27 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a>
+    <h1 class="article-title" itemprop="name">
+      利用Github的webhook和tornado实现代码自动部署
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webhook/">Webhook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code-deploy/">code deploy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动部署/">自动部署</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -271,802 +287,147 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Program/">Program</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webhook/">Webhook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code-deploy/">code deploy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动部署/">自动部署</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
+        <p><span>发布时间:</span>2016年12月04日 - 10时39分</p>
+        <p><span>最后更新:</span>2016年12月04日 - 11时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/04/Github-Webhook/" title="利用Github的webhook和tornado实现代码自动部署">http://blog.star-chen.com/2016/12/04/Github-Webhook/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/04/Github-Webhook/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/04/PIL-Grab/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">利用Python的PIL截屏</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-需求来源"><span class="toc-number">1.</span> <span class="toc-text">0x1:需求来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-服务端代码"><span class="toc-number">2.</span> <span class="toc-text">0x2:服务端代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-Github代码仓库相关设置"><span class="toc-number">3.</span> <span class="toc-text">0x3:Github代码仓库相关设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-服务的运行"><span class="toc-number">4.</span> <span class="toc-text">0x4:服务的运行</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
 
 
 
 
 
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
-  
-    <article id="post-PIL-Grab" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/04/PIL-Grab/" class="article-date">
-      <time datetime="2016-12-04T02:23:02.000Z" itemprop="datePublished">2016-12-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
+
     
-      <input type="hidden" class="isFancy" />
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/12/04/Github-Webhook/" data-title="利用Github的webhook和tornado实现代码自动部署" data-url="http://blog.star-chen.com/2016/12/04/Github-Webhook/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"null"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
     
-    
-      <header class="article-header">
+
+
+
+    <div class="scroll" id="post-nav-button">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="0x1：在Windows-64位系统上安装python的PIL库"><a href="#0x1：在Windows-64位系统上安装python的PIL库" class="headerlink" title="0x1：在Windows 64位系统上安装python的PIL库"></a>0x1：在Windows 64位系统上安装python的PIL库</h3><p>Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="external">Win 64 PIL下载地址</a> 下载下来会发现是.whl扩展名。其安装方法：  </p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install Pillow-<span class="number">3</span>.<span class="number">4</span>.<span class="number">2</span>-cp27-cp27m-win_amd64.whl</div></pre></td></tr></table></figure>
-<h3 id="0x2-利用PIL截屏"><a href="#0x2-利用PIL截屏" class="headerlink" title="0x2:利用PIL截屏"></a>0x2:利用PIL截屏</h3><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab</div><div class="line">image=ImageGrab.grab()</div><div class="line">image.save(<span class="string">"E:/grab.jpg"</span>,<span class="string">"jpeg"</span>)</div></pre></td></tr></table></figure>
-<p>仅仅需要简单的两行代码就可以实现截取整个屏幕并保存为文件，很方便。grab方法还可以指定参数，截取屏幕某坐标范围内的内容。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Program/">Program</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PIL/">PIL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Github-Add-SSHKEY" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/30/Github-Add-SSHKEY/" class="article-date">
-      <time datetime="2016-11-30T02:43:18.000Z" itemprop="datePublished">2016-11-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</span></div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</div></pre></td></tr></table></figure></p>
-<p>0x2:添加ssh key至github网站<br><img src="/blogimg/gitsshkey.png" alt="image"></p>
-<p>0x3:将私钥添加到本地gitbash<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh-agent bash --login -i</div><div class="line">$ ssh-add ~/.ssh/PCWIN10(你自己的私钥的路径)</div></pre></td></tr></table></figure></p>
-<p>0x4:本地测试是否已经正常<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
-<p>已经认证成功。</p>
-<p>0x4:将https提交类型的remote设置为ssh类型<br>查看当前本地仓库的远程仓库链接，发现是https类型的，提交代码的时候会要求输入github的帐号和密码，比较麻烦，我们将它改成ssh类型的，加上之前设置的ssh key，就可以实现免密码提交代码了。Let’s do it！<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  https://github.com/yourname/My_Blog.git (fetch)</div><div class="line">origin  https://github.com/yourname/My_Blog.git (push)</div></pre></td></tr></table></figure></p>
-<p>0x5:更改远程仓库链接为ssh类型<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote <span class="built_in">set</span>-url origin git@github.com:你的github用户名/你的远程仓库名.git</div></pre></td></tr></table></figure></p>
-<p>再次查看远程仓库链接<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin  git@github.com:yourname/xxx.git (fetch)</div><div class="line">origin  git@github.com:xxxx/xxx.git (push)</div></pre></td></tr></table></figure></p>
-<p>0x6:在”~/.ssh”下新建一个名为config的配置文件，内容如下:<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cat ~/.ssh/config</div><div class="line">Host github.com</div><div class="line">        HostName github.com</div><div class="line">        PreferredAuthentications publickey</div><div class="line">        IdentityFile ~/.ssh/PCWIN10</div></pre></td></tr></table></figure></p>
-<p>0x7: 使用密钥来登录github进行操作，免除输入帐号，密码的麻烦。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)</span></div><div class="line"></div><div class="line">$ git push（提交一下本地的代码）</div></pre></td></tr></table></figure></p>
-<p>ps: ssh-agent</p>
-<blockquote>
-<p>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，ssh-agent其实就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
-</blockquote>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Program/">Program</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-key/">ssh key</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-HCTF2016-Writeup" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/29/HCTF2016-Writeup/" class="article-date">
-      <time datetime="2016-11-29T12:12:27.000Z" itemprop="datePublished">2016-11-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/29/HCTF2016-Writeup/">HCTF2016 writeup</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
+            <a href="/2016/12/04/PIL-Grab/" title="下一篇: 利用Python的PIL截屏">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
-      
     </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HCTF/">HCTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/萌新第一次/">萌新第一次</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/HCTF2016-Writeup/">HCTF2016 writeup</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/初识OD/">初识OD</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
 
 
 
-
-
-
-
-
-  
-    <article id="post-Learn_VIM" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/29/Learn_VIM/" class="article-date">
-      <time datetime="2016-11-29T11:25:18.000Z" itemprop="datePublished">2016-11-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+    <script>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/29/Learn_VIM/">Learn VIM</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="动手学VIM编辑器"><a href="#动手学VIM编辑器" class="headerlink" title="动手学VIM编辑器"></a>动手学VIM编辑器</h3><p>0x1:What is VIM editor?</p>
-<blockquote>
-<p>vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。<br>vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落等其他属性进行编排，它只是一个文本编辑程序。没有菜单，只有命令，且命令繁多。vi有3种基本工作模式：命令行模式、文本输入模式和末行模式。<br>Vim是vi的加强版，比vi更容易使用。vi的命令几乎全部都可以在vim上使用。</p>
-</blockquote>
-<p>—摘自百度百科<br>0x2:命令模式情形下的一些命令<br>进入命令模式的方法：ESC</p>
-<p>#查看VIM编辑器的帮助信息。</p>
-<blockquote>
-<p>:help</p>
-</blockquote>
-<p><img src="/blogimg/vim-help.png" alt="image"></p>
-<p>#正常退出退出编辑器</p>
-<blockquote>
-<p>:q  </p>
-</blockquote>
-<p>#保存并退出编辑器</p>
-<blockquote>
-<p>:wq</p>
-</blockquote>
-<p>#保存退出编辑器，并将文件存储为filename</p>
-<blockquote>
-<p>:wq filename</p>
-</blockquote>
-<p>#强制退出，不保存</p>
-<blockquote>
-<p>:q!</p>
-</blockquote>
-<p>#打开某文件(需保存当前文件，否则会报错)</p>
-<blockquote>
-<p>:e /root/file</p>
-</blockquote>
-<p>#强制打开某文件</p>
-<blockquote>
-<p>:e! /root/file</p>
-</blockquote>
-<p>#读取某文件，追加到当前文件末尾</p>
-<blockquote>
-<p>:r /root/file</p>
-</blockquote>
-<p>#保存文件</p>
-<blockquote>
-<p>:w (文件路径)</p>
-</blockquote>
-<p>0x3:插入模式的一些快捷按键操作</p>
-<p>#进入插入模式，将光标放在当前光标之后</p>
-<blockquote>
-<p>a</p>
-</blockquote>
-<p>#进入插入模式，将光标放在当前光标所在的行尾</p>
-<blockquote>
-<p>A</p>
-</blockquote>
-<p>#在当前光标的下一行插入新行，并将光标放在新行的行首</p>
-<blockquote>
-<p>o</p>
-</blockquote>
-<p>#在光标的前一行插入一行，并将光标放在行首</p>
-<blockquote>
-<p>O</p>
-</blockquote>
-<p>#在光标所在位置进入插入模式,貌似这个用得最多了</p>
-<blockquote>
-<p>i</p>
-</blockquote>
-<p>0x4 移动光标<br>在进行编辑的时候，可能需要移动光标位置，进行修改或者输入新的内容，除了使用方向键之外，在命令模式下，使用hmjkl也能够快速的移动光标。</p>
-<blockquote>
-<p>k:向上移动光标  </p>
-<p>j:向下移动光标  </p>
-<p>h:向前移动光标  </p>
-<p>l:向右移动光标  </p>
-</blockquote>
-<p>这种感觉有点像玩FPS游戏的wasd方式，不过是把操作放在了右手上而已。用起来感觉还蛮不错的。</p>
-<p>0x5 删除文本<br>使用退格键或者delete键可以删除当前光标前或所在处的字符，然而在VIM中还可以使用命令来删除我们想删除的内容哦。  </p>
-<blockquote>
-<p>x :删除当前光标所在处的字符，如果想删除多个字符，连续着按。 </p>
-<p>dd  :删除当前光标所在行，如果想删除多行，可以用ndd的方式，n为你想删除的行数。  </p>
-<p>dw :删除光标处的单词，包括词尾的空格。  </p>
-<p>de :删除当前光标所在处的单词，和dw的区别在于保留了单词词尾的空格。  </p>
-<p>d^ :删除当前光标所在位置到行首的所有字符。  </p>
-<p>d$ :删除当前光标到行尾的所有字符。  </p>
-<p>J :将当前光标所在行和下一行合并（删除行尾的换行符）</p>
-</blockquote>
-<p>0x6 撤销和恢复  </p>
-<blockquote>
-<p>u :撤销上一步操作，可多次使用。  </p>
-<p>Ctrl+r :放弃上一次撤销操作，可使用多次。</p>
-</blockquote>
-<p>0x7 快速移动光标  </p>
-<blockquote>
-<p>b :将光标移动到当前光标所在单词的前一个单词的首字母，可以使nb，即移动n个单词的位置。  </p>
-<p>w :将光标移动到当前光标的后一个单词的首字母，可以使nw，即移动到n个单词后的首字母。  </p>
-<p>e :移动到后一个单词的尾字母，可以使ne，效果与之前的效果类似。  </p>
-<p>ge :与e的作用相反，移动光标至前一个单词的尾字母，也可是是nge，n表示需要跨过的单词数目。  </p>
-<p>^ :快速移动光标到行首，Home键，0键也可以移动光标的行首。  </p>
-<p>$ :快速移动光标到行尾，End键也可以移动光标到行尾。n$,可以将光标移动到当前行之后n-1行的末尾。  </p>
-<p>g :跳到当前文本的第一行，也可以使用1G。  </p>
-<p>G :跳到当前文本的最后一行。  </p>
-<p>nG :跳转到第n行，其中n为一个正整数。</p>
-</blockquote>
-<p>当然，咱们的鼠标也是可以定位光标的，哪里需要点哪里！</p>
-<p>0x8 查找功能<br>在命令模式下，正向查找的命令为“/”</p>
-<blockquote>
-<p>/pattern :pattern为需要查找的字符串，可以是正则表达式。  </p>
-</blockquote>
-<p>在正向查找状态下</p>
-<blockquote>
-<p>n :跳转到下一条匹配的内容。<br>N :跳转到上一条匹配的内容。</p>
-</blockquote>
-<p>反向查找的命令为“?”  </p>
-<blockquote>
-<p>?pattern  </p>
-</blockquote>
-<p>在反向查找状态下</p>
-<blockquote>
-<p>n :跳转到上一条匹配的内容。<br>N :跳转到下一条匹配的内容。</p>
-</blockquote>
-<p>0x9 替换功能<br>替换使用的命令是s，基本格式如下：  </p>
-<blockquote>
-<p>: s/pattern1/pattern2/  </p>
-</blockquote>
-<p>pattern1表示要查找的文本，pattern2为替换后的文本，“/”为分隔符，分隔符也可以是“：”。</p>
-<p>谨慎的查找替换  </p>
-<blockquote>
-<p>:%s/pattern1/pattern2/gc  </p>
-</blockquote>
-<p>执行这条命令之后，VIM会查找到所有匹配pattern1的字符串，并提示用户是否需要进行替换。</p>
-<p>以上是VIM编辑器的一些基础的使用方法，其功能还很强大，待之后用到了再补充吧。</p>
-<p>参考书：《Linux 命令、编辑器与SHELL编程》 王刚等著</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Edtor/">Edtor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/">VIM</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C-Helloworld" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/29/C-Helloworld/" class="article-date">
-      <time datetime="2016-11-29T11:12:27.000Z" itemprop="datePublished">2016-11-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">  </div><div class="line">  <span class="built_in">printf</span>(<span class="string">"Hello World!\n"</span>);</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#gcc hello.c -o hello</span></div><div class="line"><span class="comment">#./hello</span></div><div class="line"><span class="comment">#Hello World!</span></div></pre></td></tr></table></figure>
-<p>你好世界！Coding  and Hava Fun！</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Program/">Program</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Helloworld/">Helloworld</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-OpenWRT-BuildEnvironMent" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/28/OpenWRT-BuildEnvironMent/" class="article-date">
-      <time datetime="2016-11-28T11:25:18.000Z" itemprop="datePublished">2016-11-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>本次搭建编译环境所需的准备工作：</p>
-<ol>
-<li>操作系统：物理机或者虚拟机安装—-Ubuntu 16.10</li>
-<li>预备知识：了解一点点Linux终端的基本操作</li>
-</ol>
-<p>Let’s go!<br>首先还是更新一下系统：</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">star-chen@starchen-op:~$ sudo apt-get update &amp;&amp; apt-get dist-upgrade</div></pre></td></tr></table></figure>
-<p>接下来参考OpenWRT官方网站给出的搭建编译环境所需要进行的软件包的安装步骤进行安装，官网步骤网址：<a href="https://wiki.openwrt.org/doc/howto/buildroot.exigence" target="_blank" rel="external">OpenWRT官方步骤</a><br>由于我使用的是Ubuntu16.10 64bit系统，所以需要执行的安装命令为：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">star-chen@starchen-op:~$ sudo apt-get install git-core mercurial build-essential subversion libncurses5-dev zlib1g-dev gawk gcc-multilib flex git-core gettext libssl-dev</div></pre></td></tr></table></figure></p>
-<p>软件包安装完毕之后，测试一下git命令是否可用：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ git</div><div class="line">usage: git [--version] [--help] [-C &lt;path&gt;] [-c name=value]</div><div class="line">           [--exec-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]</div><div class="line">           [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]</div><div class="line">           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]</div><div class="line">           &lt;<span class="built_in">command</span>&gt; [&lt;args&gt;]</div><div class="line">           此处省略一万字.......</div></pre></td></tr></table></figure></p>
-<p>经测试，git命令可用，接下来创建一个新的目录用来存放OpenWRT源码：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ mkdir OP1505</div></pre></td></tr></table></figure></p>
-<p>进入OP1505目录并从git仓库克隆OpenWRT 15.05(chaos_calmer)分支：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ <span class="built_in">cd</span> OP1505/</div><div class="line">star-chen@starchen-op:~$ git <span class="built_in">clone</span> -b chaos_calmer git://github.com/openwrt/openwrt.git</div></pre></td></tr></table></figure></p>
-<p>更新并安装软件包：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">cd</span> openwrt</div><div class="line">./scripts/feeds update <span class="_">-a</span></div><div class="line">./scripts/feeds install <span class="_">-a</span></div></pre></td></tr></table></figure></p>
-<p>根据自己的需要设置编译条件，生成makefile（另一篇专门讲讲这部分）：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make menuconfig</div></pre></td></tr></table></figure></p>
-<p>OK,make menuconfig通过，接下来咱们编译一个x86的固件来爽爽：</p>
-<p><img src="/blogimg/op-makemenu.png" alt="image"></p>
-<p>就以默认参数吧,我给虚拟机分了四个核，4GB内存，这里用两个线程来跑吧。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">make j=2 V=99</div></pre></td></tr></table></figure></p>
-<p>编译过程中可能需要下载很多文件，所以挂个代理什么的很有必要，不然很多依赖无法下载，造成编译失败，耐心等待吧。编译完成之后，固件将会在openwrt/bin目录下躺好了。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/enviroment/">enviroment</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openwrt/">openwrt</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Pwnable-collision" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/28/Pwnable-collision/" class="article-date">
-      <time datetime="2016-11-28T11:25:18.000Z" itemprop="datePublished">2016-11-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>col.c代码如下：<br><figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> hashcode = <span class="number">0x21DD09EC</span>;</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">check_password</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span>* ip = (<span class="keyword">int</span>*)p;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">int</span> res=<span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++)&#123;</div><div class="line">		res += ip[i];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(argc&lt;<span class="number">2</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"usage : %s [passcode]\n"</span>, argv[<span class="number">0</span>]);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">strlen</span>(argv[<span class="number">1</span>]) != <span class="number">20</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"passcode length should be 20 bytes\n"</span>);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(hashcode == check_password( argv[<span class="number">1</span>] ))&#123;</div><div class="line">		system(<span class="string">"/bin/cat flag"</span>);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">printf</span>(<span class="string">"wrong passcode.\n"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>观察代码，可知代码逻辑过程是：<br>1.先输入一个不少于20字节长度的值<br>2.对输入的前五位整数求和(int类型，一个int等于4字节，5位int类型，恰好20字节)<br>3.求得的和与0x21DD09EC比较，若相等则通过<br>重点1：<br><figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span>* ip = (<span class="keyword">int</span>*)p;</div></pre></td></tr></table></figure></p>
-<p>这里将输入的char类型的指针强制转换为了int指针，从而ip指针一次能够指向4个字节大小的内存区域。画个图模拟一下内存布局：<br><img src="/blogimg/collision.png" alt="image"></p>
-<p>思路1：将0x21DD09EC除以5变为4字节为一组，分别输入，最后以4字节为一组进行求和即可。<br>比如：<br><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">0x21DD09EC</span>/<span class="number">5</span></div><div class="line"><span class="number">113626824</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">0x21DD09EC</span>/<span class="number">5</span>)</div><div class="line"><span class="string">'0x6c5cec8'</span></div></pre></td></tr></table></figure></p>
-<p>哦，稍等。好像不能被5整除哦。换个方式：4 x 0x01010101 + 0x1dd905e8<br><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">0x21DD09EC</span><span class="number">-4</span>*<span class="number">0x01010101</span>)</div><div class="line"><span class="string">'0x1dd905e8'</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
-<p>接下我们把刚刚的值输入：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">col@ubuntu:~$ ./col `python -c <span class="string">"print 16*'\x01'+'\xe8\x05\xd9\x1d'"</span>`</div><div class="line">daddy! I just managed to create a <span class="built_in">hash</span> collision :)</div><div class="line">col@ubuntu:~$</div></pre></td></tr></table></figure></p>
-<p>YES,GET FLAG!</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwnable/">pwnable</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Pwnable-fd" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/27/Pwnable-fd/" class="article-date">
-      <time datetime="2016-11-27T11:25:18.000Z" itemprop="datePublished">2016-11-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>fd.c的代码如下：<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">char buf[32];</div><div class="line">int main(int argc, char* argv[], char* envp[])&#123;</div><div class="line">	if(argc&lt;2)&#123;</div><div class="line">		printf(&quot;pass argv[1] a number\n&quot;);</div><div class="line">		return 0;</div><div class="line">	&#125;</div><div class="line">	int fd = atoi( argv[1] ) - 0x1234;</div><div class="line">	int len = 0;</div><div class="line">	len = read(fd, buf, 32);</div><div class="line">	if(!strcmp(&quot;LETMEWIN\n&quot;, buf))&#123;</div><div class="line">		printf(&quot;good job :)\n&quot;);</div><div class="line">		system(&quot;/bin/cat flag&quot;);</div><div class="line">		exit(0);</div><div class="line">	&#125;</div><div class="line">	printf(&quot;learn about Linux file IO\n&quot;);</div><div class="line">	return 0;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码逻辑比较清楚，需要输入一个数字，然后减去0x1234，所得的值作为read函数的第一个参数，然后调用read函数读取输入，然后将读取的值和“LETMEWIN\n”比较，若相等则cat输出flag文件中的值。<br>接下来我们看一下read函数的函数描述:</p>
-<figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NAME</div><div class="line">       read - read from a file descriptor</div><div class="line"></div><div class="line">SYNOPSIS</div><div class="line">       <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line">       <span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> count);</div></pre></td></tr></table></figure>
-<p>可以看到第一个参数为文件描述符。在Linux系统中存在三个比较特殊的文件描述符：  </p>
-<table>
-<thead>
-<tr>
-<th>文件描述符</th>
-<th style="text-align:right">用途</th>
-<th style="text-align:right">POISX名称</th>
-<th style="text-align:right">stdio流</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td style="text-align:right">标准输入</td>
-<td style="text-align:right">STDIN_FILENO</td>
-<td style="text-align:right">stdin</td>
-</tr>
-<tr>
-<td>1</td>
-<td style="text-align:right">标准输出</td>
-<td style="text-align:right">STDOUT_FILENO</td>
-<td style="text-align:right">stdout</td>
-</tr>
-<tr>
-<td>2</td>
-<td style="text-align:right">标准错误</td>
-<td style="text-align:right">STDERR_FILENO</td>
-<td style="text-align:right">stderr</td>
-</tr>
-</tbody>
-</table>
-<p>这里我们可以让read参数的第一个参数为0（从标准输入读取），然后输入“LETMEWIN”即可让程序执行cat flag操作。<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fd@ubuntu:~$ ./fd 4660</div><div class="line">LETMEWIN</div><div class="line">good job :)</div><div class="line">mommy! I think I know what a file descriptor is!!</div></pre></td></tr></table></figure></p>
-<p>注：fd,file decriptor 文件描述符</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwnable/">pwnable</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-GDB-peda" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/20/GDB-peda/" class="article-date">
-      <time datetime="2016-11-20T11:25:18.000Z" itemprop="datePublished">2016-11-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h1 id="在Ubuntu16-04上配置peda"><a href="#在Ubuntu16-04上配置peda" class="headerlink" title="在Ubuntu16.04上配置peda"></a>在Ubuntu16.04上配置peda</h1><h4 id="0x1-peda是什么？"><a href="#0x1-peda是什么？" class="headerlink" title="0x1.peda是什么？"></a>0x1.peda是什么？</h4><p>从github上摘抄一段关于peda的介绍如下:<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">peda</div><div class="line">PEDA - Python Exploit Development Assistance for GDB</div><div class="line">Key Features:</div><div class="line"></div><div class="line">    Enhance the display of gdb: colorize and display disassembly codes, registers, memory information during debugging.</div><div class="line">    Add commands to support debugging and exploit development (for a full list of commands use peda help):</div><div class="line">        aslr -- Show/set ASLR setting of GDB</div><div class="line">        checksec -- Check for various security options of binary</div><div class="line">        dumpargs -- Display arguments passed to a function when stopped at a call instruction</div><div class="line">        dumprop -- Dump all ROP gadgets in specific memory range</div><div class="line">        elfheader -- Get headers information from debugged ELF file</div><div class="line">        elfsymbol -- Get non-debugging symbol information from an ELF file</div><div class="line">        lookup -- Search for all addresses/references to addresses which belong to a memory range</div><div class="line">        patch -- Patch memory start at an address with string/hexstring/int</div><div class="line">        pattern -- Generate, search, or write a cyclic pattern to memory</div><div class="line">        procinfo -- Display various info from /proc/pid/</div><div class="line">        pshow -- Show various PEDA options and other settings</div><div class="line">        pset -- Set various PEDA options and other settings</div><div class="line">        readelf -- Get headers information from an ELF file</div><div class="line">        ropgadget -- Get common ROP gadgets of binary or library</div><div class="line">        ropsearch -- Search for ROP gadgets in memory</div><div class="line">        searchmem|find -- Search for a pattern in memory; support regex search</div><div class="line">        shellcode -- Generate or download common shellcodes.</div><div class="line">        skeleton -- Generate python exploit code template</div><div class="line">        vmmap -- Get virtual mapping address ranges of section(s) in debugged process</div><div class="line">        xormem -- XOR a memory region with a key</div></pre></td></tr></table></figure></p>
-<h4 id="0x2-安装方法"><a href="#0x2-安装方法" class="headerlink" title="0x2. 安装方法"></a>0x2. 安装方法</h4><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    git clone https://github.com/longld/peda.git ~/peda</div><div class="line">echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</div><div class="line">echo &quot;DONE! debug your program with gdb and enjoy&quot;</div></pre></td></tr></table></figure>
-<h4 id="0x3-尝试安装peda"><a href="#0x3-尝试安装peda" class="headerlink" title="0x3. 尝试安装peda"></a>0x3. 尝试安装peda</h4><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-vb:~$ cat peda_install.sh </div><div class="line">git clone https://github.com/longld/peda.git ~/peda</div><div class="line">echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</div><div class="line">echo &quot;DONE! debug your program with gdb and enjoy&quot;</div><div class="line"></div><div class="line">star-chen@starchen-vb:~$ sudo sh peda_install.sh </div><div class="line">正克隆到 &apos;/home/star-chen/peda&apos;...</div><div class="line">remote: Counting objects: 304, done.</div><div class="line">remote: Total 304 (delta 0), reused 0 (delta 0), pack-reused 304</div><div class="line">接收对象中: 100% (304/304), 197.98 KiB | 45.00 KiB/s, 完成.</div><div class="line">处理 delta 中: 100% (192/192), 完成.</div><div class="line">检查连接... 完成。</div><div class="line">DONE! debug your program with gdb and enjoy</div><div class="line">star-chen@starchen-vb:~$ gdb</div><div class="line">GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.04) 7.11.1</div><div class="line">Copyright (C) 2016 Free Software Foundation, Inc.</div><div class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</div><div class="line">This is free software: you are free to change and redistribute it.</div><div class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</div><div class="line">and &quot;show warranty&quot; for details.</div><div class="line">This GDB was configured as &quot;x86_64-linux-gnu&quot;.</div><div class="line">Type &quot;show configuration&quot; for configuration details.</div><div class="line">For bug reporting instructions, please see:</div><div class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</div><div class="line">Find the GDB manual and other documentation resources online at:</div><div class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</div><div class="line">For help, type &quot;help&quot;.</div><div class="line">Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;.</div><div class="line">gdb-peda$</div></pre></td></tr></table></figure>
-<p>安装完成。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debugger/">Debugger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GDB/">GDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/peda/">peda</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
-  
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
