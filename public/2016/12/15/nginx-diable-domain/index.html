@@ -3,26 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Learn VIM | STAR-CHEN&#39;s BLOG</title>
+  <title>配置nginx，防止ip被恶意绑定域名 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
+  <meta name="description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。作为一个有点洁癖的我来说是不能忍的。
+0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
+0x3 配置文件具体内容1234567891011121314151617181920212">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Learn VIM">
-<meta property="og:url" content="http://blog.star-chen.com/2016/11/29/Learn_VIM/index.html">
+<meta property="og:title" content="配置nginx，防止ip被恶意绑定域名">
+<meta property="og:url" content="http://blog.star-chen.com/2016/12/15/nginx-diable-domain/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
-<meta property="og:image" content="http://blog.star-chen.com/blogimg/vim-help.png">
-<meta property="og:updated_time" content="2016-11-30T16:32:19.892Z">
+<meta property="og:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。作为一个有点洁癖的我来说是不能忍的。
+0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
+0x3 配置文件具体内容1234567891011121314151617181920212">
+<meta property="og:updated_time" content="2016-12-14T21:03:12.613Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Learn VIM">
-<meta name="twitter:description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
-<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/vim-help.png">
+<meta name="twitter:title" content="配置nginx，防止ip被恶意绑定域名">
+<meta name="twitter:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。作为一个有点洁癖的我来说是不能忍的。
+0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
+0x3 配置文件具体内容1234567891011121314151617181920212">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -228,11 +226,11 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Learn_VIM" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-nginx-diable-domain" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/29/Learn_VIM/" class="article-date">
-      <time datetime="2016-11-29T11:25:18.000Z" itemprop="datePublished">2016-11-29</time>
+      <a href="/2016/12/15/nginx-diable-domain/" class="article-date">
+      <time datetime="2016-12-14T20:53:41.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     </div>
   
@@ -245,7 +243,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
         
   
     <h1 class="article-title" itemprop="name">
-      Learn VIM
+      配置nginx，防止ip被恶意绑定域名
     </h1>
   
 
@@ -260,7 +258,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Edtor/">Edtor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/">VIM</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/domain/">domain</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -270,133 +268,10 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="动手学VIM编辑器"><a href="#动手学VIM编辑器" class="headerlink" title="动手学VIM编辑器"></a>动手学VIM编辑器</h3><p>0x1:What is VIM editor?</p>
-<blockquote>
-<p>vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。<br>vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落等其他属性进行编排，它只是一个文本编辑程序。没有菜单，只有命令，且命令繁多。vi有3种基本工作模式：命令行模式、文本输入模式和末行模式。<br>Vim是vi的加强版，比vi更容易使用。vi的命令几乎全部都可以在vim上使用。</p>
-</blockquote>
-<p>—摘自百度百科<br>0x2:命令模式情形下的一些命令<br>进入命令模式的方法：ESC</p>
-<p>#查看VIM编辑器的帮助信息。</p>
-<blockquote>
-<p>:help</p>
-</blockquote>
-<p><img src="/blogimg/vim-help.png" alt="image"></p>
-<p>#正常退出退出编辑器</p>
-<blockquote>
-<p>:q  </p>
-</blockquote>
-<p>#保存并退出编辑器</p>
-<blockquote>
-<p>:wq</p>
-</blockquote>
-<p>#保存退出编辑器，并将文件存储为filename</p>
-<blockquote>
-<p>:wq filename</p>
-</blockquote>
-<p>#强制退出，不保存</p>
-<blockquote>
-<p>:q!</p>
-</blockquote>
-<p>#打开某文件(需保存当前文件，否则会报错)</p>
-<blockquote>
-<p>:e /root/file</p>
-</blockquote>
-<p>#强制打开某文件</p>
-<blockquote>
-<p>:e! /root/file</p>
-</blockquote>
-<p>#读取某文件，追加到当前文件末尾</p>
-<blockquote>
-<p>:r /root/file</p>
-</blockquote>
-<p>#保存文件</p>
-<blockquote>
-<p>:w (文件路径)</p>
-</blockquote>
-<p>0x3:插入模式的一些快捷按键操作</p>
-<p>#进入插入模式，将光标放在当前光标之后</p>
-<blockquote>
-<p>a</p>
-</blockquote>
-<p>#进入插入模式，将光标放在当前光标所在的行尾</p>
-<blockquote>
-<p>A</p>
-</blockquote>
-<p>#在当前光标的下一行插入新行，并将光标放在新行的行首</p>
-<blockquote>
-<p>o</p>
-</blockquote>
-<p>#在光标的前一行插入一行，并将光标放在行首</p>
-<blockquote>
-<p>O</p>
-</blockquote>
-<p>#在光标所在位置进入插入模式,貌似这个用得最多了</p>
-<blockquote>
-<p>i</p>
-</blockquote>
-<p>0x4 移动光标<br>在进行编辑的时候，可能需要移动光标位置，进行修改或者输入新的内容，除了使用方向键之外，在命令模式下，使用hmjkl也能够快速的移动光标。</p>
-<blockquote>
-<p>k:向上移动光标  </p>
-<p>j:向下移动光标  </p>
-<p>h:向前移动光标  </p>
-<p>l:向右移动光标  </p>
-</blockquote>
-<p>这种感觉有点像玩FPS游戏的wasd方式，不过是把操作放在了右手上而已。用起来感觉还蛮不错的。</p>
-<p>0x5 删除文本<br>使用退格键或者delete键可以删除当前光标前或所在处的字符，然而在VIM中还可以使用命令来删除我们想删除的内容哦。  </p>
-<blockquote>
-<p>x :删除当前光标所在处的字符，如果想删除多个字符，连续着按。 </p>
-<p>dd  :删除当前光标所在行，如果想删除多行，可以用ndd的方式，n为你想删除的行数。  </p>
-<p>dw :删除光标处的单词，包括词尾的空格。  </p>
-<p>de :删除当前光标所在处的单词，和dw的区别在于保留了单词词尾的空格。  </p>
-<p>d^ :删除当前光标所在位置到行首的所有字符。  </p>
-<p>d$ :删除当前光标到行尾的所有字符。  </p>
-<p>J :将当前光标所在行和下一行合并（删除行尾的换行符）</p>
-</blockquote>
-<p>0x6 撤销和恢复  </p>
-<blockquote>
-<p>u :撤销上一步操作，可多次使用。  </p>
-<p>Ctrl+r :放弃上一次撤销操作，可使用多次。</p>
-</blockquote>
-<p>0x7 快速移动光标  </p>
-<blockquote>
-<p>b :将光标移动到当前光标所在单词的前一个单词的首字母，可以使nb，即移动n个单词的位置。  </p>
-<p>w :将光标移动到当前光标的后一个单词的首字母，可以使nw，即移动到n个单词后的首字母。  </p>
-<p>e :移动到后一个单词的尾字母，可以使ne，效果与之前的效果类似。  </p>
-<p>ge :与e的作用相反，移动光标至前一个单词的尾字母，也可是是nge，n表示需要跨过的单词数目。  </p>
-<p>^ :快速移动光标到行首，Home键，0键也可以移动光标的行首。  </p>
-<p>$ :快速移动光标到行尾，End键也可以移动光标到行尾。n$,可以将光标移动到当前行之后n-1行的末尾。  </p>
-<p>g :跳到当前文本的第一行，也可以使用1G。  </p>
-<p>G :跳到当前文本的最后一行。  </p>
-<p>nG :跳转到第n行，其中n为一个正整数。</p>
-</blockquote>
-<p>当然，咱们的鼠标也是可以定位光标的，哪里需要点哪里！</p>
-<p>0x8 查找功能<br>在命令模式下，正向查找的命令为“/”</p>
-<blockquote>
-<p>/pattern :pattern为需要查找的字符串，可以是正则表达式。  </p>
-</blockquote>
-<p>在正向查找状态下</p>
-<blockquote>
-<p>n :跳转到下一条匹配的内容。<br>N :跳转到上一条匹配的内容。</p>
-</blockquote>
-<p>反向查找的命令为“?”  </p>
-<blockquote>
-<p>?pattern  </p>
-</blockquote>
-<p>在反向查找状态下</p>
-<blockquote>
-<p>n :跳转到上一条匹配的内容。<br>N :跳转到下一条匹配的内容。</p>
-</blockquote>
-<p>0x9 替换功能<br>替换使用的命令是s，基本格式如下：  </p>
-<blockquote>
-<p>: s/pattern1/pattern2/  </p>
-</blockquote>
-<p>pattern1表示要查找的文本，pattern2为替换后的文本，“/”为分隔符，分隔符也可以是“：”。</p>
-<p>谨慎的查找替换  </p>
-<blockquote>
-<p>:%s/pattern1/pattern2/gc  </p>
-</blockquote>
-<p>执行这条命令之后，VIM会查找到所有匹配pattern1的字符串，并提示用户是否需要进行替换。</p>
-<p>以上是VIM编辑器的一些基础的使用方法，其功能还很强大，待之后用到了再补充吧。</p>
-<p>参考书：《Linux 命令、编辑器与SHELL编程》 王刚等著</p>
+        <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。作为一个有点洁癖的我来说是不能忍的。</p>
+<h3 id="0x2-解决方案"><a href="#0x2-解决方案" class="headerlink" title="0x2 解决方案"></a>0x2 解决方案</h3><p>最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。</p>
+<h3 id="0x3-配置文件具体内容"><a href="#0x3-配置文件具体内容" class="headerlink" title="0x3 配置文件具体内容"></a>0x3 配置文件具体内容</h3><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen       80;</div><div class="line">        listen       [::]:80 default_server;</div><div class="line">        server_name  blog.star-chen.com;</div><div class="line">        root         /var/blog;</div><div class="line"></div><div class="line">        # Load configuration files for the default server block.</div><div class="line">        include /etc/nginx/default.d/*.conf;</div><div class="line">	if ($host !~ &quot;.*star-chen.com&quot;)&#123;</div><div class="line">		return 500;</div><div class="line">	&#125;</div><div class="line">        location / &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 404 /404.html;</div><div class="line">            location = /40x.html &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 500 502 503 504 /50x.html;</div><div class="line">            location = /50x.html &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>简单粗暴，有效果！</p>
 
       
     </div>
@@ -405,13 +280,13 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/29/Learn_VIM/">Learn VIM</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
-        <p><span>发布时间:</span>2016年11月29日 - 19时25分</p>
-        <p><span>最后更新:</span>2016年12月01日 - 00时32分</p>
+        <p><span>发布时间:</span>2016年12月15日 - 04时53分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 05时03分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/29/Learn_VIM/" title="Learn VIM">http://blog.star-chen.com/2016/11/29/Learn_VIM/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/29/Learn_VIM/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/15/nginx-diable-domain/" title="配置nginx，防止ip被恶意绑定域名">http://blog.star-chen.com/2016/12/15/nginx-diable-domain/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/nginx-diable-domain/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -424,18 +299,9 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
 <nav id="article-nav">
   
-    <a href="/2016/11/30/Github-Add-SSHKEY/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          github配置ssh key
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/29/C-Helloworld/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Program HelloWorld</div>
+    <a href="/2016/12/04/Github-Webhook/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">利用Github的webhook和tornado实现代码自动部署</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -446,7 +312,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动手学VIM编辑器"><span class="toc-number">1.</span> <span class="toc-text">动手学VIM编辑器</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-事件诱因"><span class="toc-number">1.</span> <span class="toc-text">0x1 事件诱因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-解决方案"><span class="toc-number">2.</span> <span class="toc-text">0x2 解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-配置文件具体内容"><span class="toc-number">3.</span> <span class="toc-text">0x3 配置文件具体内容</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -494,7 +360,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/29/Learn_VIM/" data-title="Learn VIM" data-url="http://blog.star-chen.com/2016/11/29/Learn_VIM/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/15/nginx-diable-domain/" data-title="配置nginx，防止ip被恶意绑定域名" data-url="http://blog.star-chen.com/2016/12/15/nginx-diable-domain/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -517,13 +383,11 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/30/Github-Add-SSHKEY/" title="上一篇: github配置ssh key">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/29/C-Helloworld/" title="下一篇: Program HelloWorld">
+            <a href="/2016/12/04/Github-Webhook/" title="下一篇: 利用Github的webhook和tornado实现代码自动部署">
                 <i class="fa fa-angle-right"></i>
             </a>
         
