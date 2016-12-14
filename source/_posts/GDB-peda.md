@@ -12,7 +12,6 @@ tags:
 
 
 #### 0x1.peda是什么？
-
 从github上摘抄一段关于peda的介绍如下:
 ``` 
 peda
@@ -42,7 +41,7 @@ Key Features:
         vmmap -- Get virtual mapping address ranges of section(s) in debugged process
         xormem -- XOR a memory region with a key
 ```
-
+<!-- more -->
 #### 0x2. 安装方法
 ```
     git clone https://github.com/longld/peda.git ~/peda

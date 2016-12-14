@@ -5,22 +5,16 @@
   
   <title>配置nginx，防止ip被恶意绑定域名 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。
-0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
-0x3 配置文件具体内容12345678910111213141516171819">
+  <meta name="description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="配置nginx，防止ip被恶意绑定域名">
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/nginx-diable-domain/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。
-0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
-0x3 配置文件具体内容12345678910111213141516171819">
-<meta property="og:updated_time" content="2016-12-14T21:07:52.806Z">
+<meta property="og:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
+<meta property="og:updated_time" content="2016-12-14T23:00:58.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置nginx，防止ip被恶意绑定域名">
-<meta name="twitter:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。
-0x2 解决方案最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。
-0x3 配置文件具体内容12345678910111213141516171819">
+<meta name="twitter:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -28,7 +22,7 @@
     <link rel="icon" href="/img/favicon.png">
   
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -42,6 +36,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: true,
           isHome: false,
@@ -66,7 +61,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">star-chen</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">STAR-CHEN</a></h1>
         </hgroup>
 
         
@@ -161,7 +156,7 @@
                 
                 <section class="switch-part switch-part3">
                 
-                    <div id="js-aboutme">不会编程的测量员不是名好黑客- -！</div>
+                    <div id="js-aboutme">不会做规划的黑客不是名好测量员？我特么究竟是干啥的？- -！</div>
                 </section>
                 
             </div>
@@ -173,7 +168,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">star-chen</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">STAR-CHEN</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -183,7 +178,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">star-chen</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">STAR-CHEN</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -268,7 +263,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。</p>
+        <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。<br><a id="more"></a></p>
 <h3 id="0x2-解决方案"><a href="#0x2-解决方案" class="headerlink" title="0x2 解决方案"></a>0x2 解决方案</h3><p>最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。</p>
 <h3 id="0x3-配置文件具体内容"><a href="#0x3-配置文件具体内容" class="headerlink" title="0x3 配置文件具体内容"></a>0x3 配置文件具体内容</h3><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen       80;</div><div class="line">        listen       [::]:80 default_server;</div><div class="line">        server_name  blog.star-chen.com;</div><div class="line">        root         /var/blog;</div><div class="line"></div><div class="line">        # Load configuration files for the default server block.</div><div class="line">        include /etc/nginx/default.d/*.conf;</div><div class="line">	if ($host !~ &quot;.*star-chen.com&quot;)&#123;</div><div class="line">		return 500;</div><div class="line">	&#125;</div><div class="line">        location / &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 404 /404.html;</div><div class="line">            location = /40x.html &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 500 502 503 504 /50x.html;</div><div class="line">            location = /50x.html &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>简单粗暴，有效果！</p>
@@ -281,12 +276,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 04时53分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 05时07分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 07时00分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/nginx-diable-domain/" title="配置nginx，防止ip被恶意绑定域名">http://blog.star-chen.com/2016/12/15/nginx-diable-domain/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/nginx-diable-domain/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/nginx-diable-domain/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -352,7 +347,7 @@
 	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
 	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
 </div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
@@ -422,7 +417,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2016 star-chen
+                &copy; 2016 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman

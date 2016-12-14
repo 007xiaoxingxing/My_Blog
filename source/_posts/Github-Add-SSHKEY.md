@@ -35,6 +35,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 
 ```
+<!-- more -->
 0x2:添加ssh key至github网站
 ![image](/blogimg/gitsshkey.png)
 

@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2016/11/20/GDB-peda/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
 <meta property="og:description" content="在Ubuntu16.04上配置peda0x1.peda是什么？从github上摘抄一段关于peda的介绍如下:1234567891011121314151617181920212223242526pedaPEDA - Python Exploit Development Assistance for GDBKey Features:    Enhance the display of gdb: c">
-<meta property="og:updated_time" content="2016-11-30T16:32:19.891Z">
+<meta property="og:updated_time" content="2016-12-14T23:09:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu16.04上配置peda">
 <meta name="twitter:description" content="在Ubuntu16.04上配置peda0x1.peda是什么？从github上摘抄一段关于peda的介绍如下:1234567891011121314151617181920212223242526pedaPEDA - Python Exploit Development Assistance for GDBKey Features:    Enhance the display of gdb: c">
@@ -22,7 +22,7 @@
     <link rel="icon" href="/img/favicon.png">
   
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -36,6 +36,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: true,
           isHome: false,
@@ -60,7 +61,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">star-chen</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">STAR-CHEN</a></h1>
         </hgroup>
 
         
@@ -155,7 +156,7 @@
                 
                 <section class="switch-part switch-part3">
                 
-                    <div id="js-aboutme">不会编程的测量员不是名好黑客- -！</div>
+                    <div id="js-aboutme">不会做规划的黑客不是名好测量员？我特么究竟是干啥的？- -！</div>
                 </section>
                 
             </div>
@@ -167,7 +168,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">star-chen</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">STAR-CHEN</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -177,7 +178,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">star-chen</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">STAR-CHEN</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -263,6 +264,7 @@
       
           
         <h1 id="在Ubuntu16-04上配置peda"><a href="#在Ubuntu16-04上配置peda" class="headerlink" title="在Ubuntu16.04上配置peda"></a>在Ubuntu16.04上配置peda</h1><h4 id="0x1-peda是什么？"><a href="#0x1-peda是什么？" class="headerlink" title="0x1.peda是什么？"></a>0x1.peda是什么？</h4><p>从github上摘抄一段关于peda的介绍如下:<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">peda</div><div class="line">PEDA - Python Exploit Development Assistance for GDB</div><div class="line">Key Features:</div><div class="line"></div><div class="line">    Enhance the display of gdb: colorize and display disassembly codes, registers, memory information during debugging.</div><div class="line">    Add commands to support debugging and exploit development (for a full list of commands use peda help):</div><div class="line">        aslr -- Show/set ASLR setting of GDB</div><div class="line">        checksec -- Check for various security options of binary</div><div class="line">        dumpargs -- Display arguments passed to a function when stopped at a call instruction</div><div class="line">        dumprop -- Dump all ROP gadgets in specific memory range</div><div class="line">        elfheader -- Get headers information from debugged ELF file</div><div class="line">        elfsymbol -- Get non-debugging symbol information from an ELF file</div><div class="line">        lookup -- Search for all addresses/references to addresses which belong to a memory range</div><div class="line">        patch -- Patch memory start at an address with string/hexstring/int</div><div class="line">        pattern -- Generate, search, or write a cyclic pattern to memory</div><div class="line">        procinfo -- Display various info from /proc/pid/</div><div class="line">        pshow -- Show various PEDA options and other settings</div><div class="line">        pset -- Set various PEDA options and other settings</div><div class="line">        readelf -- Get headers information from an ELF file</div><div class="line">        ropgadget -- Get common ROP gadgets of binary or library</div><div class="line">        ropsearch -- Search for ROP gadgets in memory</div><div class="line">        searchmem|find -- Search for a pattern in memory; support regex search</div><div class="line">        shellcode -- Generate or download common shellcodes.</div><div class="line">        skeleton -- Generate python exploit code template</div><div class="line">        vmmap -- Get virtual mapping address ranges of section(s) in debugged process</div><div class="line">        xormem -- XOR a memory region with a key</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <h4 id="0x2-安装方法"><a href="#0x2-安装方法" class="headerlink" title="0x2. 安装方法"></a>0x2. 安装方法</h4><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    git clone https://github.com/longld/peda.git ~/peda</div><div class="line">echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</div><div class="line">echo &quot;DONE! debug your program with gdb and enjoy&quot;</div></pre></td></tr></table></figure>
 <h4 id="0x3-尝试安装peda"><a href="#0x3-尝试安装peda" class="headerlink" title="0x3. 尝试安装peda"></a>0x3. 尝试安装peda</h4><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-vb:~$ cat peda_install.sh </div><div class="line">git clone https://github.com/longld/peda.git ~/peda</div><div class="line">echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</div><div class="line">echo &quot;DONE! debug your program with gdb and enjoy&quot;</div><div class="line"></div><div class="line">star-chen@starchen-vb:~$ sudo sh peda_install.sh </div><div class="line">正克隆到 &apos;/home/star-chen/peda&apos;...</div><div class="line">remote: Counting objects: 304, done.</div><div class="line">remote: Total 304 (delta 0), reused 0 (delta 0), pack-reused 304</div><div class="line">接收对象中: 100% (304/304), 197.98 KiB | 45.00 KiB/s, 完成.</div><div class="line">处理 delta 中: 100% (192/192), 完成.</div><div class="line">检查连接... 完成。</div><div class="line">DONE! debug your program with gdb and enjoy</div><div class="line">star-chen@starchen-vb:~$ gdb</div><div class="line">GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.04) 7.11.1</div><div class="line">Copyright (C) 2016 Free Software Foundation, Inc.</div><div class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</div><div class="line">This is free software: you are free to change and redistribute it.</div><div class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</div><div class="line">and &quot;show warranty&quot; for details.</div><div class="line">This GDB was configured as &quot;x86_64-linux-gnu&quot;.</div><div class="line">Type &quot;show configuration&quot; for configuration details.</div><div class="line">For bug reporting instructions, please see:</div><div class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</div><div class="line">Find the GDB manual and other documentation resources online at:</div><div class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</div><div class="line">For help, type &quot;help&quot;.</div><div class="line">Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;.</div><div class="line">gdb-peda$</div></pre></td></tr></table></figure>
 <p>安装完成。</p>
@@ -275,12 +277,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年11月20日 - 19时25分</p>
-        <p><span>最后更新:</span>2016年12月01日 - 00时32分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 07时09分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/20/GDB-peda/" title="在Ubuntu16.04上配置peda">http://blog.star-chen.com/2016/11/20/GDB-peda/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/20/GDB-peda/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/20/GDB-peda/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -355,7 +357,7 @@
 	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
 	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
 </div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
@@ -427,7 +429,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2016 star-chen
+                &copy; 2016 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman

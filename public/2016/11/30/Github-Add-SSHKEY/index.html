@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
 <meta property="og:description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥123456789101112131415161718192021222324user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/gitsshkey.png">
-<meta property="og:updated_time" content="2016-11-30T16:32:19.891Z">
+<meta property="og:updated_time" content="2016-12-14T23:01:43.392Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="github配置ssh key">
 <meta name="twitter:description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥123456789101112131415161718192021222324user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥">
@@ -24,7 +24,7 @@
     <link rel="icon" href="/img/favicon.png">
   
   
-  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -38,6 +38,7 @@
     <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
   <script>
       var yiliaConfig = {
+          rootUrl: '/',
           fancybox: true,
           animate: true,
           isHome: false,
@@ -62,7 +63,7 @@
         </a>
 
         <hgroup>
-          <h1 class="header-author"><a href="/">star-chen</a></h1>
+          <h1 class="header-author"><a href="/" title="Hi Mate">STAR-CHEN</a></h1>
         </hgroup>
 
         
@@ -157,7 +158,7 @@
                 
                 <section class="switch-part switch-part3">
                 
-                    <div id="js-aboutme">不会编程的测量员不是名好黑客- -！</div>
+                    <div id="js-aboutme">不会做规划的黑客不是名好测量员？我特么究竟是干啥的？- -！</div>
                 </section>
                 
             </div>
@@ -169,7 +170,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">star-chen</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">STAR-CHEN</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -179,7 +180,7 @@
                 
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">star-chen</a></h1>
+              <h1 class="header-author"><a href="/" title="Me">STAR-CHEN</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -265,6 +266,7 @@
       
           
         <h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</span></div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>0x2:添加ssh key至github网站<br><img src="/blogimg/gitsshkey.png" alt="image"></p>
 <p>0x3:将私钥添加到本地gitbash<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh-agent bash --login -i</div><div class="line">$ ssh-add ~/.ssh/PCWIN10(你自己的私钥的路径)</div></pre></td></tr></table></figure></p>
 <p>0x4:本地测试是否已经正常<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div><div class="line">Hi xxxx! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></div></pre></td></tr></table></figure></p>
@@ -287,12 +289,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 star-chen 的个人博客">star-chen</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年11月30日 - 10时43分</p>
-        <p><span>最后更新:</span>2016年12月01日 - 00时32分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 07时01分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/30/Github-Add-SSHKEY/" title="github配置ssh key">http://blog.star-chen.com/2016/11/30/Github-Add-SSHKEY/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/30/Github-Add-SSHKEY/　　作者: star-chen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/30/Github-Add-SSHKEY/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -367,7 +369,7 @@
 	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
 	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
 </div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
@@ -439,7 +441,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2016 star-chen
+                &copy; 2016 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman

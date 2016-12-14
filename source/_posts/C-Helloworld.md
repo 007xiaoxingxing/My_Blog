@@ -15,7 +15,7 @@ int main(){
   return 0;
 }
 ```
-
+<!-- more -->
 ```bash
 #gcc hello.c -o hello
 #./hello

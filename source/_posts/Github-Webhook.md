@@ -1,18 +1,24 @@
 ---
 title: 利用Github的webhook和tornado实现代码自动部署
 date: 2016-12-04 10:39:31
-categories: Program
+categories:
+- Program
 tags:
 - Github
 - Webhook
 - 自动部署
 - code deploy
+toc: true 文章目录
+author:
+comments:
+original:
+permalink:
 ---
 
 ### 0x1:需求来源  
 
 本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhook向远程服务器发起链接，并携带一定的参数，这样的话，在远程服务器监听来自webhook的请求就可以执行代码更新操作了哇。  
-
+<!-- more -->
 ### 0x2:服务端代码
 
 服务端代码的思路很清晰。 

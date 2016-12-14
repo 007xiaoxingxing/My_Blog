@@ -35,7 +35,7 @@ int main(int argc, char* argv[], char* envp[]){
 ```
 代码逻辑比较清楚，需要输入一个数字，然后减去0x1234，所得的值作为read函数的第一个参数，然后调用read函数读取输入，然后将读取的值和“LETMEWIN\n”比较，若相等则cat输出flag文件中的值。  
 接下来我们看一下read函数的函数描述:
-
+<!-- more -->
 ```c
 NAME
        read - read from a file descriptor
