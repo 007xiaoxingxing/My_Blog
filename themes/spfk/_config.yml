@@ -63,7 +63,7 @@ disqus:
 
 duoshuo: 
   on: true
-  domain: 
+  domain: star-chen
   # 是否开启多说评论，http://duoshuo.com/create-site/
   # 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分
   # http://<要填的部分>.duoshuo.com (domain只填上<>里的内容，不要填整个网址)
@@ -89,9 +89,9 @@ background:
   background_image: 109
 
 highlight_style:
-  #on: true
-  inline_code: 1  # Value: 0 - 9 可选
-  code_block: 1  # Value: 0 - 4 
+  on: true
+  inline_code: 2  # Value: 0 - 9 可选
+  code_block: 2  # Value: 0 - 4 
   # Set inline_code to style highlight text
   # Chose a highlight theme for code block
   # 通过 inline_code 切换内置文本高亮样式
@@ -134,7 +134,7 @@ friends:
  # waydrow: http://blog.waydrow.com/
 
 #是否开启“关于我”。
-aboutme: 信息安全？测绘？智慧旅游？程序猿？
+aboutme: 不会编程的测量员不是名好黑客- -！
 #aboutme: false
 
 # 是否在新窗口打开链接
@@ -172,7 +172,7 @@ baidu_analytics:
 # 不蒜子网站计数设置
 # http://ibruce.info/2015/04/04/busuanzi/
 visit_counter:
-  on: true
+  on: false
   site_visit: 表哥到访数
   page_visit: 本页阅读量
 
