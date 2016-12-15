@@ -5,9 +5,9 @@
 ## Tags Cloud Page: `hexo new page tags`
 menu:
   博客首页: /
-  CTF: /categories/CTF
-  程序设计: /categories/Program
-  折腾Linux: /categories/Linux
+  安全技术&&CTF: /categories/CTF
+  程序编码: /categories/Program
+  各种折腾Linux: /categories/Linux
   关于: /about
 # 静心阅读: /tags
 # 光影之路: /instagram
@@ -134,7 +134,7 @@ friends:
  # waydrow: http://blog.waydrow.com/
 
 #是否开启“关于我”。
-aboutme: 不会做规划的黑客不是名好测量员？我特么究竟是干啥的？- -！
+aboutme: 不会做规划的黑客不是名好测量员？
 #aboutme: false
 
 # 是否在新窗口打开链接
