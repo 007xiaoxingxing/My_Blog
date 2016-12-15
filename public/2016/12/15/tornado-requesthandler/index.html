@@ -3,26 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Learn VIM | STAR-CHEN&#39;s BLOG</title>
+  <title>Tornado框架中的Requesthandler | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
+  <meta name="description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Learn VIM">
-<meta property="og:url" content="http://blog.star-chen.com/2016/11/29/Learn_VIM/index.html">
+<meta property="og:title" content="Tornado框架中的Requesthandler">
+<meta property="og:url" content="http://blog.star-chen.com/2016/12/15/tornado-requesthandler/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
-<meta property="og:image" content="http://blog.star-chen.com/blogimg/vim-help.png">
-<meta property="og:updated_time" content="2016-12-14T23:04:58.283Z">
+<meta property="og:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_form.png">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_success.png">
+<meta property="og:updated_time" content="2016-12-15T14:22:57.124Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Learn VIM">
-<meta name="twitter:description" content="动手学VIM编辑器0x1:What is VIM editor?
-
-vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
-<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/vim-help.png">
+<meta name="twitter:title" content="Tornado框架中的Requesthandler">
+<meta name="twitter:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/tornado_up_form.png">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -229,11 +224,11 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Learn_VIM" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-tornado-requesthandler" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/29/Learn_VIM/" class="article-date">
-      <time datetime="2016-11-29T11:25:18.000Z" itemprop="datePublished">2016-11-29</time>
+      <a href="/2016/12/15/tornado-requesthandler/" class="article-date">
+      <time datetime="2016-12-15T12:24:10.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     </div>
   
@@ -246,7 +241,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
         
   
     <h1 class="article-title" itemprop="name">
-      Learn VIM
+      Tornado框架中的Requesthandler
     </h1>
   
 
@@ -255,13 +250,13 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/Program/">Program</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Edtor/">Edtor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VIM/">VIM</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tornado/">tornado</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -271,133 +266,55 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="动手学VIM编辑器"><a href="#动手学VIM编辑器" class="headerlink" title="动手学VIM编辑器"></a>动手学VIM编辑器</h3><p>0x1:What is VIM editor?</p>
+        <p>上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.<br><a id="more"></a></p>
+<h3 id="0x1-RequestHandler是个什么家伙？"><a href="#0x1-RequestHandler是个什么家伙？" class="headerlink" title="0x1:RequestHandler是个什么家伙？"></a>0x1:RequestHandler是个什么家伙？</h3><p>还记得上一个Helloworld工程的代码吗？我们的MainHandler继承了tornado.web.RequestHandler，那么这个RequestHandler到底是何方神圣？它能够干些什么呢？先看看官方提供的文档怎么说：</p>
 <blockquote>
-<p>vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。<br>vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落等其他属性进行编排，它只是一个文本编辑程序。没有菜单，只有命令，且命令繁多。vi有3种基本工作模式：命令行模式、文本输入模式和末行模式。<br>Vim是vi的加强版，比vi更容易使用。vi的命令几乎全部都可以在vim上使用。</p>
+<p>Subclassing RequestHandler<br>Most of the work of a Tornado web application is done in subclasses of RequestHandler. The main entry point for a handler subclass is a method named after the HTTP method being handled: get(), post(), etc. Each handler may define one or more of these methods to handle different HTTP actions. As described above, these methods will be called with arguments corresponding to the capturing groups of the routing rule that matched.</p>
+<p>Within a handler, call methods such as RequestHandler.render or RequestHandler.write to produce a response. render() loads a Template by name and renders it with the given arguments. write() is used for non-template-based output; it accepts strings, bytes, and dictionaries (dicts will be encoded as JSON).</p>
+<p>Many methods in RequestHandler are designed to be overridden in subclasses and be used throughout the application. It is common to define a BaseHandler class that overrides methods such as write_error and get_current_user and then subclass your own BaseHandler instead of RequestHandler for all your specific handlers.</p>
 </blockquote>
-<p>—摘自百度百科<br><a id="more"></a><br>0x2:命令模式情形下的一些命令<br>进入命令模式的方法：ESC</p>
-<p>#查看VIM编辑器的帮助信息。</p>
-<blockquote>
-<p>:help</p>
-</blockquote>
-<p><img src="/blogimg/vim-help.png" alt="image"></p>
-<p>#正常退出退出编辑器</p>
-<blockquote>
-<p>:q  </p>
-</blockquote>
-<p>#保存并退出编辑器</p>
-<blockquote>
-<p>:wq</p>
-</blockquote>
-<p>#保存退出编辑器，并将文件存储为filename</p>
-<blockquote>
-<p>:wq filename</p>
-</blockquote>
-<p>#强制退出，不保存</p>
-<blockquote>
-<p>:q!</p>
-</blockquote>
-<p>#打开某文件(需保存当前文件，否则会报错)</p>
-<blockquote>
-<p>:e /root/file</p>
-</blockquote>
-<p>#强制打开某文件</p>
-<blockquote>
-<p>:e! /root/file</p>
-</blockquote>
-<p>#读取某文件，追加到当前文件末尾</p>
-<blockquote>
-<p>:r /root/file</p>
-</blockquote>
-<p>#保存文件</p>
-<blockquote>
-<p>:w (文件路径)</p>
-</blockquote>
-<p>0x3:插入模式的一些快捷按键操作</p>
-<p>#进入插入模式，将光标放在当前光标之后</p>
-<blockquote>
-<p>a</p>
-</blockquote>
-<p>#进入插入模式，将光标放在当前光标所在的行尾</p>
-<blockquote>
-<p>A</p>
-</blockquote>
-<p>#在当前光标的下一行插入新行，并将光标放在新行的行首</p>
-<blockquote>
-<p>o</p>
-</blockquote>
-<p>#在光标的前一行插入一行，并将光标放在行首</p>
-<blockquote>
-<p>O</p>
-</blockquote>
-<p>#在光标所在位置进入插入模式,貌似这个用得最多了</p>
-<blockquote>
-<p>i</p>
-</blockquote>
-<p>0x4 移动光标<br>在进行编辑的时候，可能需要移动光标位置，进行修改或者输入新的内容，除了使用方向键之外，在命令模式下，使用hmjkl也能够快速的移动光标。</p>
-<blockquote>
-<p>k:向上移动光标  </p>
-<p>j:向下移动光标  </p>
-<p>h:向前移动光标  </p>
-<p>l:向右移动光标  </p>
-</blockquote>
-<p>这种感觉有点像玩FPS游戏的wasd方式，不过是把操作放在了右手上而已。用起来感觉还蛮不错的。</p>
-<p>0x5 删除文本<br>使用退格键或者delete键可以删除当前光标前或所在处的字符，然而在VIM中还可以使用命令来删除我们想删除的内容哦。  </p>
-<blockquote>
-<p>x :删除当前光标所在处的字符，如果想删除多个字符，连续着按。 </p>
-<p>dd  :删除当前光标所在行，如果想删除多行，可以用ndd的方式，n为你想删除的行数。  </p>
-<p>dw :删除光标处的单词，包括词尾的空格。  </p>
-<p>de :删除当前光标所在处的单词，和dw的区别在于保留了单词词尾的空格。  </p>
-<p>d^ :删除当前光标所在位置到行首的所有字符。  </p>
-<p>d$ :删除当前光标到行尾的所有字符。  </p>
-<p>J :将当前光标所在行和下一行合并（删除行尾的换行符）</p>
-</blockquote>
-<p>0x6 撤销和恢复  </p>
-<blockquote>
-<p>u :撤销上一步操作，可多次使用。  </p>
-<p>Ctrl+r :放弃上一次撤销操作，可使用多次。</p>
-</blockquote>
-<p>0x7 快速移动光标  </p>
-<blockquote>
-<p>b :将光标移动到当前光标所在单词的前一个单词的首字母，可以使nb，即移动n个单词的位置。  </p>
-<p>w :将光标移动到当前光标的后一个单词的首字母，可以使nw，即移动到n个单词后的首字母。  </p>
-<p>e :移动到后一个单词的尾字母，可以使ne，效果与之前的效果类似。  </p>
-<p>ge :与e的作用相反，移动光标至前一个单词的尾字母，也可是是nge，n表示需要跨过的单词数目。  </p>
-<p>^ :快速移动光标到行首，Home键，0键也可以移动光标的行首。  </p>
-<p>$ :快速移动光标到行尾，End键也可以移动光标到行尾。n$,可以将光标移动到当前行之后n-1行的末尾。  </p>
-<p>g :跳到当前文本的第一行，也可以使用1G。  </p>
-<p>G :跳到当前文本的最后一行。  </p>
-<p>nG :跳转到第n行，其中n为一个正整数。</p>
-</blockquote>
-<p>当然，咱们的鼠标也是可以定位光标的，哪里需要点哪里！</p>
-<p>0x8 查找功能<br>在命令模式下，正向查找的命令为“/”</p>
-<blockquote>
-<p>/pattern :pattern为需要查找的字符串，可以是正则表达式。  </p>
-</blockquote>
-<p>在正向查找状态下</p>
-<blockquote>
-<p>n :跳转到下一条匹配的内容。<br>N :跳转到上一条匹配的内容。</p>
-</blockquote>
-<p>反向查找的命令为“?”  </p>
-<blockquote>
-<p>?pattern  </p>
-</blockquote>
-<p>在反向查找状态下</p>
-<blockquote>
-<p>n :跳转到上一条匹配的内容。<br>N :跳转到下一条匹配的内容。</p>
-</blockquote>
-<p>0x9 替换功能<br>替换使用的命令是s，基本格式如下：  </p>
-<blockquote>
-<p>: s/pattern1/pattern2/  </p>
-</blockquote>
-<p>pattern1表示要查找的文本，pattern2为替换后的文本，“/”为分隔符，分隔符也可以是“：”。</p>
-<p>谨慎的查找替换  </p>
-<blockquote>
-<p>:%s/pattern1/pattern2/gc  </p>
-</blockquote>
-<p>执行这条命令之后，VIM会查找到所有匹配pattern1的字符串，并提示用户是否需要进行替换。</p>
-<p>以上是VIM编辑器的一些基础的使用方法，其功能还很强大，待之后用到了再补充吧。</p>
-<p>参考书：《Linux 命令、编辑器与SHELL编程》 王刚等著</p>
+<p>可以看看得出来，RequestHandler是一个专门用于处理http请求的类。它能够获得用户访问的各种数据，也能够通过write方法等向用户回复响应。所以，应用的具体逻辑应该在RequestHanler的子类中进行，例如查询数据库、加载模版等等。该类的具体描述可参见官方更详尽的介绍<a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler" target="_blank" rel="external">Tornado RequestHandler类文档</a>,这之中详细列出了该类的各成员变量及提供的方法。</p>
+<p>仔细阅读文档之后，我们就可以了解到:  </p>
+<ol>
+<li><p>每种类型的http请求方法都有一个对应的方法，例如常见的GET–&gt;get(),POST—&gt;post()。</p>
+</li>
+<li><p>render()方法可以加载模版</p>
+</li>
+<li><p>write()方法可以直接向客户端写入任意内容</p>
+</li>
+<li><p>get_argument()方法可以取得用户提交的某个参数的值</p>
+</li>
+<li><p>用户上传的文件会被转换成files变量，可以对用户上传的文件进行后续处理</p>
+</li>
+<li><p>……..</p>
+<p>有了以上这些内容，我们已经能够完成想完成的任务了。</p>
+</li>
+</ol>
+<h3 id="0x2-Demo的需求"><a href="#0x2-Demo的需求" class="headerlink" title="0x2:Demo的需求"></a>0x2:Demo的需求</h3><ol>
+<li><p>接收用户的文件上传请求</p>
+</li>
+<li><p>上传文件的后缀名检查，重命名，保存至指定目录</p>
+</li>
+<li><p>渲染模版，输出用户上传的文件的详细信息</p>
+</li>
+</ol>
+<p>明确了需求，接下来就是编码工作了。</p>
+<h3 id="0x3-具体编码"><a href="#0x3-具体编码" class="headerlink" title="0x3:具体编码"></a>0x3:具体编码</h3><p>python部分代码:</p>
+<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tornado.web</div><div class="line"><span class="keyword">import</span> tornado.ioloop</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileUPHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self)</span>:</span></div><div class="line">		origin_descri=self.get_argument(<span class="string">"describe"</span>)</div><div class="line">		origin_user=self.get_argument(<span class="string">"user"</span>)</div><div class="line">		file=self.request.files[<span class="string">'photo'</span>][<span class="number">0</span>]</div><div class="line">		fname=file[<span class="string">'filename'</span>]</div><div class="line">		ftype=file[<span class="string">'content_type'</span>]</div><div class="line">		fbody=file[<span class="string">'body'</span>]</div><div class="line">		fsize=len(fbody)</div><div class="line">		f=open(<span class="string">"upload/"</span>+fname,<span class="string">'w'</span>)</div><div class="line">		f.write(fbody)</div><div class="line">		self.render(<span class="string">"templates/result.html"</span>,size=fsize/(<span class="number">1024</span>),name=fname,user=origin_user,type=ftype)</div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></div><div class="line">		self.render(<span class="string">"templates/upform.html"</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main_app</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> tornado.web.Application([</div><div class="line"></div><div class="line">	(<span class="string">r"/"</span>,FileUPHandler),</div><div class="line">	(<span class="string">r"/upload"</span>,FileUPHandler),</div><div class="line">]) </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">	app = main_app()</div><div class="line">	app.listen(<span class="number">8888</span>)</div><div class="line">	tornado.ioloop.IOLoop.instance().start()</div></pre></td></tr></table></figure>
+<p>html模版部分代码：</p>
+<p>template/upform.html</p>
+<figure class="highlight html" data-lang=" html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Tornado File Upload Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/upload"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></div><div class="line"></div><div class="line">文件用户：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"user"</span>/&gt;</span></div><div class="line"></div><div class="line">文件描述：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"describe"</span>/&gt;</span></div><div class="line"></div><div class="line">请选择文件：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"photo"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"走你!"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>template/result.html</p>
+<figure class="highlight html" data-lang=" html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>The File Information:<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file name:&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>fiel size:&#123;&#123;size&#125;&#125; KB<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>request user:&#123;&#123;user&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file type:&#123;&#123;type&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="0x4-实际验证效果"><a href="#0x4-实际验证效果" class="headerlink" title="0x4:实际验证效果"></a>0x4:实际验证效果</h3><p><img src="/blogimg/tornado_up_form.png" alt="image"></p>
+<p><img src="/blogimg/tornado_up_success.png" alt="image"></p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-vb:~/ProDev/tornado$ ls upload/</div><div class="line">ico.png</div></pre></td></tr></table></figure>
+<p>最后可以看到，上传的文件已经成功的躺在了目标文件夹之中了。  </p>
+<h3 id="0x5-思考"><a href="#0x5-思考" class="headerlink" title="0x5:思考"></a>0x5:思考</h3><p>这个简单的Demo完成用户请求信息的获取，并成功的上传了文件。但是并未进行文件的验证，用户可以上传任意文件，对于服务器君来说，这可是不能忍滴。</p>
+<h3 id="0x6-参考链接"><a href="#0x6-参考链接" class="headerlink" title="0x6 参考链接"></a>0x6 参考链接</h3><p><a href="http://www.tornadoweb.org/en/stable/guide/structure.html" target="_blank" rel="external">http://www.tornadoweb.org/en/stable/guide/structure.html</a></p>
+<p><a href="http://demo.pythoner.com/itt2zh/ch2.html" target="_blank" rel="external">http://demo.pythoner.com/itt2zh/ch2.html</a></p>
+<p><a href="https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/" target="_blank" rel="external">https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/</a></p>
+<p><a href="https://my.oschina.net/chenlei123/blog/127563" target="_blank" rel="external">https://my.oschina.net/chenlei123/blog/127563</a></p>
 
       
     </div>
@@ -406,13 +323,13 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/29/Learn_VIM/">Learn VIM</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年11月29日 - 19时25分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 07时04分</p>
+        <p><span>发布时间:</span>2016年12月15日 - 20时24分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 22时22分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/29/Learn_VIM/" title="Learn VIM">http://blog.star-chen.com/2016/11/29/Learn_VIM/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/29/Learn_VIM/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/15/tornado-requesthandler/" title="Tornado框架中的Requesthandler">http://blog.star-chen.com/2016/12/15/tornado-requesthandler/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/tornado-requesthandler/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -425,18 +342,9 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
 <nav id="article-nav">
   
-    <a href="/2016/11/30/Github-Add-SSHKEY/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          github配置ssh key
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/29/C-Helloworld/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Program HelloWorld</div>
+    <a href="/2016/12/15/tornado-hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">与Tornado的第一次接触</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -447,7 +355,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动手学VIM编辑器"><span class="toc-number">1.</span> <span class="toc-text">动手学VIM编辑器</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler是个什么家伙？"><span class="toc-number">1.</span> <span class="toc-text">0x1:RequestHandler是个什么家伙？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo的需求"><span class="toc-number">2.</span> <span class="toc-text">0x2:Demo的需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-具体编码"><span class="toc-number">3.</span> <span class="toc-text">0x3:具体编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-实际验证效果"><span class="toc-number">4.</span> <span class="toc-text">0x4:实际验证效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-思考"><span class="toc-number">5.</span> <span class="toc-text">0x5:思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-参考链接"><span class="toc-number">6.</span> <span class="toc-text">0x6 参考链接</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -495,7 +403,7 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/29/Learn_VIM/" data-title="Learn VIM" data-url="http://blog.star-chen.com/2016/11/29/Learn_VIM/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/15/tornado-requesthandler/" data-title="Tornado框架中的Requesthandler" data-url="http://blog.star-chen.com/2016/12/15/tornado-requesthandler/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -518,13 +426,11 @@ vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Li
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/30/Github-Add-SSHKEY/" title="上一篇: github配置ssh key">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/29/C-Helloworld/" title="下一篇: Program HelloWorld">
+            <a href="/2016/12/15/tornado-hello-world/" title="下一篇: 与Tornado的第一次接触">
                 <i class="fa fa-angle-right"></i>
             </a>
         
