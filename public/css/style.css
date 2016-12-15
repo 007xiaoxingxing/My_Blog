@@ -2638,7 +2638,7 @@ color
   padding: 1px 3px;
   margin: 0 3px;
   color: #999;
-  background: #002b36;
+  background: rgba(136,172,219,0.65);
   border: 1px dashed #ccc;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -2735,7 +2735,7 @@ color
 }
 .article-entry code {
   color: #999;
-  background: #002b36;
+  background: rgba(136,172,219,0.65);
   padding: 1px 3px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -3219,7 +3219,7 @@ color
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #002b36;
+  background: #202225;
   margin: 10px 0;
   padding: 10px 10px;
   overflow: auto;
@@ -3228,7 +3228,7 @@ color
 }
 .article-entry .highlight .gutter pre,
 .article-entry .gist .gist-file .gist-data .line-numbers {
-  color: #9e90ff;
+  color: #8abeb7;
 }
 .article-entry pre,
 .article-entry code {
@@ -3250,18 +3250,18 @@ color
   box-sizing: border-box;
 }
 .article-entry code {
-  background: #002b36;
+  background: rgba(136,172,219,0.65);
   padding: 0 0.3em;
   border: none;
 }
 .article-entry pre {
-  color: #fff;
+  color: #c5c8c6;
 }
 .article-entry pre code {
   background: none;
   text-shadow: none;
   padding: 0;
-  color: #fff;
+  color: #c5c8c6;
 }
 .article-entry p code {
   margin: 0 3px;
@@ -3274,7 +3274,7 @@ color
   border-radius: 5px;
   font-family: Consolas, "Courier New", Courier;
   text-shadow: none;
-  background-color: #002b36;
+  background-color: rgba(136,172,219,0.65);
   word-wrap: break-word;
   white-space: pre;
 }
@@ -3411,7 +3411,7 @@ color
   -webkit-border-radius: 4px;
   border-radius: 4px;
   padding: 0 10px;
-  color: #fff;
+  color: #c5c8c6;
 }
 .article-entry .highlight pre {
   border: none;
@@ -3438,7 +3438,7 @@ color
 }
 .article-entry .highlight figcaption {
   font-size: 0.85em;
-  color: #75715e;
+  color: #969896;
   line-height: 1em;
   margin-bottom: 1em;
 }
@@ -3469,7 +3469,7 @@ color
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
-  background: #002b36;
+  background: #202225;
   padding: 15px 20px 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -3495,8 +3495,8 @@ color
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #002b36;
-  color: #75715e;
+  background: #202225;
+  color: #969896;
   font: 0.85em "Lucida Grande", Verdana, "Helvetica Neue", Arial, sans-serif;
   text-shadow: 0 0;
   padding: 0;
@@ -3531,10 +3531,10 @@ pre .command {
   color: #258fb8;
 }
 pre .comment {
-  color: #75715e;
+  color: #969896;
 }
 pre .keyword {
-  color: #66d9ef;
+  color: #b294bb;
 }
 pre .function,
 pre .class .params {
@@ -3543,18 +3543,18 @@ pre .class .params {
 pre .params,
 pre .function,
 pre .css .value {
-  color: #fd971f;
+  color: #de935f;
 }
 pre .css ~ * .tag,
 pre .at_rule,
 pre .preprocessor {
-  color: #f92672;
+  color: #f0c674;
 }
 pre .built_in,
 pre .class,
 pre .css ~ * .class,
 pre .function {
-  color: #a6e22e;
+  color: #81a2be;
 }
 pre .value,
 pre .number {
@@ -3562,7 +3562,7 @@ pre .number {
 }
 pre .id,
 pre .css ~ * .id {
-  color: #fd971f;
+  color: #de935f;
 }
 pre .link_label,
 pre .code,

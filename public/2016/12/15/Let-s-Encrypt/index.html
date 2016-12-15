@@ -3,18 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>pwnable练习之fd | STAR-CHEN&#39;s BLOG</title>
+  <title>Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
+  <meta name="description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
+
+HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pwnable练习之fd">
-<meta property="og:url" content="http://blog.star-chen.com/2016/11/27/Pwnable-fd/index.html">
+<meta property="og:title" content="Let's Encrypt &&Nginx配置证书，实现https访问">
+<meta property="og:url" content="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
-<meta property="og:updated_time" content="2016-12-15T07:00:09.423Z">
+<meta property="og:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
+
+HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
+<meta property="og:updated_time" content="2016-12-15T09:09:53.298Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pwnable练习之fd">
-<meta name="twitter:description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
+<meta name="twitter:title" content="Let's Encrypt &&Nginx配置证书，实现https访问">
+<meta name="twitter:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
+
+HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -221,11 +227,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Pwnable-fd" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Let-s-Encrypt" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/27/Pwnable-fd/" class="article-date">
-      <time datetime="2016-11-27T11:25:18.000Z" itemprop="datePublished">2016-11-27</time>
+      <a href="/2016/12/15/Let-s-Encrypt/" class="article-date">
+      <time datetime="2016-12-15T07:01:36.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     </div>
   
@@ -238,7 +244,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pwnable练习之fd
+      Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问
     </h1>
   
 
@@ -247,13 +253,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwnable/">pwnable</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -263,41 +269,65 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>fd.c的代码如下：<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">char buf[32];</div><div class="line">int main(int argc, char* argv[], char* envp[])&#123;</div><div class="line">	if(argc&lt;2)&#123;</div><div class="line">		printf(&quot;pass argv[1] a number\n&quot;);</div><div class="line">		return 0;</div><div class="line">	&#125;</div><div class="line">	int fd = atoi( argv[1] ) - 0x1234;</div><div class="line">	int len = 0;</div><div class="line">	len = read(fd, buf, 32);</div><div class="line">	if(!strcmp(&quot;LETMEWIN\n&quot;, buf))&#123;</div><div class="line">		printf(&quot;good job :)\n&quot;);</div><div class="line">		system(&quot;/bin/cat flag&quot;);</div><div class="line">		exit(0);</div><div class="line">	&#125;</div><div class="line">	printf(&quot;learn about Linux file IO\n&quot;);</div><div class="line">	return 0;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码逻辑比较清楚，需要输入一个数字，然后减去0x1234，所得的值作为read函数的第一个参数，然后调用read函数读取输入，然后将读取的值和“LETMEWIN\n”比较，若相等则cat输出flag文件中的值。<br>接下来我们看一下read函数的函数描述:<br><a id="more"></a><br><figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NAME</div><div class="line">       read - read from a file descriptor</div><div class="line"></div><div class="line">SYNOPSIS</div><div class="line">       <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line">       <span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> count);</div></pre></td></tr></table></figure></p>
-<p>可以看到第一个参数为文件描述符。在Linux系统中存在三个比较特殊的文件描述符：  </p>
-<table>
-<thead>
-<tr>
-<th>文件描述符</th>
-<th style="text-align:right">用途</th>
-<th style="text-align:right">POISX名称</th>
-<th style="text-align:right">stdio流</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td style="text-align:right">标准输入</td>
-<td style="text-align:right">STDIN_FILENO</td>
-<td style="text-align:right">stdin</td>
-</tr>
-<tr>
-<td>1</td>
-<td style="text-align:right">标准输出</td>
-<td style="text-align:right">STDOUT_FILENO</td>
-<td style="text-align:right">stdout</td>
-</tr>
-<tr>
-<td>2</td>
-<td style="text-align:right">标准错误</td>
-<td style="text-align:right">STDERR_FILENO</td>
-<td style="text-align:right">stderr</td>
-</tr>
-</tbody>
-</table>
-<p>这里我们可以让read参数的第一个参数为0（从标准输入读取），然后输入“LETMEWIN”即可让程序执行cat flag操作。<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fd@ubuntu:~$ ./fd 4660</div><div class="line">LETMEWIN</div><div class="line">good job :)</div><div class="line">mommy! I think I know what a file descriptor is!!</div></pre></td></tr></table></figure></p>
-<p>注：fd,file decriptor 文件描述符</p>
+        <h3 id="0x1-Why"><a href="#0x1-Why" class="headerlink" title="0x1:Why?"></a>0x1:Why?</h3><p>在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议</p>
+<blockquote>
+<p>HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是<em>客户机</em>和一个计算机上运行的应用托管一个网站可以是<em>服务器</em>。该客户机提交一个HTTP <em>请求</em>消息发送到服务器。服务器，它提供<em>的资源</em>如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个<em>响应</em>消息给客户端。响应包含关于请求完成状态信息，并且还可以含有在其消息主体请求的内容。</p>
+<p>网络浏览器是一个的例子<em>的用户代理</em>（UA）。其他类型的用户代理包括由搜索服务提供商（使用的索引软件网络爬虫，语音浏览器，移动应用程序和其他软件访问，消费，或显示网页内容。</p>
+<p>的HTTP被设计成允许中间网络元件，以改善或允许客户端和服务器之间的通信。高流量的网站往往受益于Web缓存的代表提供的内容服务器上游服务器以提高响应时间。Web浏览器的缓存以前访问网络资源并尽可能减少网络流量重用他们。HTTP代理服务器的专用网络边界可以方便为客户的沟通没有一个全球可路由的地址，通过与外部服务器中继消息。</p>
+<p>HTTP是一个应用层协议的框架内，设计的因特网协议套件。它的定义假定底层和可靠的传输层的协议，和传输控制协议（TCP）是常用的。然而HTTP可以适于使用不可靠的协议，如用户数据报协议（UDP），例如在HTTPU和简单服务发现协议（SSDP）。</p>
+<p>HTTP资源得到确认和位于网络通[统一资源定位器（URL）的，使用统一资源标识符（URI的）计划，<em>HTTP</em>和<em>HTTPS</em>。URI和超链接的HTML文档形成相互关联的超文本文档。</p>
+<p>HTTP / 1.1是原来的HTTP（HTTP / 1.0）的修订。在HTTP / 1.0的单独连接到同一台服务器为每个资源的要求而作出。HTTP / 1.1可以重复使用的连接多次下载图像，脚本，样式表，<em>等等</em>页面已交付之后。因此，HTTP / 1.1的通信经验少的延迟为建立TCP连接的呈现相当大的开销。</p>
+</blockquote>
+<p>——-引自wikipedia <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank" rel="external">维基百科.HTTP词条</a></p>
+<a id="more"></a>
+<p>但是HTTP协议本身不具备加密功能，所有的通讯数据都是在网络上裸奔。所以HTTP链接很容易被“中间人攻击“，HTTP链接网络环节中的中间人（浏览器、路由器、ISP…..）可以对数据进行嗅探，欺骗，劫持，阻挡等等。明文传输的用户数据还容易泄露。</p>
+<p>那什么又是HTTPS呢？  </p>
+<blockquote>
+<p>HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的<a href="http://baike.baidu.com/view/9472.htm" target="_blank" rel="external">HTTP</a>通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司(Netscape)进行，并内置于其浏览器Netscape Navigator中，提供了身份验证与加密通讯方法。现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。  </p>
+<p>——引自百度百科 <a href="http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa" target="_blank" rel="external">百度百科.HTTPS词条</a></p>
+</blockquote>
+<p>相比较于HTTP协议，HTTPS在HTTP的基础上增加了SSL（安全套接字层）。SSL的引入为连接的建立和数据的传输都进行了加密，在密钥足够健壮的情形下，是比较安全的。相较于HTTP，HTTPS提供了以下三个强大的功能：</p>
+<ol>
+<li>内容加密。浏览器到百度服务器的内容都是以加密形式传输，中间者无法直接查看原始内容。</li>
+<li>身份认证。保证用户访问的是百度服务，即使被 DNS 劫持到了第三方站点，也会提醒用户没有访问百度服务，有可能被劫持</li>
+<li>数据完整性。防止内容被第三方冒充或者篡改。</li>
+</ol>
+<h3 id="0x2-How"><a href="#0x2-How" class="headerlink" title="0x2:How?"></a>0x2:How?</h3><p>要进行HTTPS加密，我们首先需要向证书颁发机构（CA）申请加密证书。免费的证书颁发机构有Startssl <a href="https://www.startssl.com/" target="_blank" rel="external">Start ssl</a>、Let’s Encrypt <a href="https://letsencrypt.org/" target="_blank" rel="external">Let’s Encrypt</a>等。我用的是Let’s Encrypt颁发的证书，它操作起来比较简单。它的官方网站上有介绍具体的申请步骤。<a href="https://letsencrypt.org/getting-started/" target="_blank" rel="external">申请Let’s encrypt证书</a> 下面是我参考网上一哥们一篇博文<a href="https://imququ.com/post/letsencrypt-certificate.html" target="_blank" rel="external">Jerry Qu 申请Let’s Encrypt</a>实际申请证书的具体过程如下：</p>
+<ol>
+<li>创建帐号</li>
+</ol>
+<p>创建一个目录，例如 <em>ssl</em>，用来存放各种临时文件和最红生成的证书文件。首先创建一个私钥文件</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#openssl genrsa 4096 &gt; account.key</span></div></pre></td></tr></table></figure>
+<ol>
+<li>创建CSR文件</li>
+</ol>
+<p>生成CSR（Certificate Signing Request，证书签名请求）文件。需要准备一个域名私钥，这里我选择RSA私钥。</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#openssl genrsa 4096 &gt; domain.key</span></div><div class="line"><span class="comment">#openssl req -new -sha256 -key domain.key -out domain.csr //手动生成csr文件，根据提示进行操作即可</span></div></pre></td></tr></table></figure>
+<ol>
+<li>配置验证服务</li>
+</ol>
+<p>CA在颁发证书时，需要验证域名的所有权，证明你对该域名所在的服务器有操作的权限。Let’s Encrypt采用的是服务器上生成一个随机验证文件，再访问CSR中填写的域名，如果访问成功，则证明你对该域名有所有权。为了偷懒，我就不像那位博主一样建立单独的目录了，而是直接在我的web根目录建立一个隐藏目录，用来存放之后生成的随机验证文件。</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#mkdir -p /var/blog/.well-known/acme-chanllenge //建立验证文件存放目录</span></div></pre></td></tr></table></figure>
+<ol>
+<li>获取HTTPS证书</li>
+</ol>
+<p>先下载一个acme-tiny的脚本，保存在<em>ssl</em>目录：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py</span></div></pre></td></tr></table></figure>
+<p>指定账户私钥、CSR、验证目录，然后执行脚本：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/blog/ &gt; ./signed.crt</div></pre></td></tr></table></figure>
+<p>如果执行成功，在当前目录下会生成一个signed.crt文件，这就是申请号的证书文件。</p>
+<p>下载Let’s Encrypt的中间证书，并和网站证书合并在一起:</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem &gt; intermediate.pem</span></div><div class="line"><span class="comment">#cat signed.crt intermediate.pem &gt; chained.pem</span></div></pre></td></tr></table></figure>
+<p>再把根证书和中间证书合并在一起：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/isrgrootx1.pem &gt; root.pem</span></div><div class="line"><span class="comment">#cat intermediate.pem root.pem &gt; full_chained.pem</span></div></pre></td></tr></table></figure>
+<ol>
+<li><p>配置Nginx，开启https</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssl_certificate     ~/ssl/chained.pem;</div><div class="line">ssl_certificate_key ~/ssl/domain.key;</div></pre></td></tr></table></figure>
+<p>​</p>
+<p>因为Let’s Encrypt签发的证书的有效期只有90天，需要定时使用脚本进行更新。就是把上面的获取过程写进一个脚本，设置crontab，让其自动执行更新即可。我也不确定这台服务器我会续费到多久，暂时先用着吧。  </p>
+</li>
+</ol>
+<h3 id="0x3-That’s-All"><a href="#0x3-That’s-All" class="headerlink" title="0x3 That’s All"></a>0x3 That’s All</h3><p>经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，<em>It’s Encrypt!</em></p>
 
       
     </div>
@@ -306,13 +336,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年11月27日 - 19时25分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 15时00分</p>
+        <p><span>发布时间:</span>2016年12月15日 - 15时01分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 17时09分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/27/Pwnable-fd/" title="pwnable练习之fd">http://blog.star-chen.com/2016/11/27/Pwnable-fd/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/27/Pwnable-fd/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -325,18 +355,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/11/28/OpenWRT-BuildEnvironMent/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          搭建OpenWRT编译开发环境
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/20/GDB-peda/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">在Ubuntu16.04上配置peda</div>
+    <a href="/2016/12/15/nginx-diable-domain/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">配置nginx，防止ip被恶意绑定域名</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -347,7 +368,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-Why"><span class="toc-number">1.</span> <span class="toc-text">0x1:Why?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-How"><span class="toc-number">2.</span> <span class="toc-text">0x2:How?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-That’s-All"><span class="toc-number">3.</span> <span class="toc-text">0x3 That’s All</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -395,7 +416,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/27/Pwnable-fd/" data-title="pwnable练习之fd" data-url="http://blog.star-chen.com/2016/11/27/Pwnable-fd/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/15/Let-s-Encrypt/" data-title="Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问" data-url="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -418,13 +439,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/28/OpenWRT-BuildEnvironMent/" title="上一篇: 搭建OpenWRT编译开发环境">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/20/GDB-peda/" title="下一篇: 在Ubuntu16.04上配置peda">
+            <a href="/2016/12/15/nginx-diable-domain/" title="下一篇: 配置nginx，防止ip被恶意绑定域名">
                 <i class="fa fa-angle-right"></i>
             </a>
         

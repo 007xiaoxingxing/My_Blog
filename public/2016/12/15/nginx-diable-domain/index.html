@@ -5,16 +5,16 @@
   
   <title>配置nginx，防止ip被恶意绑定域名 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
+  <meta name="description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="配置nginx，防止ip被恶意绑定域名">
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/nginx-diable-domain/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
-<meta property="og:updated_time" content="2016-12-14T23:00:58.109Z">
+<meta property="og:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
+<meta property="og:updated_time" content="2016-12-15T08:02:09.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置nginx，防止ip被恶意绑定域名">
-<meta name="twitter:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。">
+<meta name="twitter:description" content="0x1 事件诱因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -145,7 +145,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 15px;">CTF</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 15px;">PWN</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 15px;">pwnable</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a>
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 15px;">CTF</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 15px;">PWN</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 15px;">pwnable</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a>
                     </div>
                 </section>
                 
@@ -263,7 +263,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。对于这方面有洁癖的我,这种情况是万万不能忍的。<br><a id="more"></a></p>
+        <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。<br><a id="more"></a></p>
 <h3 id="0x2-解决方案"><a href="#0x2-解决方案" class="headerlink" title="0x2 解决方案"></a>0x2 解决方案</h3><p>最简单粗暴的办法就是给域名不匹配的请求返回一个错误代码就可以了，或者委婉的一点，把请求重定向到目前所使用的域名上。我选择了前者。</p>
 <h3 id="0x3-配置文件具体内容"><a href="#0x3-配置文件具体内容" class="headerlink" title="0x3 配置文件具体内容"></a>0x3 配置文件具体内容</h3><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen       80;</div><div class="line">        listen       [::]:80 default_server;</div><div class="line">        server_name  blog.star-chen.com;</div><div class="line">        root         /var/blog;</div><div class="line"></div><div class="line">        # Load configuration files for the default server block.</div><div class="line">        include /etc/nginx/default.d/*.conf;</div><div class="line">	if ($host !~ &quot;.*star-chen.com&quot;)&#123;</div><div class="line">		return 500;</div><div class="line">	&#125;</div><div class="line">        location / &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 404 /404.html;</div><div class="line">            location = /40x.html &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page 500 502 503 504 /50x.html;</div><div class="line">            location = /50x.html &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>简单粗暴，有效果！</p>
@@ -278,7 +278,7 @@
         <p><span>本文标题:</span><a href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 04时53分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 07时00分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 16时02分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/nginx-diable-domain/" title="配置nginx，防止ip被恶意绑定域名">http://blog.star-chen.com/2016/12/15/nginx-diable-domain/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/nginx-diable-domain/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -293,6 +293,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2016/12/15/Let-s-Encrypt/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问
+        
+      </div>
+    </a>
   
   
     <a href="/2016/12/04/Github-Webhook/" id="article-nav-older" class="article-nav-link-wrap">
@@ -378,7 +387,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2016/12/15/Let-s-Encrypt/" title="上一篇: Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
@@ -387,7 +398,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/07/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt &&Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
