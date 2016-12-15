@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问 | STAR-CHEN&#39;s BLOG</title>
+  <title>Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
 
 HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Let's Encrypt &&Nginx配置证书，实现https访问">
+<meta property="og:title" content="Let's Encrypt && Nginx配置证书，实现https访问">
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
 <meta property="og:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
 
 HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
-<meta property="og:updated_time" content="2016-12-15T09:09:53.298Z">
+<meta property="og:updated_time" content="2016-12-15T09:14:38.096Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Let's Encrypt &&Nginx配置证书，实现https访问">
+<meta name="twitter:title" content="Let's Encrypt && Nginx配置证书，实现https访问">
 <meta name="twitter:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
 
 HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
@@ -244,7 +244,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
         
   
     <h1 class="article-title" itemprop="name">
-      Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问
+      Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问
     </h1>
   
 
@@ -284,8 +284,8 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
 <p>那什么又是HTTPS呢？  </p>
 <blockquote>
 <p>HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的<a href="http://baike.baidu.com/view/9472.htm" target="_blank" rel="external">HTTP</a>通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司(Netscape)进行，并内置于其浏览器Netscape Navigator中，提供了身份验证与加密通讯方法。现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。  </p>
-<p>——引自百度百科 <a href="http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa" target="_blank" rel="external">百度百科.HTTPS词条</a></p>
 </blockquote>
+<p>——引自百度百科 <a href="http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa" target="_blank" rel="external">百度百科.HTTPS词条</a></p>
 <p>相比较于HTTP协议，HTTPS在HTTP的基础上增加了SSL（安全套接字层）。SSL的引入为连接的建立和数据的传输都进行了加密，在密钥足够健壮的情形下，是比较安全的。相较于HTTP，HTTPS提供了以下三个强大的功能：</p>
 <ol>
 <li>内容加密。浏览器到百度服务器的内容都是以加密形式传输，中间者无法直接查看原始内容。</li>
@@ -327,7 +327,8 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
 <p>因为Let’s Encrypt签发的证书的有效期只有90天，需要定时使用脚本进行更新。就是把上面的获取过程写进一个脚本，设置crontab，让其自动执行更新即可。我也不确定这台服务器我会续费到多久，暂时先用着吧。  </p>
 </li>
 </ol>
-<h3 id="0x3-That’s-All"><a href="#0x3-That’s-All" class="headerlink" title="0x3 That’s All"></a>0x3 That’s All</h3><p>经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，<em>It’s Encrypt!</em></p>
+<h3 id="0x3-That’s-All"><a href="#0x3-That’s-All" class="headerlink" title="0x3 That’s All"></a>0x3 That’s All</h3><p>经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，<em>It’s Encrypt!</em>  </p>
+<p>最后还是感谢一下Jerry Qu撰写的博客文章， <a href="https://imququ.com/" target="_blank" rel="external">Jerry Qu</a></p>
 
       
     </div>
@@ -336,12 +337,12 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问</a></p>
+        <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 15时01分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 17时09分</p>
+        <p><span>最后更新:</span>2016年12月15日 - 17时14分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -416,7 +417,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/12/15/Let-s-Encrypt/" data-title="Let&#39;s Encrypt &amp;&amp;Nginx配置证书，实现https访问" data-url="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/"></div>
+    <div class="ds-thread" data-thread-key="2016/12/15/Let-s-Encrypt/" data-title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问" data-url="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -448,7 +449,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt &&Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt && Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

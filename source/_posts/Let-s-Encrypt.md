@@ -1,5 +1,5 @@
 ---
-title: Let's Encrypt &&Nginx配置证书，实现https访问
+title: Let's Encrypt && Nginx配置证书，实现https访问
 date: 2016-12-15 15:01:36
 categories:
 - Linux
@@ -33,10 +33,8 @@ tags:
 那什么又是HTTPS呢？  
 
 > HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的[HTTP](http://baike.baidu.com/view/9472.htm)通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司(Netscape)进行，并内置于其浏览器Netscape Navigator中，提供了身份验证与加密通讯方法。现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。  
->
-> ------引自百度百科 [百度百科.HTTPS词条](http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa)
->
-> 
+
+------引自百度百科 [百度百科.HTTPS词条](http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa)
 
 相比较于HTTP协议，HTTPS在HTTP的基础上增加了SSL（安全套接字层）。SSL的引入为连接的建立和数据的传输都进行了加密，在密钥足够健壮的情形下，是比较安全的。相较于HTTP，HTTPS提供了以下三个强大的功能：
 
@@ -117,4 +115,6 @@ python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /v
 
 ### 0x3 That's All
 
-经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，*It's Encrypt!*
+经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，*It's Encrypt!*  
+
+最后还是感谢一下Jerry Qu撰写的博客文章， [Jerry Qu](https://imququ.com/)
