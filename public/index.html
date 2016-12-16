@@ -144,7 +144,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 13.33px;">CTF</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 13.33px;">PWN</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 13.33px;">pwnable</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tornado/" style="font-size: 13.33px;">tornado</a> <a href="/tags/web/" style="font-size: 13.33px;">web</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a>
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 13.33px;">CTF</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 13.33px;">PWN</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 13.33px;">pwnable</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tornado/" style="font-size: 13.33px;">tornado</a> <a href="/tags/web/" style="font-size: 13.33px;">web</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
                     </div>
                 </section>
                 
@@ -221,6 +221,72 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Observer-Notes" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/Observer-Notes/" class="article-date">
+      <time datetime="2016-12-16T07:57:06.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>之前在学习java的过程中，总提到总会遇到“设计模式”，诸如工厂模式了，观察者模式了，单例模式了….看起来云里雾里的。趁最近空闲时间多了些，来把这些设计模式都熟悉一下。我看的书的《Head First 设计模式 》，这个系列的书看起来还蛮有意思的。不闲扯了，这篇博文是我学习“观察者模式”的笔记。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/观察者模式/">观察者模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/12/16/Observer-Notes/#more">有完没完了? >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-tornado-requesthandler" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -456,7 +522,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h3 id="0x1-事件诱因"><a href="#0x1-事件诱因" class="headerlink" title="0x1 事件诱因"></a>0x1 事件诱因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。<br>
+              <h3 id="0x1-事情起因"><a href="#0x1-事情起因" class="headerlink" title="0x1 事情起因"></a>0x1 事情起因</h3><p>偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。<br>
           
       
     </div>
@@ -810,73 +876,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/11/29/C-Helloworld/#more">有完没完了? >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Pwnable-collision" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/28/Pwnable-collision/" class="article-date">
-      <time datetime="2016-11-28T11:25:18.000Z" itemprop="datePublished">2016-11-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>col.c代码如下：<br><figure class="highlight c"data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> hashcode = <span class="number">0x21DD09EC</span>;</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">check_password</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span>* ip = (<span class="keyword">int</span>*)p;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">int</span> res=<span class="number">0</span>;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++)&#123;</div><div class="line">		res += ip[i];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(argc&lt;<span class="number">2</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"usage : %s [passcode]\n"</span>, argv[<span class="number">0</span>]);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">strlen</span>(argv[<span class="number">1</span>]) != <span class="number">20</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"passcode length should be 20 bytes\n"</span>);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(hashcode == check_password( argv[<span class="number">1</span>] ))&#123;</div><div class="line">		system(<span class="string">"/bin/cat flag"</span>);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="built_in">printf</span>(<span class="string">"wrong passcode.\n"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>观察代码，可知代码逻辑过程是：<br>1.先输入一个不少于20字节长度的值<br>2.对输入的前五位整数求和(int类型，一个int等于4字节，5位int类型，恰好20字节)<br>3.求得的和与0x21DD09EC比较，若相等则通过<br>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwnable/">pwnable</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/11/28/Pwnable-collision/#more">有完没完了? >></a>
         </p>
       
       <div class="clearfix"></div>
