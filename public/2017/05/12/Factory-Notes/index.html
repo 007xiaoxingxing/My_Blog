@@ -3,42 +3,39 @@
 <head>
   <meta charset="utf-8">
   
-  <title>STAR-CHEN&#39;s BLOG</title>
+  <title>设计模式学习之工厂模式 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 设计模式学习之工厂模式date: 2017-5-12 14:28:16categories:
+  <meta name="description" content="继续设计模式的学习，接下来是工厂模式。
+工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不方便其他方法调用，所以可以将创建对象的过程放到专门的工厂来创建。工厂类扮演了对象生产者的角色。
+工厂模式的分类
+简单工厂
 
-Programtags:
-java
-设计模式
-工厂模式
+工厂方法模式
 
-继续设计模式的学习，接下来是工厂模式。
-工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不">
+抽象工厂模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="STAR-CHEN's BLOG">
+<meta property="og:title" content="设计模式学习之工厂模式">
 <meta property="og:url" content="http://blog.star-chen.com/2017/05/12/Factory-Notes/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="title: 设计模式学习之工厂模式date: 2017-5-12 14:28:16categories:
+<meta property="og:description" content="继续设计模式的学习，接下来是工厂模式。
+工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不方便其他方法调用，所以可以将创建对象的过程放到专门的工厂来创建。工厂类扮演了对象生产者的角色。
+工厂模式的分类
+简单工厂
 
-Programtags:
-java
-设计模式
-工厂模式
+工厂方法模式
 
-继续设计模式的学习，接下来是工厂模式。
-工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不">
-<meta property="og:updated_time" content="2017-05-12T07:34:17.834Z">
+抽象工厂模式">
+<meta property="og:updated_time" content="2017-05-12T07:36:39.048Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="STAR-CHEN's BLOG">
-<meta name="twitter:description" content="title: 设计模式学习之工厂模式date: 2017-5-12 14:28:16categories:
+<meta name="twitter:title" content="设计模式学习之工厂模式">
+<meta name="twitter:description" content="继续设计模式的学习，接下来是工厂模式。
+工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不方便其他方法调用，所以可以将创建对象的过程放到专门的工厂来创建。工厂类扮演了对象生产者的角色。
+工厂模式的分类
+简单工厂
 
-Programtags:
-java
-设计模式
-工厂模式
+工厂方法模式
 
-继续设计模式的学习，接下来是工厂模式。
-工厂模式所要解决的问题如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不">
+抽象工厂模式">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -169,7 +166,7 @@ java
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 13.33px;">CTF</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/LNMP/" style="font-size: 10px;">LNMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MariaDB/" style="font-size: 13.33px;">MariaDB</a> <a href="/tags/New-DB/" style="font-size: 10px;">New DB</a> <a href="/tags/Nignx/" style="font-size: 10px;">Nignx</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 13.33px;">PWN</a> <a href="/tags/Remote/" style="font-size: 10px;">Remote</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 13.33px;">pwnable</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tornado/" style="font-size: 13.33px;">tornado</a> <a href="/tags/web/" style="font-size: 13.33px;">web</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a> <a href="/tags/装饰者模式/" style="font-size: 10px;">装饰者模式</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a>
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/CTF/" style="font-size: 13.33px;">CTF</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/LNMP/" style="font-size: 10px;">LNMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MariaDB/" style="font-size: 13.33px;">MariaDB</a> <a href="/tags/New-DB/" style="font-size: 10px;">New DB</a> <a href="/tags/Nignx/" style="font-size: 10px;">Nignx</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 13.33px;">PWN</a> <a href="/tags/Remote/" style="font-size: 10px;">Remote</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/pwnable/" style="font-size: 13.33px;">pwnable</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tornado/" style="font-size: 13.33px;">tornado</a> <a href="/tags/web/" style="font-size: 13.33px;">web</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a> <a href="/tags/装饰者模式/" style="font-size: 10px;">装饰者模式</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/设计模式/" style="font-size: 16.67px;">设计模式</a>
                     </div>
                 </section>
                 
@@ -249,7 +246,7 @@ java
   
     <div class="article-meta">
       <a href="/2017/05/12/Factory-Notes/" class="article-date">
-      <time datetime="2017-05-12T06:27:46.331Z" itemprop="datePublished">2017-05-12</time>
+      <time datetime="2017-05-12T06:28:16.000Z" itemprop="datePublished">2017-05-12</time>
 </a>
     </div>
   
@@ -258,17 +255,36 @@ java
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      设计模式学习之工厂模式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工厂模式/">工厂模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="title-设计模式学习之工厂模式"><a href="#title-设计模式学习之工厂模式" class="headerlink" title="title: 设计模式学习之工厂模式"></a>title: 设计模式学习之工厂模式</h2><p>date: 2017-5-12 14:28:16<br>categories:</p>
-<ul>
-<li>Program<br>tags:</li>
-<li>java</li>
-<li>设计模式</li>
-<li>工厂模式</li>
-</ul>
-<p>继续设计模式的学习，接下来是工厂模式。</p>
+        <p>继续设计模式的学习，接下来是工厂模式。</p>
 <h3 id="工厂模式所要解决的问题"><a href="#工厂模式所要解决的问题" class="headerlink" title="工厂模式所要解决的问题"></a>工厂模式所要解决的问题</h3><p>如果实例化一个对象需要根据繁杂的条件来创建不同类型的对象，那么随着系统的复杂化，创建对象的过程也会变得十分复杂，每次有新的需求都需要去加上判断条件，造成了设计的复杂，也不方便其他方法调用，所以可以将创建对象的过程放到专门的工厂来创建。工厂类扮演了对象生产者的角色。</p>
 <h3 id="工厂模式的分类"><a href="#工厂模式的分类" class="headerlink" title="工厂模式的分类"></a>工厂模式的分类</h3><ol>
 <li><p>简单工厂</p>
@@ -294,12 +310,12 @@ java
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/05/12/Factory-Notes/"></a></p>
+        <p><span>本文标题:</span><a href="/2017/05/12/Factory-Notes/">设计模式学习之工厂模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2017年05月12日 - 14时27分</p>
-        <p><span>最后更新:</span>2017年05月12日 - 15时34分</p>
+        <p><span>发布时间:</span>2017年05月12日 - 14时28分</p>
+        <p><span>最后更新:</span>2017年05月12日 - 15时36分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/05/12/Factory-Notes/" title="">http://blog.star-chen.com/2017/05/12/Factory-Notes/</a>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/12/Factory-Notes/" title="设计模式学习之工厂模式">http://blog.star-chen.com/2017/05/12/Factory-Notes/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/12/Factory-Notes/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -326,7 +342,7 @@ java
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#title-设计模式学习之工厂模式"><span class="toc-number">1.</span> <span class="toc-text">title: 设计模式学习之工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式所要解决的问题"><span class="toc-number">1.1.</span> <span class="toc-text">工厂模式所要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式的分类"><span class="toc-number">1.2.</span> <span class="toc-text">工厂模式的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单工厂"><span class="toc-number">1.3.</span> <span class="toc-text">简单工厂</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式所要解决的问题"><span class="toc-number">1.</span> <span class="toc-text">工厂模式所要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式的分类"><span class="toc-number">2.</span> <span class="toc-text">工厂模式的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单工厂"><span class="toc-number">3.</span> <span class="toc-text">简单工厂</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -374,7 +390,7 @@ java
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2017/05/12/Factory-Notes/" data-title="" data-url="http://blog.star-chen.com/2017/05/12/Factory-Notes/"></div>
+    <div class="ds-thread" data-thread-key="2017/05/12/Factory-Notes/" data-title="设计模式学习之工厂模式" data-url="http://blog.star-chen.com/2017/05/12/Factory-Notes/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -406,7 +422,7 @@ java
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Factory-Notes/">Factory-Notes</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Decorator-Notes/">设计模式学习之装饰者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/MariaDB-Create-Remote/">MariaDB创建新用户、新数据库并允许特定用户远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/Centos7-lnmp/">CentOS 7.2 搭建lnmp环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-hello-world/">与Tornado的第一次接触</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt && Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Factory-Notes/">设计模式学习之工厂模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Decorator-Notes/">设计模式学习之装饰者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/MariaDB-Create-Remote/">MariaDB创建新用户、新数据库并允许特定用户远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/Centos7-lnmp/">CentOS 7.2 搭建lnmp环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-hello-world/">与Tornado的第一次接触</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt && Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
