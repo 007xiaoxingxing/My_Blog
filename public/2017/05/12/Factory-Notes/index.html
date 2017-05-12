@@ -25,7 +25,7 @@
 工厂方法模式
 
 抽象工厂模式">
-<meta property="og:updated_time" content="2017-05-12T07:36:39.048Z">
+<meta property="og:updated_time" content="2017-05-12T07:37:50.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式学习之工厂模式">
 <meta name="twitter:description" content="继续设计模式的学习，接下来是工厂模式。
@@ -296,7 +296,7 @@
 </ol>
 <a id="more"></a>
 <p>接下来分别说明工厂模式的以上三种的类型的内容和它们之间的区别。</p>
-<h3 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h3><p>最开始我们要实例化一个对象的时候是根据需要直接去new一个来用就行了，例如我要购买小米手机:</p>
+<h4 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h4><p>最开始我们要实例化一个对象的时候是根据需要直接去new一个来用就行了，例如我要购买小米手机:</p>
 <figure class="highlight java" data-lang=" java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XiaoMi2s</span></span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> XiaoMi2s&#123;</div><div class="line">    System.out.println(<span class="string">"create Xiaomi 2s"</span>);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sell</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"MI2s selled You need pay 1999￥"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XiaoMi5s</span></span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> XiaoMi5s&#123;</div><div class="line">    System.out.println(<span class="string">"create Xiaomi 5s"</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sell</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"MI5s selled 1999￥"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhoneShop</span></span>&#123;</div><div class="line">  Phone phone;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    </div><div class="line">    buyPhone(<span class="string">"Mi2s"</span>);</div><div class="line">    </div><div class="line">  &#125;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buyPhone</span><span class="params">(String model)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span>(model.equals(<span class="string">"MI2s"</span>))&#123;</div><div class="line">      phone = <span class="keyword">new</span> <span class="keyword">new</span> XiaoMi2s();</div><div class="line">      phone.sell();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(model.equals(<span class="string">"MI5s"</span>))&#123;</div><div class="line">      phone = <span class="keyword">new</span> <span class="keyword">new</span> XiaoMi5s();</div><div class="line">      phone.sell();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>可以看到，如果我要购买不同型号的手机，手机店需要进行很多次的判断才能拿到我想要的手机并卖给我。这项就显得十分繁琐了。</p>
 <p>简单工厂模式可以解决这个问题，把创建对象的过程放到专门的工厂中去做，像这样：</p>
@@ -313,7 +313,7 @@
         <p><span>本文标题:</span><a href="/2017/05/12/Factory-Notes/">设计模式学习之工厂模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年05月12日 - 14时28分</p>
-        <p><span>最后更新:</span>2017年05月12日 - 15时36分</p>
+        <p><span>最后更新:</span>2017年05月12日 - 15时37分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/12/Factory-Notes/" title="设计模式学习之工厂模式">http://blog.star-chen.com/2017/05/12/Factory-Notes/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/12/Factory-Notes/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -342,7 +342,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式所要解决的问题"><span class="toc-number">1.</span> <span class="toc-text">工厂模式所要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式的分类"><span class="toc-number">2.</span> <span class="toc-text">工厂模式的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单工厂"><span class="toc-number">3.</span> <span class="toc-text">简单工厂</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式所要解决的问题"><span class="toc-number">1.</span> <span class="toc-text">工厂模式所要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工厂模式的分类"><span class="toc-number">2.</span> <span class="toc-text">工厂模式的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单工厂"><span class="toc-number">2.1.</span> <span class="toc-text">简单工厂</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
