@@ -27,11 +27,12 @@ BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream
 
 ### 装饰者模式的定义
 
-装饰者模式动态地将责任附加到对象上。装饰者模式允许向一个现有的对象添加新的功能，同时又不改变其原有的结构。装饰者模式创建了一个装饰类，将原来的类进行包装，并在保持原来的类方法签名完整性的前提下，提供了额外的功能。ps:开放-关闭原则即不修改现有代码的情况下，扩充原有类的行为。
+装饰者模式动态地将责任附加到对象上。装饰者模式允许向一个现有的对象添加新的功能，同时又不改变其原有的结构。装饰者模式创建了一个装饰类，将原来的类进行包装，并在保持原来的类方法签名完整性的前提下，提供了额外的功能。OO原则之开放-关闭原则------对外扩展开放，对修改关闭，即不修改现有代码的情况下，扩充原有类的行为。
 
 ### 代码实例（摘自HeadFirst设计模式上的例子）
 
 ```java
+//定义一个抽象类，为之后的被装饰对象提供一致的数据类型，这里也可以定义一个接口
 public abstract class Beverage{
   String description = "Unknown Beverage";
   
@@ -47,6 +48,7 @@ public abstract class Beverage{
 
 
 ```java
+//装饰者抽象类，需要通过继承获得与被装饰者一致的属性和方法，也就是保持原有类的完整性
 public abstract class CondimentDecorator extends Beverage{
   
   public abstract String getDescription();
@@ -54,6 +56,7 @@ public abstract class CondimentDecorator extends Beverage{
 ```
 
 ```java
+//定义一个被装饰对象，这里的description是从父类继承得到的
 public class Espresso extends Beverage{
   
   public Espresso(){
@@ -69,18 +72,7 @@ public class Espresso extends Beverage{
 ```
 
 ```java
-public class HouseBlend extends Beverage{
-  
-  public HouseBlend(){
-    description = "HouseBlend Coffee";
-  }
-  public double cost(){
-    return .89;
-  }
-}
-```
-
-```java
+//定义一个装饰者类，通过这个装饰者类可以为被装饰对象提供新的功能，比如这里的为咖啡加上摩卡，并计算新的价格
 public class Mocha extends CondimentDecorator{
   
   Beverage beverage;
@@ -101,3 +93,19 @@ public class Mocha extends CondimentDecorator{
 }
 ```
 
+```java
+//代码测试
+public class DecoratorTest{
+  
+  public static void main(String args[]){
+    
+    	Bdverage beverage = new Espresso();
+    	beverage = new Mocha(beverage);
+    	System.out.println("The coffee is"+mocha.getDescription()+" ,The price is "+mocha.cost());
+  }
+}
+```
+
+我这里举的代码例子只使用了一个装饰类，当然还可以继续定义新的装饰类来继续对mocha咖啡进行扩充，例如是否加牛奶，设定容量大小等等。
+
+利用装饰者模式可以更灵活的对某个类的功能进行扩充，用不着派生出无数的子类，对于代码维护挺有好处的。但是装饰者模式会导致在使用过程中出现许多小对象，如果过度使用，会让程序变得很复杂。
