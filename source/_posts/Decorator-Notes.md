@@ -97,7 +97,7 @@ public class Mocha extends CondimentDecorator{
 //代码测试
 public class DecoratorTest{
   
-  public static void main(String args[]){
+  public static void main(String[] args){
     
     	Bdverage beverage = new Espresso();
     	beverage = new Mocha(beverage);
