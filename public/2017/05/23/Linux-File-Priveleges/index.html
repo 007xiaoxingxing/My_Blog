@@ -3,18 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Learn Markdown | STAR-CHEN&#39;s BLOG</title>
+  <title>Linux学习笔记之文件权限 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一级标题哦# 一级标题哦">
+  <meta name="description" content="在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Learn Markdown">
-<meta property="og:url" content="http://blog.star-chen.com/2016/07/22/Learn-Markdown/index.html">
+<meta property="og:title" content="Linux学习笔记之文件权限">
+<meta property="og:url" content="http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="一级标题哦# 一级标题哦">
-<meta property="og:updated_time" content="2016-12-15T07:00:09.421Z">
+<meta property="og:description" content="在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/ls_detail.png">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/linux_umask.png">
+<meta property="og:updated_time" content="2017-05-23T14:45:36.962Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Learn Markdown">
-<meta name="twitter:description" content="一级标题哦# 一级标题哦">
+<meta name="twitter:title" content="Linux学习笔记之文件权限">
+<meta name="twitter:description" content="在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。">
+<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/ls_detail.png">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -221,11 +224,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Learn-Markdown" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Linux-File-Priveleges" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/22/Learn-Markdown/" class="article-date">
-      <time datetime="2016-07-22T14:29:18.000Z" itemprop="datePublished">2016-07-22</time>
+      <a href="/2017/05/23/Linux-File-Priveleges/" class="article-date">
+      <time datetime="2017-05-23T09:32:43.000Z" itemprop="datePublished">2017-05-23</time>
 </a>
     </div>
   
@@ -238,7 +241,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Learn Markdown
+      Linux学习笔记之文件权限
     </h1>
   
 
@@ -246,10 +249,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markdown/">markdown</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/入坑/">入坑</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习笔记/">学习笔记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件权限/">文件权限</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -259,26 +266,81 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="一级标题哦"><a href="#一级标题哦" class="headerlink" title="一级标题哦"></a>一级标题哦</h1><p><code># 一级标题哦</code><br><a id="more"></a></p>
-<h1 id="列表哦"><a href="#列表哦" class="headerlink" title="列表哦"></a>列表哦</h1><ul>
-<li>无序列表1</li>
-<li>无序列表2</li>
+        <p>在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。</p>
+<a id="more"></a>
+<h3 id="理解ls命令的输出"><a href="#理解ls命令的输出" class="headerlink" title="理解ls命令的输出"></a>理解ls命令的输出</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@vultr etc]<span class="comment"># ls -la</span></div><div class="line">total 1660</div><div class="line">drwxr-xr-x 85 root  root   4096 May 22 07:14 .</div><div class="line">dr-xr-xr-x 18 root  root   4096 Dec 16 14:24 ..</div><div class="line">-rw-r--r--  1 root  root     16 Nov 14  2016 adjtime</div><div class="line">-rw-r--r--  1 root  root   1518 Jun  7  2013 aliases</div><div class="line">-rw-r--r--  1 root  root  12288 Dec 27 09:14 aliases.db</div><div class="line">drwxr-xr-x  2 root  root   4096 Mar 11 04:11 alternatives</div><div class="line">-rw-r--r--  1 root  root     55 Nov  4  2016 asound.conf</div><div class="line">drwxr-xr-x  2 root  root   4096 Dec 16 14:26 avahi</div><div class="line">drwxr-xr-x  2 root  root   4096 May 22 07:31 bash_completion.d</div><div class="line">-rw-r--r--  1 root  root   2853 Nov  5  2016 bashrc</div><div class="line">drwxr-xr-x  2 root  root   4096 Mar  3 03:23 binfmt.d</div><div class="line">-rw-r--r--  1 root  root     38 Nov 29 18:12 centos-release</div><div class="line">-rw-r--r--  1 root  root     51 Nov 29 18:12 centos-release-upstream</div></pre></td></tr></table></figure>
+<p>上面是我查看/etc目录下的文件时的部分输出。其输出结果有七个字段，下面来具体解释一下具体含义：</p>
+<h4 id="第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。"><a href="#第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。" class="headerlink" title="第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。"></a>第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。</h4><p>这个字段的第一个字符代表的含义有以下几种情况：</p>
+<ul>
+<li>-代表文件；例子：-rw-r–r–  1 root  root   2853 Nov  5  2016 bashrc，表示bashrc是一个文件</li>
+<li>d代表目录；例子：drwxr-xr-x  2 root  root   4096 Mar  3 03:23 binfmt.d，表示binfmt.d是一个目录</li>
+<li>l代表链接；例子：lrwxrwxrwx  1 root root          25 Jan  7 13:32 initctl -&gt; /run/systemd/initctl/fifo，表示inictl是一个链接到/run/systemd/initctl/fifo的链接</li>
+<li>c代表字符设备；例子：crw–w—-  1 root tty       4,   6 Jan  7 13:32 tty6，表示tty6是一个字符设备</li>
+<li>b代表块设备；例子：brw-rw—-   1 root disk    253,   0 4月  13 19:25 vda，表示vda是一个块设备，它其实这台云服务器的硬盘。</li>
+<li>s代表socket文件；例子：srwxrwxrwx   1 mysql mysql        0 4月  13 19:25 mysql.sock，mysql.sock就是一个socket文件。</li>
+<li>p代表管道文件；</li>
 </ul>
-<p><code>- 列表</code></p>
-<ol>
-<li>有序列表1</li>
-<li>有序列表2<br><code>1.空格 列表名称</code></li>
-</ol>
-<hr>
-<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>引用操作即在引用内容之前加<code>&gt;</code>即可<br>例如：</p>
+<p>之后的3组三字符的编码：rwxr-xr-x，表示了该文件的三重访问权限</p>
+<ul>
+<li>r代表对象是可读的；</li>
+<li>w代表对象是可写的；</li>
+<li>x代表对象是可执行的;</li>
+</ul>
+<p>如果没有某种权限，在该权限的位置会出现单破折线。这3组权限分别对应3个安全级别：</p>
+<ul>
+<li>对象的属主，也就是文件的所有者；</li>
+<li>对象的属组，也就是文件所有者所在的用户组；</li>
+<li>系统其他用户；</li>
+</ul>
+<p>理论上就是这样子了，我们去找个实际的例子来分析一下：</p>
 <blockquote>
-<p>这是引用内容哦，亲</p>
+<p>例子：drwxr-xr-x  2 root  root   4096 Mar 11 04:11 alternatives</p>
 </blockquote>
-<h1 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h1><p>链接用<code>[]()</code>表示，例如：<code>[Google](https://www.google.com)</code><br><a href="https://www.baidu.com" target="_blank" rel="external">百度</a></p>
-<h1 id="kkk"><a href="#kkk" class="headerlink" title="kkk"></a>kkk</h1><figure class="highlight java" data-lang=" java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">animal</span></span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">private</span> <span class="title">void</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">      System.out.println(<span class="string">"Hello World"</span>);</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="hello-python"><a href="#hello-python" class="headerlink" title="hello python"></a>hello python</h1><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#-*coding=utf-8-*</span></div><div class="line"><span class="keyword">import</span> urllib2</div><div class="line"><span class="keyword">import</span> base64</div><div class="line"><span class="keyword">import</span> pwn</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">welcome</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">print</span> <span class="string">"Hello python"</span></div></pre></td></tr></table></figure>
-<h1 id="hello-cpp"><a href="#hello-cpp" class="headerlink" title="hello cpp"></a>hello cpp</h1><figure class="highlight cpp" data-lang=" cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">mian</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">  <span class="built_in">cout</span>&lt;&lt;<span class="string">"hello world!"</span>;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<p><img src="/blogimg/ls_detail.png" alt="image"></p>
+<p>但是有时候我们更改文件权限是由三位数字来表示的，例如”chmod 755 file”，这又是怎么回事呢？这里有一张表可以参考一下：</p>
+<p><img src="/blogimg/linux_umask.png" alt="image"></p>
+<p>把权限类型弄明白了，然后学习一下怎么更改Linux的文件权限的命令吧。</p>
+<p>chmod:用于改变文件的权限，SUID,SGID,SBIT等等</p>
+<ol>
+<li><p>chmod命令的格式</p>
+<blockquote>
+<p>chmod options mode file</p>
+</blockquote>
+<p>mode参数后边可以跟上八进制模式或符号模式来设置文件权限</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #原本file_test的权限为644</span></div><div class="line">-rw-r--r-- 1 root apache 0 5月  23 21:55 file_<span class="built_in">test</span></div><div class="line">[root@VM_0_49_centos ~]<span class="comment"># chmod 760 file_test </span></div><div class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #更改后为760</span></div><div class="line">-rwxrw---- 1 root apache 0 5月  23 21:55 file_<span class="built_in">test</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>chmod还有另外一种表示方式，较为复杂一些，命令格式如下：</p>
+<blockquote>
+<p>chmod [ugoa…][+-=][rwxXstugo…]</p>
+</blockquote>
+<p>这样虽然复杂一些，但是更容易理解不是吗？</p>
+<ul>
+<li>u  代表用户</li>
+<li>g  代表组</li>
+<li>o  代表拥有者</li>
+<li>a  代表上述所有</li>
+</ul>
+<p>接下来的符号表示你是想在现有权限的基础上增加权限（+），还是移除权限（-），还是将权限设置为后面的值（=）</p>
+<p>最后的符号代表你想赋予的权限。详细的有：</p>
+<ul>
+<li>X  如果对象是目录或者它已经有执行权限，则赋予执行权限</li>
+<li>s  运行时重新设置UID或GID</li>
+<li>t  保留文件或目录</li>
+<li>u  将权限设置为属主一样</li>
+<li>g  将权限设置为跟属组一样</li>
+<li>o  将权限设置为跟其他用户一样</li>
+</ul>
+<p>举个栗子：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ chmod o+r newfile <span class="comment">#给文件所有者加上读权限</span></div></pre></td></tr></table></figure>
+<h4 id="第二个字段表示该文件的链接数，包括硬链接和软链接"><a href="#第二个字段表示该文件的链接数，包括硬链接和软链接" class="headerlink" title="第二个字段表示该文件的链接数，包括硬链接和软链接"></a>第二个字段表示该文件的链接数，包括硬链接和软链接</h4><p>创建软链接：ln -s</p>
+<p>创建硬链接：ln</p>
+<h4 id="第三个字段表示该文件的所有者"><a href="#第三个字段表示该文件的所有者" class="headerlink" title="第三个字段表示该文件的所有者"></a>第三个字段表示该文件的所有者</h4><p>文件所有者可以通过chown命令来更改。命令格式：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$  chown [OPTION]... [OWNER][:[GROUP]] FILE...</div></pre></td></tr></table></figure>
+<p>当然，chown也可以同时更改文件所属的组。-R参数可以递归的更改子目录和文件的所属关系，-h参数可以改变文件的所有符号链接文件的所属关系。</p>
+<h4 id="第四个字段表示该文件所在的用户组"><a href="#第四个字段表示该文件所在的用户组" class="headerlink" title="第四个字段表示该文件所在的用户组"></a>第四个字段表示该文件所在的用户组</h4><p>文件所属的用户组可通过chgrp来进行更改。命令格式：</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$   chgrp [OPTION]... GROUP FILE...</div></pre></td></tr></table></figure>
+<h4 id="第五个字段表示该文件的文件大小，单位字节"><a href="#第五个字段表示该文件的文件大小，单位字节" class="headerlink" title="第五个字段表示该文件的文件大小，单位字节"></a>第五个字段表示该文件的文件大小，单位字节</h4><h4 id="第六个字段表示文件的修改时间"><a href="#第六个字段表示文件的修改时间" class="headerlink" title="第六个字段表示文件的修改时间"></a>第六个字段表示文件的修改时间</h4><h4 id="第七个字段表示文件名"><a href="#第七个字段表示文件名" class="headerlink" title="第七个字段表示文件名"></a>第七个字段表示文件名</h4>
       
     </div>
     
@@ -286,13 +348,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></p>
+        <p><span>本文标题:</span><a href="/2017/05/23/Linux-File-Priveleges/">Linux学习笔记之文件权限</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年07月22日 - 22时29分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 15时00分</p>
+        <p><span>发布时间:</span>2017年05月23日 - 17时32分</p>
+        <p><span>最后更新:</span>2017年05月23日 - 22时45分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/22/Learn-Markdown/" title="Learn Markdown">http://blog.star-chen.com/2016/07/22/Learn-Markdown/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/07/22/Learn-Markdown/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/23/Linux-File-Priveleges/" title="Linux学习笔记之文件权限">http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -305,18 +367,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/11/20/GDB-peda/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          在Ubuntu16.04上配置peda
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2017/05/22/SSH-LOG-USER/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">修改OpenSSH源码，记录爆破SSH端口的密码</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -327,7 +380,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一级标题哦"><span class="toc-number">1.</span> <span class="toc-text">一级标题哦</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#列表哦"><span class="toc-number">2.</span> <span class="toc-text">列表哦</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#引用"><span class="toc-number">3.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#图片与链接"><span class="toc-number">4.</span> <span class="toc-text">图片与链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kkk"><span class="toc-number">5.</span> <span class="toc-text">kkk</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hello-python"><span class="toc-number">6.</span> <span class="toc-text">hello python</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hello-cpp"><span class="toc-number">7.</span> <span class="toc-text">hello cpp</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#理解ls命令的输出"><span class="toc-number">1.</span> <span class="toc-text">理解ls命令的输出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。"><span class="toc-number">1.1.</span> <span class="toc-text">第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二个字段表示该文件的链接数，包括硬链接和软链接"><span class="toc-number">1.2.</span> <span class="toc-text">第二个字段表示该文件的链接数，包括硬链接和软链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三个字段表示该文件的所有者"><span class="toc-number">1.3.</span> <span class="toc-text">第三个字段表示该文件的所有者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四个字段表示该文件所在的用户组"><span class="toc-number">1.4.</span> <span class="toc-text">第四个字段表示该文件所在的用户组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五个字段表示该文件的文件大小，单位字节"><span class="toc-number">1.5.</span> <span class="toc-text">第五个字段表示该文件的文件大小，单位字节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第六个字段表示文件的修改时间"><span class="toc-number">1.6.</span> <span class="toc-text">第六个字段表示文件的修改时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第七个字段表示文件名"><span class="toc-number">1.7.</span> <span class="toc-text">第七个字段表示文件名</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -375,7 +428,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/07/22/Learn-Markdown/" data-title="Learn Markdown" data-url="http://blog.star-chen.com/2016/07/22/Learn-Markdown/"></div>
+    <div class="ds-thread" data-thread-key="2017/05/23/Linux-File-Priveleges/" data-title="Linux学习笔记之文件权限" data-url="http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -398,13 +451,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/20/GDB-peda/" title="上一篇: 在Ubuntu16.04上配置peda">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/07/21/hello-world/" title="下一篇: Hello World">
+            <a href="/2017/05/22/SSH-LOG-USER/" title="下一篇: 修改OpenSSH源码，记录爆破SSH端口的密码">
                 <i class="fa fa-angle-right"></i>
             </a>
         

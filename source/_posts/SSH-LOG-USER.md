@@ -171,131 +171,68 @@ dic_file.close()
 
 ```tex
 root 1291
-
 root tomcat14
-
 root mamo
-
 root jocelyn
-
 root jobs123
-
 root joachim
-
 root adminka
-
 root d1gital
-
 root barramundi
-
 root dammit
-
 root lubis
-
 root i81b4u81
-
 root jmi@123
-
 root jira321
-
 root jira123
-
 root nokia
-
 root damas
-
 root liltunechi
-
 admin admin
-
 admin default
-
 admin letmein
-
 root hoffmann
-
 root technotron
-
 root tartaro
-
 root jingyun
-
 root jillian
-
 root jignesh
-
 root merengue
-
 root lucas
-
 root miguel
-
 root eurotrade
-
 root yudi
-
 root merovingian
-
 root bazin
-
 root spider
-
 root royal
-
 root jiayuan
-
 root jiamima
-
 root jhon123
-
 root 1597534682
-
 root cintakamu
-
 root derparol
-
 root all4you
-
 root sun126
-
 root lennartz
-
 root jhon!@#
-
 root jhengyu
-
 root jessica
-
 root abcd123$
-
 root qq2008
-
 root 0003
-
 root zzic
-
 root surya22
-
 root aze123
-
 root carota
-
 root millcreek
-
 root mecate
-
 root jenkins
-
 root jenk1ns
-
 root jenifer
-
 root rushed
-
 root laliaku
-
 root moneytalk
-
 root lawless
 .
 .
