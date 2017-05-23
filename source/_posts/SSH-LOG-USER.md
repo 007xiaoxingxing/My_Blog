@@ -138,3 +138,167 @@ Executing /sbin/chkconfig sshd on
 ![image](/blogimg/openssh-code.png)
 
 可以从日志中已经有黑客的爆破密码记录了。嗯，自己送上门来的字典，为什么不收着呢？
+
+2017.5.23  新增
+
+为了提取出日志中的用户名和密码，顺手写了个python脚本来进行处理：
+
+```python
+# -*- coding:utf-8 -*-
+import re
+
+pattern = re.compile(r'user=(.*),pass=(.*) ')
+
+f = open("m.data")
+dic_file = open("ssh_dic.txt","w+")
+tmp= f.readline()
+while tmp:
+    match = re.findall(pattern,tmp)
+    if match:
+        user = match[0][0]
+        passwd = match[0][1]
+        #print user,passwd
+        dic_file.writelines("%s %s\r\n"%(user,passwd))
+        
+    tmp = f.readline()
+    
+f.close()
+dic_file.close()
+
+```
+
+记录了一天，获得的一小部分成果：
+
+```tex
+root 1291
+
+root tomcat14
+
+root mamo
+
+root jocelyn
+
+root jobs123
+
+root joachim
+
+root adminka
+
+root d1gital
+
+root barramundi
+
+root dammit
+
+root lubis
+
+root i81b4u81
+
+root jmi@123
+
+root jira321
+
+root jira123
+
+root nokia
+
+root damas
+
+root liltunechi
+
+admin admin
+
+admin default
+
+admin letmein
+
+root hoffmann
+
+root technotron
+
+root tartaro
+
+root jingyun
+
+root jillian
+
+root jignesh
+
+root merengue
+
+root lucas
+
+root miguel
+
+root eurotrade
+
+root yudi
+
+root merovingian
+
+root bazin
+
+root spider
+
+root royal
+
+root jiayuan
+
+root jiamima
+
+root jhon123
+
+root 1597534682
+
+root cintakamu
+
+root derparol
+
+root all4you
+
+root sun126
+
+root lennartz
+
+root jhon!@#
+
+root jhengyu
+
+root jessica
+
+root abcd123$
+
+root qq2008
+
+root 0003
+
+root zzic
+
+root surya22
+
+root aze123
+
+root carota
+
+root millcreek
+
+root mecate
+
+root jenkins
+
+root jenk1ns
+
+root jenifer
+
+root rushed
+
+root laliaku
+
+root moneytalk
+
+root lawless
+.
+.
+.
+```
+
