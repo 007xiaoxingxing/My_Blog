@@ -1,6 +1,6 @@
 ---
 title: CentOS 7.2 搭建lnmp环境
-date: 2017.3.11 11：08：20
+date: 2017.3.11 11:08:20
 categories: Linux
 tags:
 - CentOS

@@ -1,6 +1,6 @@
 ---
 title: MariaDB创建新用户、新数据库并允许特定用户远程访问
-date: 2017.3.11 11 13:43
+date: 2017.3.11 13:43
 categories: Linux
 tags:
 - MariaDB
