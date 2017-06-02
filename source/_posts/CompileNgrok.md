@@ -21,7 +21,7 @@ date: 2017-06-02 11:12:12
 
 ### 准备工作
 
-1. 在服务器上搭建go环境
+1.在服务器上搭建go环境
 
 我选择直接下载go的源码
 
@@ -47,20 +47,20 @@ date: 2017-06-02 11:12:12
 
 到此，go环境就搭建好了。
 
-2. 克隆ngrok的git仓库到本地
+2.克隆ngrok的git仓库到本地
 
 ```bash
 [root@vultr ngrok_compile]# git clone https://github.com/inconshreveable/ngrok.git
 ```
 
-3. 设置一些编译所需的环境变量
+3.设置一些编译所需的环境变量
 
 ```bash
 [root@vultr ngrok]# export GOPATH=/opt/ngrok_compile/ngrok/
 [root@vultr ngrok]# export NGROK_DOMAIN="ngrok.star-chen.com"
 ```
 
-4. 为域名生成证书
+4.为域名生成证书
 
 ```bash
 [root@vultr ngrok_compile]# cd ngrok
@@ -74,8 +74,7 @@ date: 2017-06-02 11:12:12
 [root@vultr ngrok]# openssl req -new -key server.key -subj "/CN=$NGROK_DOMAIN" -out server.csr
 [root@vultr ngrok]# openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 5000
 ```
-
-5. 把生成的证书拷贝到指定的目录下
+5.把生成的证书拷贝到指定的目录下
 
 ```bash
 [root@vultr ngrok]# cp rootCA.pem assets/client/tls/ngrokroot.crt 

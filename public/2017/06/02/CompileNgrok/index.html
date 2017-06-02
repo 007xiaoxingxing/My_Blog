@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
 <meta property="og:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/fan.png">
-<meta property="og:updated_time" content="2017-06-02T04:11:45.064Z">
+<meta property="og:updated_time" content="2017-06-02T04:28:35.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在自己的VPS上编译部署Ngrok">
 <meta name="twitter:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
@@ -272,9 +272,7 @@
 <p>——-github上作者对ngrok的说明</p>
 </blockquote>
 <p>简单的来说，ngrok就是一个反向代理，可以通过公网服务器来和本地内网机器之间建立一个隧道，使得可以从外网访问内网的服务。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
-<li>在服务器上搭建go环境</li>
-</ol>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>1.在服务器上搭建go环境</p>
 <p>我选择直接下载go的源码</p>
 <blockquote>
 <p> <a href="http://www.golangtc.com/download" target="_blank" rel="external">http://www.golangtc.com/download</a> </p>
@@ -286,21 +284,13 @@
 <p>为go创建个软连接到/usr/bin，方便直接使用go命令</p>
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># ln -s /usr/local/go/bin/* /usr/bin</span></div></pre></td></tr></table></figure>
 <p>到此，go环境就搭建好了。</p>
-<ol>
-<li>克隆ngrok的git仓库到本地</li>
-</ol>
+<p>2.克隆ngrok的git仓库到本地</p>
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># git clone https://github.com/inconshreveable/ngrok.git</span></div></pre></td></tr></table></figure>
-<ol>
-<li>设置一些编译所需的环境变量</li>
-</ol>
+<p>3.设置一些编译所需的环境变量</p>
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok]<span class="comment"># export GOPATH=/opt/ngrok_compile/ngrok/</span></div><div class="line">[root@vultr ngrok]<span class="comment"># export NGROK_DOMAIN="ngrok.star-chen.com"</span></div></pre></td></tr></table></figure>
-<ol>
-<li>为域名生成证书</li>
-</ol>
+<p>4.为域名生成证书</p>
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># cd ngrok</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out rootCA.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" days 5000 -out rootCA.pem</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out rootCA.pem</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl -genrsa -out sever.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out sever.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj "/CN=$NGROK_DOMAIN" -out server.csr</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out server.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj "/CN=$NGROK_DOMAIN" -out server.csr</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 5000</span></div></pre></td></tr></table></figure>
-<ol>
-<li>把生成的证书拷贝到指定的目录下</li>
-</ol>
+<p>5.把生成的证书拷贝到指定的目录下</p>
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok]<span class="comment"># cp rootCA.pem assets/client/tls/ngrokroot.crt </span></div><div class="line">[root@vultr ngrok]<span class="comment"># cp server.crt assets/server/tls/snakeoil.crt </span></div><div class="line">[root@vultr ngrok]<span class="comment"># cp server.key assets/server/tls/snakeoil.key</span></div></pre></td></tr></table></figure>
 <p>6.为域名设置A记录泛解析</p>
 <p><img src="/blogimg/fan.png" alt="img"></p>
@@ -330,7 +320,7 @@
         <p><span>本文标题:</span><a href="/2017/06/02/CompileNgrok/">在自己的VPS上编译部署Ngrok</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年06月02日 - 11时12分</p>
-        <p><span>最后更新:</span>2017年06月02日 - 12时11分</p>
+        <p><span>最后更新:</span>2017年06月02日 - 12时28分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/06/02/CompileNgrok/" title="在自己的VPS上编译部署Ngrok">http://blog.star-chen.com/2017/06/02/CompileNgrok/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/06/02/CompileNgrok/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
