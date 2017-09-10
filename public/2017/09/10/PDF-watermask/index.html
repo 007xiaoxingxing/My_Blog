@@ -3,24 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>利用Python的PIL截屏 | STAR-CHEN&#39;s BLOG</title>
+  <title>利用iTextSharp向pdf文件中添加图片水印 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x1：在Windows 64位系统上安装python的PIL库Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。Win 64 PIL下载地址 下载下来会发现是.whl扩展名。其安装方法：  
-1pip install Pillow-3.4.2-cp27-cp27m-win_amd64.whl
-0x2:利用PIL截屏123from">
+  <meta name="description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Python的PIL截屏">
-<meta property="og:url" content="http://blog.star-chen.com/2016/12/04/PIL-Grab/index.html">
+<meta property="og:title" content="利用iTextSharp向pdf文件中添加图片水印">
+<meta property="og:url" content="http://blog.star-chen.com/2017/09/10/PDF-watermask/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="0x1：在Windows 64位系统上安装python的PIL库Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。Win 64 PIL下载地址 下载下来会发现是.whl扩展名。其安装方法：  
-1pip install Pillow-3.4.2-cp27-cp27m-win_amd64.whl
-0x2:利用PIL截屏123from">
-<meta property="og:updated_time" content="2016-12-15T07:00:09.422Z">
+<meta property="og:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
+<meta property="og:updated_time" content="2017-09-10T03:23:10.662Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用Python的PIL截屏">
-<meta name="twitter:description" content="0x1：在Windows 64位系统上安装python的PIL库Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。Win 64 PIL下载地址 下载下来会发现是.whl扩展名。其安装方法：  
-1pip install Pillow-3.4.2-cp27-cp27m-win_amd64.whl
-0x2:利用PIL截屏123from">
+<meta name="twitter:title" content="利用iTextSharp向pdf文件中添加图片水印">
+<meta name="twitter:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -227,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-PIL-Grab" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-PDF-watermask" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/04/PIL-Grab/" class="article-date">
-      <time datetime="2016-12-04T02:23:02.000Z" itemprop="datePublished">2016-12-04</time>
+      <a href="/2017/09/10/PDF-watermask/" class="article-date">
+      <time datetime="2017-09-10T03:18:30.000Z" itemprop="datePublished">2017-09-10</time>
 </a>
     </div>
   
@@ -244,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      利用Python的PIL截屏
+      利用iTextSharp向pdf文件中添加图片水印
     </h1>
   
 
@@ -259,7 +253,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PIL/">PIL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-pdf/">C# pdf</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -269,10 +263,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="0x1：在Windows-64位系统上安装python的PIL库"><a href="#0x1：在Windows-64位系统上安装python的PIL库" class="headerlink" title="0x1：在Windows 64位系统上安装python的PIL库"></a>0x1：在Windows 64位系统上安装python的PIL库</h3><p>Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="external">Win 64 PIL下载地址</a> 下载下来会发现是.whl扩展名。其安装方法：  </p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install Pillow-<span class="number">3</span>.<span class="number">4</span>.<span class="number">2</span>-cp27-cp27m-win_amd64.whl</div></pre></td></tr></table></figure>
-<h3 id="0x2-利用PIL截屏"><a href="#0x2-利用PIL截屏" class="headerlink" title="0x2:利用PIL截屏"></a>0x2:利用PIL截屏</h3><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab</div><div class="line">image=ImageGrab.grab()</div><div class="line">image.save(<span class="string">"E:/grab.jpg"</span>,<span class="string">"jpeg"</span>)</div></pre></td></tr></table></figure>
-<p>仅仅需要简单的两行代码就可以实现截取整个屏幕并保存为文件，很方便。grab方法还可以指定参数，截取屏幕某坐标范围内的内容。</p>
+        <p>由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。</p>
+<a id="more"></a>
+<p>怎么加载iTextSharp库就不啰嗦了，这里贴一下添加图片水印的代码，以防忘记。</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">String srcPdf = &quot;I:\\文档文件\\xxx.pdf&quot;;</div><div class="line">         String dstPdf = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxxx.pdf&quot;;</div><div class="line">         String imagepath = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxx\\qrcode.jpg&quot;;</div><div class="line">         iTextSharp.text.Image img = Image.GetInstance(imagepath);</div><div class="line">         PdfReader reader = new PdfReader(srcPdf);</div><div class="line">         PdfStamper stamp = new PdfStamper(reader, new FileStream(dstPdf, FileMode.Create));</div><div class="line"></div><div class="line">         PdfContentByte page;</div><div class="line">         float width = reader.GetPageSize(1).Width;</div><div class="line">         float height = reader.GetPageSize(1).Height;</div><div class="line">         int num = reader.NumberOfPages;</div><div class="line">         int margin = 100;</div><div class="line">         img.ScalePercent(20);</div><div class="line">         </div><div class="line">         for (int i = 1; i &lt;= num; ++i)</div><div class="line">         &#123;</div><div class="line">             page = stamp.GetOverContent(i);</div><div class="line"></div><div class="line">             img.SetAbsolutePosition(width-img.ScaledWidth-10,10);//设置图片插入的位置，左下角为坐标系（0，0）位置</div><div class="line">             page.AddImage(img);</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         stamp.Close();</div><div class="line">         reader.Close();</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -281,13 +275,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></p>
+        <p><span>本文标题:</span><a href="/2017/09/10/PDF-watermask/">利用iTextSharp向pdf文件中添加图片水印</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年12月04日 - 10时23分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 15时00分</p>
+        <p><span>发布时间:</span>2017年09月10日 - 11时18分</p>
+        <p><span>最后更新:</span>2017年09月10日 - 11时23分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/12/04/PIL-Grab/" title="利用Python的PIL截屏">http://blog.star-chen.com/2016/12/04/PIL-Grab/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/04/PIL-Grab/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/10/PDF-watermask/" title="利用iTextSharp向pdf文件中添加图片水印">http://blog.star-chen.com/2017/09/10/PDF-watermask/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/09/10/PDF-watermask/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -300,18 +294,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/12/04/Github-Webhook/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          利用Github的webhook和tornado实现代码自动部署
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/30/Github-Add-SSHKEY/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">github配置ssh key</div>
+    <a href="/2017/09/09/OpenWrt-HelloWorl/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OpenWRT软件开发-----软件包HeeloWorld的构建</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -322,7 +307,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1：在Windows-64位系统上安装python的PIL库"><span class="toc-number">1.</span> <span class="toc-text">0x1：在Windows 64位系统上安装python的PIL库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-利用PIL截屏"><span class="toc-number">2.</span> <span class="toc-text">0x2:利用PIL截屏</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -370,7 +355,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/12/04/PIL-Grab/" data-title="利用Python的PIL截屏" data-url="http://blog.star-chen.com/2016/12/04/PIL-Grab/"></div>
+    <div class="ds-thread" data-thread-key="2017/09/10/PDF-watermask/" data-title="利用iTextSharp向pdf文件中添加图片水印" data-url="http://blog.star-chen.com/2017/09/10/PDF-watermask/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -393,13 +378,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/12/04/Github-Webhook/" title="上一篇: 利用Github的webhook和tornado实现代码自动部署">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/30/Github-Add-SSHKEY/" title="下一篇: github配置ssh key">
+            <a href="/2017/09/09/OpenWrt-HelloWorl/" title="下一篇: OpenWRT软件开发-----软件包HeeloWorld的构建">
                 <i class="fa fa-angle-right"></i>
             </a>
         
