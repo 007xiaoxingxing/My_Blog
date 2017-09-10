@@ -1,13 +1,13 @@
 ---
-title: OpenWRT软件开发-----软件包HeeloWorld的构建
+title: OpenWrt软件开发-----软件包HelloWorld的构建
 categories:
   - Linux
 tags:
-  - OpenWRT
+  - OpenWrt
 date: 2017-09-09 15:24:56
 ---
 
-OpenWrt提供了方便的机制来让用用户可以扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。
+OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。
 
 <!--more-->
 
