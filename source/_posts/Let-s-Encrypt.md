@@ -68,7 +68,7 @@ tags:
 CA在颁发证书时，需要验证域名的所有权，证明你对该域名所在的服务器有操作的权限。Let's Encrypt采用的是服务器上生成一个随机验证文件，再访问CSR中填写的域名，如果访问成功，则证明你对该域名有所有权。为了偷懒，我就不像那位博主一样建立单独的目录了，而是直接在我的web根目录建立一个隐藏目录，用来存放之后生成的随机验证文件。
 
 ```bash
-#mkdir -p /var/blog/.well-known/acme-chanllenge //建立验证文件存放目录
+#mkdir -p /var/blog/.well-known/acme-challenge //建立验证文件存放目录
 ```
 
 4. 获取HTTPS证书
@@ -112,6 +112,23 @@ python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /v
    ​
 
    因为Let's Encrypt签发的证书的有效期只有90天，需要定时使用脚本进行更新。就是把上面的获取过程写进一个脚本，设置crontab，让其自动执行更新即可。我也不确定这台服务器我会续费到多久，暂时先用着吧。  
+
+   ----后续，续期证书的脚本
+
+   ```bash
+   #!/bin/bash
+   openssl genrsa 4096 > account.key
+   openssl genrsa 4096 > domain,key
+   openssl req -new -sha256 -key domain.key -out domain.csr
+   python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/www/blog/.well-known/acme-challenge/ > ./signed.crt
+   wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
+   cat signed.crt intermediate.pem > chained.pem
+   wget -O - https://letsencrypt.org/certs/isrgrootx1.pem > root.pem
+   cat intermediate.pem root.pem > full_chained.pem
+
+   ```
+
+   ​
 
 ### 0x3 That's All
 

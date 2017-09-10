@@ -15,7 +15,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
 <meta property="og:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
 
 HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
-<meta property="og:updated_time" content="2016-12-15T09:14:38.096Z">
+<meta property="og:updated_time" content="2017-09-10T05:41:11.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Let's Encrypt && Nginx配置证书，实现https访问">
 <meta name="twitter:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议
@@ -307,7 +307,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
 <li>配置验证服务</li>
 </ol>
 <p>CA在颁发证书时，需要验证域名的所有权，证明你对该域名所在的服务器有操作的权限。Let’s Encrypt采用的是服务器上生成一个随机验证文件，再访问CSR中填写的域名，如果访问成功，则证明你对该域名有所有权。为了偷懒，我就不像那位博主一样建立单独的目录了，而是直接在我的web根目录建立一个隐藏目录，用来存放之后生成的随机验证文件。</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#mkdir -p /var/blog/.well-known/acme-chanllenge //建立验证文件存放目录</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#mkdir -p /var/blog/.well-known/acme-challenge //建立验证文件存放目录</span></div></pre></td></tr></table></figure>
 <ol>
 <li>获取HTTPS证书</li>
 </ol>
@@ -325,6 +325,9 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
 <figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssl_certificate     ~/ssl/chained.pem;</div><div class="line">ssl_certificate_key ~/ssl/domain.key;</div></pre></td></tr></table></figure>
 <p>​</p>
 <p>因为Let’s Encrypt签发的证书的有效期只有90天，需要定时使用脚本进行更新。就是把上面的获取过程写进一个脚本，设置crontab，让其自动执行更新即可。我也不确定这台服务器我会续费到多久，暂时先用着吧。  </p>
+<p>—-后续，续期证书的脚本</p>
+<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">openssl genrsa 4096 &gt; account.key</div><div class="line">openssl genrsa 4096 &gt; domain,key</div><div class="line">openssl req -new -sha256 -key domain.key -out domain.csr</div><div class="line">python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/www/blog/.well-known/acme-challenge/ &gt; ./signed.crt</div><div class="line">wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem &gt; intermediate.pem</div><div class="line">cat signed.crt intermediate.pem &gt; chained.pem</div><div class="line">wget -O - https://letsencrypt.org/certs/isrgrootx1.pem &gt; root.pem</div><div class="line">cat intermediate.pem root.pem &gt; full_chained.pem</div></pre></td></tr></table></figure>
+<p>​</p>
 </li>
 </ol>
 <h3 id="0x3-That’s-All"><a href="#0x3-That’s-All" class="headerlink" title="0x3 That’s All"></a>0x3 That’s All</h3><p>经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，<em>It’s Encrypt!</em>  </p>
@@ -340,7 +343,7 @@ HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一�
         <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 15时01分</p>
-        <p><span>最后更新:</span>2016年12月15日 - 17时14分</p>
+        <p><span>最后更新:</span>2017年09月10日 - 13时41分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
