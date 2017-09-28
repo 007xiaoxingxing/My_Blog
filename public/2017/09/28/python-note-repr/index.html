@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tornado框架中的Requesthandler | STAR-CHEN&#39;s BLOG</title>
+  <title>Python学习笔记之----repr()函数 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+  <meta name="description" content="在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tornado框架中的Requesthandler">
-<meta property="og:url" content="http://blog.star-chen.com/2016/12/15/tornado-requesthandler/index.html">
+<meta property="og:title" content="Python学习笔记之----repr()函数">
+<meta property="og:url" content="http://blog.star-chen.com/2017/09/28/python-note-repr/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
-<meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_form.png">
-<meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_success.png">
-<meta property="og:updated_time" content="2016-12-16T05:31:33.444Z">
+<meta property="og:description" content="在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：">
+<meta property="og:updated_time" content="2017-09-28T11:55:41.503Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tornado框架中的Requesthandler">
-<meta name="twitter:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
-<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/tornado_up_form.png">
+<meta name="twitter:title" content="Python学习笔记之----repr()函数">
+<meta name="twitter:description" content="在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -224,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-tornado-requesthandler" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-python-note-repr" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/15/tornado-requesthandler/" class="article-date">
-      <time datetime="2016-12-15T12:24:10.000Z" itemprop="datePublished">2016-12-15</time>
+      <a href="/2017/09/28/python-note-repr/" class="article-date">
+      <time datetime="2017-09-28T11:41:10.000Z" itemprop="datePublished">2017-09-28</time>
 </a>
     </div>
   
@@ -241,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Tornado框架中的Requesthandler
+      Python学习笔记之----repr()函数
     </h1>
   
 
@@ -256,7 +253,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tornado/">tornado</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-note/">python note</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -266,55 +263,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.<br><a id="more"></a></p>
-<h3 id="0x1-RequestHandler是个什么家伙？"><a href="#0x1-RequestHandler是个什么家伙？" class="headerlink" title="0x1:RequestHandler是个什么家伙？"></a>0x1:RequestHandler是个什么家伙？</h3><p>还记得上一个Helloworld工程的代码吗？我们的MainHandler继承了tornado.web.RequestHandler，那么这个RequestHandler到底是何方神圣？它能够干些什么呢？先看看官方提供的文档怎么说：</p>
-<blockquote>
-<p>Subclassing RequestHandler<br>Most of the work of a Tornado web application is done in subclasses of RequestHandler. The main entry point for a handler subclass is a method named after the HTTP method being handled: get(), post(), etc. Each handler may define one or more of these methods to handle different HTTP actions. As described above, these methods will be called with arguments corresponding to the capturing groups of the routing rule that matched.</p>
-<p>Within a handler, call methods such as RequestHandler.render or RequestHandler.write to produce a response. render() loads a Template by name and renders it with the given arguments. write() is used for non-template-based output; it accepts strings, bytes, and dictionaries (dicts will be encoded as JSON).</p>
-<p>Many methods in RequestHandler are designed to be overridden in subclasses and be used throughout the application. It is common to define a BaseHandler class that overrides methods such as write_error and get_current_user and then subclass your own BaseHandler instead of RequestHandler for all your specific handlers.</p>
-</blockquote>
-<p>可以看看得出来，RequestHandler是一个专门用于处理http请求的类。它能够获得用户访问的各种数据，也能够通过write方法等向用户回复响应。所以，应用的具体逻辑应该在RequestHanler的子类中进行，例如查询数据库、加载模版等等。该类的具体描述可参见官方更详尽的介绍<a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler" target="_blank" rel="external">Tornado RequestHandler类文档</a>,这之中详细列出了该类的各成员变量及提供的方法。</p>
-<p>仔细阅读文档之后，我们就可以了解到:  </p>
+        <p>在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：</p>
+<a id="more"></a>
 <ol>
-<li><p>每种类型的http请求方法都有一个对应的方法，例如常见的GET–&gt;get(),POST—&gt;post()。</p>
-</li>
-<li><p>render()方法可以加载模版</p>
-</li>
-<li><p>write()方法可以直接向客户端写入任意内容</p>
-</li>
-<li><p>get_argument()方法可以取得用户提交的某个参数的值</p>
-</li>
-<li><p>用户上传的文件会被转换成files变量，可以对用户上传的文件进行后续处理</p>
-</li>
-<li><p>……..</p>
-<p>有了以上这些内容，我们已经能够完成想完成的任务了。</p>
-</li>
+<li>repr()</li>
 </ol>
-<h3 id="0x2-Demo的需求"><a href="#0x2-Demo的需求" class="headerlink" title="0x2:Demo的需求"></a>0x2:Demo的需求</h3><ol>
-<li><p>接收用户的文件上传请求</p>
-</li>
-<li><p>上传文件的后缀名检查，重命名，保存至指定目录</p>
-</li>
-<li><p>渲染模版，输出用户上传的文件的详细信息</p>
-</li>
-</ol>
-<p>明确了需求，接下来就是编码工作了。</p>
-<h3 id="0x3-具体编码"><a href="#0x3-具体编码" class="headerlink" title="0x3:具体编码"></a>0x3:具体编码</h3><p>python部分代码:</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tornado.web</div><div class="line"><span class="keyword">import</span> tornado.ioloop</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileUPHandler</span><span class="params">(tornado.web.RequestHandler)</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self)</span>:</span></div><div class="line">		origin_descri=self.get_argument(<span class="string">"describe"</span>)</div><div class="line">		origin_user=self.get_argument(<span class="string">"user"</span>)</div><div class="line">		file=self.request.files[<span class="string">'photo'</span>][<span class="number">0</span>]</div><div class="line">		fname=file[<span class="string">'filename'</span>]</div><div class="line">		ftype=file[<span class="string">'content_type'</span>]</div><div class="line">		fbody=file[<span class="string">'body'</span>]</div><div class="line">		fsize=len(fbody)</div><div class="line">		f=open(<span class="string">"upload/"</span>+fname,<span class="string">'w'</span>)</div><div class="line">		f.write(fbody)</div><div class="line">		self.render(<span class="string">"templates/result.html"</span>,size=fsize/(<span class="number">1024</span>),name=fname,user=origin_user,type=ftype)</div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></div><div class="line">		self.render(<span class="string">"templates/upform.html"</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main_app</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> tornado.web.Application([</div><div class="line"></div><div class="line">	(<span class="string">r"/"</span>,FileUPHandler),</div><div class="line">	(<span class="string">r"/upload"</span>,FileUPHandler),</div><div class="line">]) </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">	app = main_app()</div><div class="line">	app.listen(<span class="number">8888</span>)</div><div class="line">	tornado.ioloop.IOLoop.instance().start()</div></pre></td></tr></table></figure>
-<p>html模版部分代码：</p>
-<p>template/upform.html</p>
-<figure class="highlight html" data-lang=" html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Tornado File Upload Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/upload"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></div><div class="line"></div><div class="line">文件用户：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"user"</span>/&gt;</span></div><div class="line"></div><div class="line">文件描述：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"describe"</span>/&gt;</span></div><div class="line"></div><div class="line">请选择文件：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"photo"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"走你!"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>template/result.html</p>
-<figure class="highlight html" data-lang=" html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>The File Information:<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file name:&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>fiel size:&#123;&#123;size&#125;&#125; KB<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>request user:&#123;&#123;user&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file type:&#123;&#123;type&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="0x4-实际验证效果"><a href="#0x4-实际验证效果" class="headerlink" title="0x4:实际验证效果"></a>0x4:实际验证效果</h3><p><img src="/blogimg/tornado_up_form.png" alt="image"></p>
-<p><img src="/blogimg/tornado_up_success.png" alt="image"></p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-vb:~/ProDev/tornado$ ls upload/</div><div class="line">ico.png</div></pre></td></tr></table></figure>
-<p>最后可以看到，上传的文件已经成功的躺在了目标文件夹之中了。  </p>
-<h3 id="0x5-思考"><a href="#0x5-思考" class="headerlink" title="0x5:思考"></a>0x5:思考</h3><p>这个简单的Demo完成用户请求信息的获取，并成功的上传了文件。但是并未进行文件的验证，用户可以上传任意文件，对于服务器君来说，这可是不能忍滴。</p>
-<h3 id="0x6-参考链接"><a href="#0x6-参考链接" class="headerlink" title="0x6 参考链接"></a>0x6 参考链接</h3><p><a href="http://www.tornadoweb.org/en/stable/guide/structure.html" target="_blank" rel="external">http://www.tornadoweb.org/en/stable/guide/structure.html</a></p>
-<p><a href="http://demo.pythoner.com/itt2zh/ch2.html" target="_blank" rel="external">http://demo.pythoner.com/itt2zh/ch2.html</a></p>
-<p><a href="https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/" target="_blank" rel="external">https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/</a></p>
-<p><a href="https://my.oschina.net/chenlei123/blog/127563" target="_blank" rel="external">https://my.oschina.net/chenlei123/blog/127563</a></p>
+<blockquote>
+<p>repr(object) </p>
+<p>Return a string containing a printable representation of an object. This is the same value yielded by conversions (reverse quotes). It is sometimes useful to be able to access this operation as an ordinary function. For many types, this function makes an attempt to return a string that would yield an object with the same value when passed to <a href="#eval"><code>eval()</code></a>, otherwise the representation is a string enclosed in angle brackets that contains the name of the type of the object together with additional information often including the name and address of the object. A class can control what this function returns for its instances by defining a <a href="../reference/datamodel.html#object.__repr__"><code>__repr__()</code></a> method.</p>
+</blockquote>
+<p>2.str()</p>
+<blockquote>
+<p>class  str (object=’’) </p>
+<p>  Return a string containing a nicely printable representation of an object. For strings, this returns the string itself. The difference with <code>repr(object)</code> is that <code>str(object)</code> does not always attempt to return a string that is acceptable to <a href="#eval"><code>eval()</code></a>; its goal is to return a printable string. If no argument is given, returns the empty string, <code>&#39;&#39;</code>.For more information on strings see <a href="stdtypes.html#typesseq">Sequence Types — str, unicode, list, tuple, bytearray, buffer, xrange</a> which describes sequence functionality (strings are sequences), and also the string-specific methods described in the <a href="stdtypes.html#string-methods">String Methods</a> section. To output formatted strings use template strings or the <code>%</code> operator described in the <a href="stdtypes.html#string-formatting">String Formatting Operations</a> section. In addition see the <a href="strings.html#stringservices">String Services</a> section. See also <a href="#unicode"><code>unicode()</code></a>.</p>
+</blockquote>
+<p>简单来说就是str()得到的字符串对象更方便用于人类识别和打印，repr()方法得到的字符串对象更容易被python解释器识别，而且使用repr()方法，这个等式通常是成立的obj == eval(repr(obj))</p>
+<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj = <span class="string">"hello python"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(repr(obj))</div><div class="line"><span class="keyword">True</span></div><div class="line"><span class="comment">#而str()方法则不具备这个功能</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(str(obj))</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">  File <span class="string">"&lt;string&gt;"</span>, line <span class="number">1</span></div><div class="line">    hello python</div><div class="line">               ^</div><div class="line">SyntaxError: unexpected EOF <span class="keyword">while</span> parsing</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -323,13 +287,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></p>
+        <p><span>本文标题:</span><a href="/2017/09/28/python-note-repr/">Python学习笔记之----repr()函数</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年12月15日 - 20时24分</p>
-        <p><span>最后更新:</span>2016年12月16日 - 13时31分</p>
+        <p><span>发布时间:</span>2017年09月28日 - 19时41分</p>
+        <p><span>最后更新:</span>2017年09月28日 - 19时55分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/12/15/tornado-requesthandler/" title="Tornado框架中的Requesthandler">http://blog.star-chen.com/2016/12/15/tornado-requesthandler/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/tornado-requesthandler/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/28/python-note-repr/" title="Python学习笔记之----repr()函数">http://blog.star-chen.com/2017/09/28/python-note-repr/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/09/28/python-note-repr/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -342,18 +306,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/12/16/Observer-Notes/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          设计模式学习之观察者模式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/15/tornado-hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">与Tornado的第一次接触</div>
+    <a href="/2017/09/19/TCP-Echo-Demo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SOCKET编程----Echo Something</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -364,7 +319,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler是个什么家伙？"><span class="toc-number">1.</span> <span class="toc-text">0x1:RequestHandler是个什么家伙？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo的需求"><span class="toc-number">2.</span> <span class="toc-text">0x2:Demo的需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-具体编码"><span class="toc-number">3.</span> <span class="toc-text">0x3:具体编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-实际验证效果"><span class="toc-number">4.</span> <span class="toc-text">0x4:实际验证效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-思考"><span class="toc-number">5.</span> <span class="toc-text">0x5:思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-参考链接"><span class="toc-number">6.</span> <span class="toc-text">0x6 参考链接</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -412,7 +367,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/12/15/tornado-requesthandler/" data-title="Tornado框架中的Requesthandler" data-url="http://blog.star-chen.com/2016/12/15/tornado-requesthandler/"></div>
+    <div class="ds-thread" data-thread-key="2017/09/28/python-note-repr/" data-title="Python学习笔记之----repr()函数" data-url="http://blog.star-chen.com/2017/09/28/python-note-repr/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -435,13 +390,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/12/16/Observer-Notes/" title="上一篇: 设计模式学习之观察者模式">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/12/15/tornado-hello-world/" title="下一篇: 与Tornado的第一次接触">
+            <a href="/2017/09/19/TCP-Echo-Demo/" title="下一篇: SOCKET编程----Echo Something">
                 <i class="fa fa-angle-right"></i>
             </a>
         
