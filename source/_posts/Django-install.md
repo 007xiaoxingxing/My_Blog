@@ -1,5 +1,5 @@
 ---
-title: Django快速上手教程之安装Django
+title: Django快速上手笔记之安装Django
 categories:
   - Program
 tags:
