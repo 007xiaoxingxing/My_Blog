@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Django 查询 | STAR-CHEN&#39;s BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="执行查询一旦你建立好数据模型，Django 会自动为你生成一套数据库抽象的API，可以让你创建、检索、更新和删除对象。这篇文档阐述如何使用这些API。 关于模型查询所有选项的完整细节，请见数据模型参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django 查询">
+<meta property="og:url" content="http://blog.star-chen.com/2017/10/12/DjangoQuery/index.html">
+<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:description" content="执行查询一旦你建立好数据模型，Django 会自动为你生成一套数据库抽象的API，可以让你创建、检索、更新和删除对象。这篇文档阐述如何使用这些API。 关于模型查询所有选项的完整细节，请见数据模型参考。">
+<meta property="og:updated_time" content="2017-10-12T09:29:37.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django 查询">
+<meta name="twitter:description" content="执行查询一旦你建立好数据模型，Django 会自动为你生成一套数据库抽象的API，可以让你创建、检索、更新和删除对象。这篇文档阐述如何使用这些API。 关于模型查询所有选项的完整细节，请见数据模型参考。">
+  
+    <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">STAR-CHEN</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/categories/CTF">安全技术&amp;&amp;CTF</a></li>
+                        
+                            <li><a href="/categories/Program">程序编码</a></li>
+                        
+                            <li><a href="/categories/Linux">各种折腾Linux</a></li>
+                        
+                            <li><a href="/about">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/chanxing9@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/007xiaoxingxing" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="#" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="#" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="#" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="#" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/C-pdf/" style="font-size: 10px;">C# pdf</a> <a href="/tags/CTF/" style="font-size: 12.5px;">CTF</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Django-djangorestframework/" style="font-size: 10px;">Django djangorestframework</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/LNMP/" style="font-size: 10px;">LNMP</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MariaDB/" style="font-size: 12.5px;">MariaDB</a> <a href="/tags/New-DB/" style="font-size: 10px;">New DB</a> <a href="/tags/Nignx/" style="font-size: 10px;">Nignx</a> <a href="/tags/OpenWrt/" style="font-size: 10px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 12.5px;">PWN</a> <a href="/tags/Remote/" style="font-size: 10px;">Remote</a> <a href="/tags/SWAP/" style="font-size: 10px;">SWAP</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/django/" style="font-size: 12.5px;">django</a> <a href="/tags/djangorestframework/" style="font-size: 20px;">djangorestframework</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 17.5px;">java</a> <a href="/tags/liux/" style="font-size: 10px;">liux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 12.5px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/postgres/" style="font-size: 10px;">postgres</a> <a href="/tags/pwnable/" style="font-size: 12.5px;">pwnable</a> <a href="/tags/python/" style="font-size: 17.5px;">python</a> <a href="/tags/python-djangorestframework/" style="font-size: 10px;">python djangorestframework</a> <a href="/tags/python-note/" style="font-size: 10px;">python note</a> <a href="/tags/python-web-Django/" style="font-size: 12.5px;">python web Django</a> <a href="/tags/router/" style="font-size: 10px;">router</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tcp-program/" style="font-size: 10px;">tcp program</a> <a href="/tags/tornado/" style="font-size: 12.5px;">tornado</a> <a href="/tags/web/" style="font-size: 12.5px;">web</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/冒泡排序/" style="font-size: 10px;">冒泡排序</a> <a href="/tags/学习笔记/" style="font-size: 10px;">学习笔记</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/排序/" style="font-size: 12.5px;">排序</a> <a href="/tags/插入排序/" style="font-size: 10px;">插入排序</a> <a href="/tags/文件权限/" style="font-size: 10px;">文件权限</a> <a href="/tags/暴力破解/" style="font-size: 10px;">暴力破解</a> <a href="/tags/算法/" style="font-size: 12.5px;">算法</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a> <a href="/tags/装饰者模式/" style="font-size: 10px;">装饰者模式</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/转发/" style="font-size: 10px;">转发</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">不会做规划的黑客不是名好测量员？</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">STAR-CHEN</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">STAR-CHEN</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/categories/CTF">安全技术&amp;&amp;CTF</a></li>
+                
+                    <li><a href="/categories/Program">程序编码</a></li>
+                
+                    <li><a href="/categories/Linux">各种折腾Linux</a></li>
+                
+                    <li><a href="/about">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/chanxing9@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/007xiaoxingxing" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="#" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="#" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="#" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-DjangoQuery" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/12/DjangoQuery/" class="article-date">
+      <time datetime="2017-10-12T09:28:34.000Z" itemprop="datePublished">2017-10-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Django 查询
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/">django</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="执行查询"><a href="#执行查询" class="headerlink" title="执行查询"></a>执行查询</h1><p>一旦你建立好<a href="http://python.usyiyi.cn/documents/django_182/topics/db/models.html" target="_blank" rel="external"><em>数据模型</em></a>，Django 会自动为你生成一套数据库抽象的API，可以让你创建、检索、更新和删除对象。这篇文档阐述如何使用这些API。 关于模型查询所有选项的完整细节，请见<a href="http://python.usyiyi.cn/documents/django_182/ref/models/index.html" target="_blank" rel="external"><em>数据模型参考</em></a>。</p>
+<a id="more"></a>
+<p>在整个文档（以及参考）中，我们将引用下面的模型，它构成一个博客应用：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">from django.db import models</div><div class="line"></div><div class="line">class Blog(models.Model):</div><div class="line">    name = models.CharField(max_length=100)</div><div class="line">    tagline = models.TextField()</div><div class="line"></div><div class="line">    def __str__(self):              # __unicode__ on Python 2</div><div class="line">        return self.name</div><div class="line"></div><div class="line">class Author(models.Model):</div><div class="line">    name = models.CharField(max_length=50)</div><div class="line">    email = models.EmailField()</div><div class="line"></div><div class="line">    def __str__(self):              # __unicode__ on Python 2</div><div class="line">        return self.name</div><div class="line"></div><div class="line">class Entry(models.Model):</div><div class="line">    blog = models.ForeignKey(Blog)</div><div class="line">    headline = models.CharField(max_length=255)</div><div class="line">    body_text = models.TextField()</div><div class="line">    pub_date = models.DateField()</div><div class="line">    mod_date = models.DateField()</div><div class="line">    authors = models.ManyToManyField(Author)</div><div class="line">    n_comments = models.IntegerField()</div><div class="line">    n_pingbacks = models.IntegerField()</div><div class="line">    rating = models.IntegerField()</div><div class="line"></div><div class="line">    def __str__(self):              # __unicode__ on Python 2</div><div class="line">        return self.headline</div></pre></td></tr></table></figure>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象."></a>创建对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#creating-objects" target="_blank" rel="external">.</a></h2><p>Django 使用一种直观的方式把数据库表中的数据表示成Python 对象：一个模型类代表数据库中的一个表，一个模型类的实例代表这个数据库表中的一条特定的记录。</p>
+<p>使用关键字参数实例化模型实例来创建一个对象，然后调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a> 把它保存到数据库中。</p>
+<p>假设模型存放于文件<code>mysite/blog/models.py</code>中，下面是一个例子：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from blog.models import Blog</div><div class="line">&gt;&gt;&gt; b = Blog(name=&apos;Beatles Blog&apos;, tagline=&apos;All the latest Beatles news.&apos;)</div><div class="line">&gt;&gt;&gt; b.save()</div></pre></td></tr></table></figure>
+<p>上面的代码在背后执行了SQL 的<code>INSERT</code> 语句。在你显式调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>之前，Django 不会访问数据库。</p>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a> 方法没有返回值。</p>
+<p>请参见</p>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>方法带有一些高级选项，它们没有在这里给出。完整的细节请见<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a> 文档。</p>
+<p>如果你想只用一条语句创建并保存一个对象，使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.create" target="_blank" rel="external"><code>create()</code></a>方法。</p>
+<h2 id="保存对象的改动"><a href="#保存对象的改动" class="headerlink" title="保存对象的改动."></a>保存对象的改动<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#saving-changes-to-objects" target="_blank" rel="external">.</a></h2><p>要保存对数据库中已存在的对象的改动，请使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>。</p>
+<p>假设<code>Blog</code> 的一个实例<code>b5</code> 已经被保存在数据库中，下面这个例子将更改它的name 并且更新数据库中的记录：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b5.name = &apos;New name&apos;</div><div class="line">&gt;&gt;&gt; b5.save()</div></pre></td></tr></table></figure>
+<p>上面的代码在背后执行SQL 的<code>UPDATE</code>语句。在你显式调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>之前，Django不会访问数据库。</p>
+<h3 id="保存ForeignKey和ManyToManyField字段¶"><a href="#保存ForeignKey和ManyToManyField字段¶" class="headerlink" title="保存ForeignKey和ManyToManyField字段¶"></a>保存<code>ForeignKey</code>和<code>ManyToManyField</code>字段<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#saving-foreignkey-and-manytomanyfield-fields" target="_blank" rel="external">¶</a></h3><p>更新<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 字段的方式和保存普通字段相同 —— 只要把一个正确类型的对象赋值给该字段。下面的例子更新了<code>Entry</code>类的实例<code>entry</code> 的<code>blog</code> 属性，假设<code>Entry</code> 和<code>Blog</code> 分别已经有一个正确的实例保存在数据库中（所以我们可以像下面这样获取它们）：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from blog.models import Entry</div><div class="line">&gt;&gt;&gt; entry = Entry.objects.get(pk=1)</div><div class="line">&gt;&gt;&gt; cheese_blog = Blog.objects.get(name=&quot;Cheddar Talk&quot;)</div><div class="line">&gt;&gt;&gt; entry.blog = cheese_blog</div><div class="line">&gt;&gt;&gt; entry.save()</div></pre></td></tr></table></figure>
+<p>更新<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 的方式有一些不同 —— 需要使用字段的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/relations.html#django.db.models.fields.related.RelatedManager.add" target="_blank" rel="external"><code>add()</code></a>方法来增加关联关系的一条记录。下面这个例子向<code>entry</code> 对象添加<code>Author</code> 类的实例<code>joe</code>：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from blog.models import Author</div><div class="line">&gt;&gt;&gt; joe = Author.objects.create(name=&quot;Joe&quot;)</div><div class="line">&gt;&gt;&gt; entry.authors.add(joe)</div></pre></td></tr></table></figure>
+<p>为了在一条语句中，向<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a>添加多条记录，可以在调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/relations.html#django.db.models.fields.related.RelatedManager.add" target="_blank" rel="external"><code>add()</code></a>方法时传入多个参数，像这样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; john = Author.objects.create(name=&quot;John&quot;)</div><div class="line">&gt;&gt;&gt; paul = Author.objects.create(name=&quot;Paul&quot;)</div><div class="line">&gt;&gt;&gt; george = Author.objects.create(name=&quot;George&quot;)</div><div class="line">&gt;&gt;&gt; ringo = Author.objects.create(name=&quot;Ringo&quot;)</div><div class="line">&gt;&gt;&gt; entry.authors.add(john, paul, george, ringo)</div></pre></td></tr></table></figure>
+<p>Django 将会在你赋值或添加错误类型的对象时报错。</p>
+<h2 id="获取对象¶"><a href="#获取对象¶" class="headerlink" title="获取对象¶"></a>获取对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#retrieving-objects" target="_blank" rel="external">¶</a></h2><p>通过模型中的<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>构造一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，来从你的数据库中获取对象。</p>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>表示从数据库中取出来的对象的集合。它可以含有零个、一个或者多个<em>过滤器</em>。过滤器基于所给的参数限制查询的结果。 从SQL 的角度，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>和<code>SELECT</code> 语句等价，过滤器是像<code>WHERE</code> 和<code>LIMIT</code> 一样的限制子句。</p>
+<p>你可以从模型的<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>那里取得<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>。每个模型都至少有一个<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>，它默认命名为<a href="http://python.usyiyi.cn/documents/django_182/ref/models/class.html#django.db.models.Model.objects" target="_blank" rel="external"><code>objects</code></a>。通过模型类来直接访问它，像这样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Blog.objects</div><div class="line">&lt;django.db.models.manager.Manager object at ...&gt;</div><div class="line">&gt;&gt;&gt; b = Blog(name=&apos;Foo&apos;, tagline=&apos;Bar&apos;)</div><div class="line">&gt;&gt;&gt; b.objects</div><div class="line">Traceback:</div><div class="line">    ...</div><div class="line">AttributeError: &quot;Manager isn&apos;t accessible via Blog instances.&quot;</div></pre></td></tr></table></figure>
+<p>注</p>
+<p><code>管理器</code>只可以通过模型的类访问，而不可以通过模型的实例访问，目的是为了强制区分“表级别”的操作和“记录级别”的操作。</p>
+<p>对于一个模型来说，<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>是<code>查询集</code>的主要来源。例如，<code>Blog.objects.all()</code> 返回包含数据库中所有<code>Blog</code> 对象的一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>。</p>
+<h3 id="获取所有对象¶"><a href="#获取所有对象¶" class="headerlink" title="获取所有对象¶"></a>获取所有对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#retrieving-all-objects" target="_blank" rel="external">¶</a></h3><p>获取一个表中所有对象的最简单的方式是全部获取。可以使用<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.all" target="_blank" rel="external"><code>all()</code></a> 方法：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; all_entries = Entry.objects.all()</div></pre></td></tr></table></figure>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.all" target="_blank" rel="external"><code>all()</code></a>方法返回包含数据库中所有对象的一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>。</p>
+<h3 id="使用过滤器获取特定对象¶"><a href="#使用过滤器获取特定对象¶" class="headerlink" title="使用过滤器获取特定对象¶"></a>使用过滤器获取特定对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#retrieving-specific-objects-with-filters" target="_blank" rel="external">¶</a></h3><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.all" target="_blank" rel="external"><code>all()</code></a> 方法返回了一个包含数据库表中所有记录<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>。但在通常情况下，你往往想要获取的是完整数据集的一个子集。</p>
+<p>要创建这样一个子集，你需要在原始的的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>上增加一些过滤条件。<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external">``</a>两个最普遍的途径是：</p>
+<ul>
+<li><p><code>filter(**kwargs)</code></p>
+<p>返回一个新的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，它包含满足查询参数的对象。</p>
+</li>
+<li><p><code>exclude(**kwargs)</code></p>
+<p>返回一个新的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，它包含<em>不</em>满足查询参数的对象。</p>
+</li>
+</ul>
+<p>查询参数（上面函数定义中的<code>**kwargs</code>）需要满足特定的格式，下面<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#field-lookups" target="_blank" rel="external">字段查询</a>一节中会提到。</p>
+<p>举个例子，要获取年份为2006的所有文章的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，可以使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a>方法：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(pub_date__year=2006)</div></pre></td></tr></table></figure>
+<p>利用默认的管理器，它相当于：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.all().filter(pub_date__year=2006)</div></pre></td></tr></table></figure>
+<h4 id="链式过滤¶"><a href="#链式过滤¶" class="headerlink" title="链式过滤¶"></a>链式过滤<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#chaining-filters" target="_blank" rel="external">¶</a></h4><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>的筛选结果本身还是<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，所以可以将筛选语句链接在一起。像这样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(</div><div class="line">...     headline__startswith=&apos;What&apos;</div><div class="line">... ).exclude(</div><div class="line">...     pub_date__gte=datetime.date.today()</div><div class="line">... ).filter(</div><div class="line">...     pub_date__gte=datetime(2005, 1, 30)</div><div class="line">... )</div></pre></td></tr></table></figure>
+<p>这个例子最开始获取数据库中所有对象的一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，之后增加一个过滤器，然后又增加一个排除，再之后又是另外一个过滤器。最后的结果仍然是一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，它包含标题以”What“开头、发布日期在2005年1月30日至当天之间的所有记录。</p>
+<h4 id="过滤后的查询集是独立的¶"><a href="#过滤后的查询集是独立的¶" class="headerlink" title="过滤后的查询集是独立的¶"></a>过滤后的查询集是独立的<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#filtered-querysets-are-unique" target="_blank" rel="external">¶</a></h4><p>每次你筛选一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，得到的都是全新的另一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，它和之前的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>之间没有任何绑定关系。每次筛选都会创建一个独立的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，它可以被存储及反复使用。</p>
+<p>例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; q1 = Entry.objects.filter(headline__startswith=&quot;What&quot;)</div><div class="line">&gt;&gt;&gt; q2 = q1.exclude(pub_date__gte=datetime.date.today())</div><div class="line">&gt;&gt;&gt; q3 = q1.filter(pub_date__gte=datetime.date.today())</div></pre></td></tr></table></figure>
+<p>这三个<code>查询集</code>都是独立的。第一个是一个基础的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，包含所有标题以“What”开头的记录。第二个查询集是第一个的子集，它增加另外一个限制条件，排除<code>pub_date</code> 为今天和将来的记录。第三个查询集同样是第一个的子集，它增加另外一个限制条件，只选择<code>pub_date</code> 为今天或将来的记录。原始的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>(<code>q1</code>)不会受到筛选过程的影响。</p>
+<h4 id="查询集是惰性执行的¶"><a href="#查询集是惰性执行的¶" class="headerlink" title="查询集是惰性执行的¶"></a>查询集是惰性执行的<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#querysets-are-lazy" target="_blank" rel="external">¶</a></h4><p><code>查询集</code> 是惰性执行的 —— 创建<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>不会带来任何数据库的访问。你可以将过滤器保持一整天，直到<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 需要<em>求值</em>时，Django 才会真正运行这个查询。看下这个例子：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; q = Entry.objects.filter(headline__startswith=&quot;What&quot;)</div><div class="line">&gt;&gt;&gt; q = q.filter(pub_date__lte=datetime.date.today())</div><div class="line">&gt;&gt;&gt; q = q.exclude(body_text__icontains=&quot;food&quot;)</div><div class="line">&gt;&gt;&gt; print(q)</div></pre></td></tr></table></figure>
+<p>虽然它看上去有三次数据库访问，但事实上只有在最后一行（<code>print(q)</code>）时才访问一次数据库。一般来说，只有在“请求”<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 的结果时才会到数据库中去获取它们。当你确实需要结果时，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 通过访问数据库来<em>求值</em>。 关于求值发生的准确时间，参见<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#when-querysets-are-evaluated" target="_blank" rel="external"><em>何时计算查询集</em></a>。</p>
+<h3 id="通过get-获取一个单一的对象¶"><a href="#通过get-获取一个单一的对象¶" class="headerlink" title="通过get 获取一个单一的对象¶"></a>通过get 获取一个单一的对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#retrieving-a-single-object-with-get" target="_blank" rel="external">¶</a></h3><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 始终给你一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，即使只有一个对象满足查询条件 —— 这种情况下，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>将只包含一个元素。</p>
+<p>如果你知道只有一个对象满足你的查询，你可以使用<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 方法，它直接返回该对象：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; one_entry = Entry.objects.get(pk=1)</div></pre></td></tr></table></figure>
+<p>可以对<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 使用任何查询表达式，和<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 一样 —— 同样请查看下文的<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#field-lookups" target="_blank" rel="external">字段查询</a>。</p>
+<p>注意，使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 和使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 的切片<code>[0]</code> 有一点区别。如果没有结果满足查询，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 将引发一个<code>DoesNotExist</code> 异常。这个异常是正在查询的模型类的一个属性 —— 所以在上面的代码中，如果没有主键为1 的<code>Entry</code> 对象，Django 将引发一个<code>Entry.DoesNotExist</code>。</p>
+<p>类似地，如果有多条记录满足<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 的查询条件，Django 也将报错。这种情况将引发<a href="http://python.usyiyi.cn/documents/django_182/ref/exceptions.html#django.core.exceptions.MultipleObjectsReturned" target="_blank" rel="external"><code>MultipleObjectsReturned</code></a>，它同样是模型类自身的一个属性。</p>
+<h3 id="其它查询集方法¶"><a href="#其它查询集方法¶" class="headerlink" title="其它查询集方法¶"></a>其它查询集方法<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#other-queryset-methods" target="_blank" rel="external">¶</a></h3><p>大多数情况下，需要从数据库中查找对象时，你会使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.all" target="_blank" rel="external"><code>all()</code></a>、 <a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a>、<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 和<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.exclude" target="_blank" rel="external"><code>exclude()</code></a>。 然而，这只是冰山一角；<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 方法的完整列表，请参见<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#queryset-api" target="_blank" rel="external"><em>查询集API 参考</em></a>。</p>
+<h3 id="限制查询集¶"><a href="#限制查询集¶" class="headerlink" title="限制查询集¶"></a>限制查询集<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#limiting-querysets" target="_blank" rel="external">¶</a></h3><p>可以使用Python 的切片语法来限制<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>记录的数目 。它等同于SQL 的<code>LIMIT</code> 和<code>OFFSET</code> 子句。</p>
+<p>例如，下面的语句返回前面5 个对象(<code>LIMIT 5</code>)：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.all()[:5]</div></pre></td></tr></table></figure>
+<p>下面这条语句返回第6 至第10 个对象(<code>OFFSET 5 LIMIT 5</code>)：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.all()[5:10]</div></pre></td></tr></table></figure>
+<p>不支持负的索引（例如<code>Entry.objects.all()[-1]</code>）。</p>
+<p>通常，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 的切片返回一个新的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> —— 它不会执行查询。有一个例外，是如果你使用Python 切片语法中”step”参数。例如，下面的语句将返回前10 个对象中每隔<em>2</em>个对象，它将真实执行查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.all()[:10:2]</div></pre></td></tr></table></figure>
+<p>若要获取一个<em>单一</em>的对象而不是一个列表（例如，<code>SELECT foo FROM bar LIMIT 1</code>），可以简单地使用一个索引而不是切片。例如，下面的语句返回数据库中根据标题排序后的第一条<code>Entry</code>：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.order_by(&apos;headline&apos;)[0]</div></pre></td></tr></table></figure>
+<p>它大体等同于：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.order_by(&apos;headline&apos;)[0:1].get()</div></pre></td></tr></table></figure>
+<p>然而请注意，如果没有对象满足给定的条件，第一条语句将引发<code>IndexError</code>而第二条语句将引发<code>DoesNotExist</code>。 更多细节参见<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a>。</p>
+<h3 id="字段查询¶"><a href="#字段查询¶" class="headerlink" title="字段查询¶"></a>字段查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#field-lookups" target="_blank" rel="external">¶</a></h3><p>字段查询是指如何指定SQL <code>WHERE</code> 子句的内容。它们通过<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>方法<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a>、<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.exclude" target="_blank" rel="external"><code>exclude()</code></a> 和 <a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a> 的关键字参数指定。</p>
+<p>查询的关键字参数的基本形式是<code>field__lookuptype=value</code>。（中间是两个下划线）。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(pub_date__lte=&apos;2006-01-01&apos;)</div></pre></td></tr></table></figure>
+<p>翻译成SQL（大体）是：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM blog_entry WHERE pub_date &lt;= &apos;2006-01-01&apos;;</div></pre></td></tr></table></figure>
+<p>这是如何实现的</p>
+<p>Python 定义的函数可以接收任意的键/值对参数，这些名称和参数可以在运行时求值。更多信息，参见Python 官方文档中的<a href="https://docs.python.org/tutorial/controlflow.html#keyword-arguments" target="_blank" rel="external">关键字参数</a>。</p>
+<p>查询条件中指定的字段必须是模型字段的名称。但有一个例外，对于<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a>你可以使用字段名加上<code>_id</code> 后缀。在这种情况下，该参数的值应该是外键的原始值。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(blog_id=4)</div></pre></td></tr></table></figure>
+<p>如果你传递的是一个不合法的参数，查询函数将引发 <code>TypeError</code>。</p>
+<p>这些数据库API 支持大约二十多种查询的类型；在<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#field-lookups" target="_blank" rel="external"><em>字段查询参考</em></a> 中可以找到完整的参考。为了让你尝尝鲜，下面是一些你可能用到的常见查询：</p>
+<ul>
+<li><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-exact" target="_blank" rel="external"><code>exact</code></a></p>
+<p>“精确”匹配。例如：<code>&gt;&gt;&gt; Entry.objects.get(headline__exact=&quot;Man bites dog&quot;)</code>将生成下面的SQL：<code>SELECT ... WHERE headline = &#39;Man bites dog&#39;;</code>如果你没有提供查询类型 —— 即如果你的关键字参数不包含双下划线 —— 默认假定查询类型是<code>exact</code>。例如，下面的两条语句相等：<code>&gt;&gt;&gt; Blog.objects.get(id__exact=14)  # Explicit form&gt;&gt;&gt; Blog.objects.get(id=14)         # __exact is implied</code>这是为了方便，因为<code>exact</code> 查询是最常见的情况。</p>
+</li>
+<li><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-iexact" target="_blank" rel="external"><code>iexact</code></a></p>
+<p>大小写不敏感的匹配。所以，查询：<code>&gt;&gt;&gt; Blog.objects.get(name__iexact=&quot;beatles blog&quot;)</code>将匹配标题为<code>&quot;Beatles Blog&quot;</code>、<code>&quot;beatles blog&quot;</code> 甚至<code>&quot;BeAtlES blOG&quot;</code> 的<code>Blog</code>。</p>
+</li>
+<li><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-contains" target="_blank" rel="external"><code>contains</code></a></p>
+<p>大小写敏感的包含关系测试。例如：<code>Entry.objects.get(headline__contains=&#39;Lennon&#39;)</code>大体可以翻译成下面的SQL：<code>SELECT ... WHERE headline LIKE &#39;%Lennon%&#39;;</code>注意，这将匹配<code>&#39;Today Lennon honored&#39;</code> 但不能匹配<code>&#39;today lennon honored&#39;</code>。还有一个大小写不敏感的版本，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-icontains" target="_blank" rel="external"><code>icontains</code></a>。</p>
+</li>
+<li><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-startswith" target="_blank" rel="external"><code>startswith</code></a>, <a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-endswith" target="_blank" rel="external"><code>endswith</code></a></p>
+<p>分别表示以XXX开头和以XXX结尾。当然还有大小写不敏感的版本，叫做<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-istartswith" target="_blank" rel="external"><code>istartswith</code></a> 和 <a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-iendswith" target="_blank" rel="external"><code>iendswith</code></a>。</p>
+</li>
+</ul>
+<p>同样，这里只是表面。完整的参考可以在<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#field-lookups" target="_blank" rel="external"><em>字段查询参考</em></a>中找到。</p>
+<h3 id="跨关联关系的查询¶"><a href="#跨关联关系的查询¶" class="headerlink" title="跨关联关系的查询¶"></a>跨关联关系的查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#lookups-that-span-relationships" target="_blank" rel="external">¶</a></h3><p>Django 提供一种强大而又直观的方式来“处理”查询中的关联关系，它在后台自动帮你处理<code>JOIN</code>。 若要跨越关联关系，只需使用关联的模型字段的名称，并使用双下划线分隔，直至你想要的字段：</p>
+<p>下面这个例子获取所有<code>Blog</code> 的<code>name</code> 为<code>&#39;Beatles Blog&#39;</code> 的<code>Entry</code> 对象：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(blog__name=&apos;Beatles Blog&apos;)</div></pre></td></tr></table></figure>
+<p>这种跨越可以是任意的深度。</p>
+<p>它还可以反向工作。若要引用一个“反向”的关系，只需要使用该模型的小写的名称。</p>
+<p>下面的示例获取所有的<code>Blog</code> 对象，它们至少有一个<code>Entry</code> 的<code>headline</code> 包含<code>&#39;Lennon&#39;</code>：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Blog.objects.filter(entry__headline__contains=&apos;Lennon&apos;)</div></pre></td></tr></table></figure>
+<p>如果你在多个关联关系直接过滤而且其中某个中介模型没有满足过滤条件的值，Django 将把它当做一个空的（所有的值都为<code>NULL</code>）但是合法的对象。这意味着不会有错误引发。例如，在下面的过滤器中：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__authors__name=&apos;Lennon&apos;)</div></pre></td></tr></table></figure>
+<p>（如果有一个相关联的<code>Author</code> 模型），如果Entry 中没有找到对应的<code>author</code>，那么它将当作其没有<code>name</code>，而不会因为没有<code>author</code> 引发一个错误。通常，这就是你想要的。唯一可能让你困惑的是当你使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#std:fieldlookup-isnull" target="_blank" rel="external"><code>isnull</code></a> 的时候。因此：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__authors__name__isnull=True)</div></pre></td></tr></table></figure>
+<p>返回的<code>Blog</code> 对象包括<code>author</code> <strong><code>name</code> 为空的Blog对象,以及author</strong>name不为空但author<strong>name关联的<code>entry</code> </strong><code>author</code> 为空的对象。如果你不需要后者，你可以这样写：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__authors__isnull=False,</div><div class="line">        entry__authors__name__isnull=True)</div></pre></td></tr></table></figure>
+<h4 id="跨越多值的关联关系¶"><a href="#跨越多值的关联关系¶" class="headerlink" title="跨越多值的关联关系¶"></a>跨越多值的关联关系<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#spanning-multi-valued-relationships" target="_blank" rel="external">¶</a></h4><p>当你基于<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 或反向的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 来过滤一个对象时，有两种不同种类的过滤器。考虑<code>Blog</code>/<code>Entry</code> 关联关系（<code>Blog</code> 和 <code>Entry</code> 是一对多的关系）。我们可能想找出headline为<em>“Lennon”</em> 并且pub_date为’2008’年的Entry。或者我们可能想查询headline为<em>“Lennon”</em> 的Entry或者pub_date为’2008’的Entry。因为实际上有和单个<code>Blog</code> 相关联的多个Entry，所以这两个查询在某些场景下都是有可能并有意义的。</p>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 有类似的情况。例如，如果<code>Entry</code> 有一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 叫做 <code>tags</code>，我们可能想找到tag 叫做<em>“music”</em> 和<em>“bands”</em> 的Entry，或者我们想找一个tag 名为<em>“music”</em> 且状态为<em>“public”</em>的Entry。</p>
+<p>对于这两种情况，Django 有种一致的方法来处理<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 调用。一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 调用中的所有参数会同时应用以过滤出满足所有要求的记录。接下来的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 调用进一步限制对象集，但是对于多值关系，它们应用到与主模型关联的对象，而不是应用到前一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 调用选择出来的对象。</p>
+<p>这些听起来可能有点混乱，所以希望展示一个例子使它变得更清晰。选择所有包含同时满足两个条件的entry的blog，这两个条件是headline 包含<em>Lennon</em> 和发表时间是2008 （同一个entry 满足两个条件），我们的代码是：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__headline__contains=&apos;Lennon&apos;,</div><div class="line">        entry__pub_date__year=2008)</div></pre></td></tr></table></figure>
+<p>从所有的blog模型实例中选择满足以下条件的blog实例：blog的enrty的headline属性值是<em>“Lennon”**</em>，或者entry的**发表时间是2008（两个条件至少满足一个，也可以同时满足），我们的代码是：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__headline__contains=&apos;Lennon&apos;).filter(</div><div class="line">        entry__pub_date__year=2008)</div></pre></td></tr></table></figure>
+<p>假设这里有一个blog拥有一条包含<em>‘Lennon’</em>的entries条目和一条来自2008的entries条目,但是没有一条来自2008并且包含<em>“Lennon”</em>的entries条目。第一个查询不会返回任何blog，第二个查询将会返回一个blog。</p>
+<p>在第二个例子中， 第一个filter 限定查询集中的blog 与headline 包含<em>“Lennon”</em> 的entry 关联。第二个filter <em>又</em> 限定查询集中的blog ，这些blog关联的entry 的发表时间是2008。（译者注：难点在如何理解further这个词！）第二个filter 过滤出来的entry 与第一个filter 过滤出来的entry 可能相同也可能不同。每个filter 语句过滤的是<code>Blog</code>，而不是<code>Entry</code>。</p>
+<p>注</p>
+<p>跨越多值关系的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 查询的行为，与<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.exclude" target="_blank" rel="external"><code>exclude()</code></a> 实现的不同。单个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.exclude" target="_blank" rel="external"><code>exclude()</code></a> 调用中的条件不必引用同一个记录。</p>
+<p>例如，下面的查询排除<em>*headline 中包含</em>“Lennon”<em>的Entry</em>和*在2008 年发布的Entry：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Blog.objects.exclude(</div><div class="line">    entry__headline__contains=&apos;Lennon&apos;,</div><div class="line">    entry__pub_date__year=2008,</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>然而，这与使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 的行为不同，它不是排除同时满足两个条件的Entry。为了实现这点，即选择的Blog中不包含在2008年发布且healine 中带有<em>“Lennon”</em> 的Entry，你需要编写两个查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Blog.objects.exclude(</div><div class="line">    entry=Entry.objects.filter(</div><div class="line">        headline__contains=&apos;Lennon&apos;,</div><div class="line">        pub_date__year=2008,</div><div class="line">    ),</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="Filter-可以引用模型的字段¶"><a href="#Filter-可以引用模型的字段¶" class="headerlink" title="Filter 可以引用模型的字段¶"></a>Filter 可以引用模型的字段<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#filters-can-reference-fields-on-the-model" target="_blank" rel="external">¶</a></h3><p>到目前为止给出的示例中，我们构造过将模型字段与常量进行比较的filter。但是，如果你想将模型的一个字段与同一个模型的另外一个字段进行比较该怎么办？</p>
+<p>Django 提供<a href="http://python.usyiyi.cn/documents/django_182/ref/models/expressions.html#django.db.models.F" target="_blank" rel="external"><code>F 表达式</code></a> 来允许这样的比较。<code>F()</code> 返回的实例用作查询内部对模型字段的引用。这些引用可以用于查询的filter 中来比较相同模型实例上不同字段之间值的比较。</p>
+<p>例如，为了查找comments 数目多于pingbacks 的Entry，我们将构造一个<code>F()</code> 对象来引用pingback 数目，并在查询中使用该<code>F()</code> 对象：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from django.db.models import F</div><div class="line">&gt;&gt;&gt; Entry.objects.filter(n_comments__gt=F(&apos;n_pingbacks&apos;))</div></pre></td></tr></table></figure>
+<p>Django 支持对<code>F()</code> 对象使用加法、减法、乘法、除法、取模以及幂计算等算术操作，两个操作数可以都是常数和其它<code>F()</code> 对象。为了查找comments 数目比pingbacks <em>两倍</em>还要多的Entry，我们将查询修改为：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(n_comments__gt=F(&apos;n_pingbacks&apos;) * 2)</div></pre></td></tr></table></figure>
+<p>New in Django 1.7:</p>
+<p>添加 <code>**</code> 操作符。</p>
+<p>为了查询rating 比pingback 和comment 数目总和要小的Entry，我们将这样查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(rating__lt=F(&apos;n_comments&apos;) + F(&apos;n_pingbacks&apos;))</div></pre></td></tr></table></figure>
+<p>你还可以在<code>F()</code> 对象中使用双下划线标记来跨越关联关系。带有双下划线的<code>F()</code> 对象将引入任何需要的join 操作以访问关联的对象。例如，如要获取author 的名字与blog 名字相同的Entry，我们可以这样查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(authors__name=F(&apos;blog__name&apos;))</div></pre></td></tr></table></figure>
+<p>对于date 和date/time 字段，你可以给它们加上或减去一个<a href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" target="_blank" rel="external"><code>timedelta</code></a> 对象。下面的例子将返回发布超过3天后被修改的所有Entry：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from datetime import timedelta</div><div class="line">&gt;&gt;&gt; Entry.objects.filter(mod_date__gt=F(&apos;pub_date&apos;) + timedelta(days=3))</div></pre></td></tr></table></figure>
+<p><code>F()</code> 对象支持<code>.bitand()</code> 和<code>.bitor()</code> 两种位操作，例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; F(&apos;somefield&apos;).bitand(16)</div></pre></td></tr></table></figure>
+<h3 id="查询的快捷方式pk¶"><a href="#查询的快捷方式pk¶" class="headerlink" title="查询的快捷方式pk¶"></a>查询的快捷方式pk<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#the-pk-lookup-shortcut" target="_blank" rel="external">¶</a></h3><p>为了方便，Django 提供一个查询快捷方式<code>pk</code> ，它表示“primary key” 的意思。</p>
+<p>在<code>Blog</code> 模型示例中，主键是<code>id</code> 字段，所以下面三条语句是等同的：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Blog.objects.get(id__exact=14) # Explicit form</div><div class="line">&gt;&gt;&gt; Blog.objects.get(id=14) # __exact is implied</div><div class="line">&gt;&gt;&gt; Blog.objects.get(pk=14) # pk implies id__exact</div></pre></td></tr></table></figure>
+<p><code>pk</code> 的使用不仅限于<code>__exact</code> 查询 —— 任何查询类型都可以与<code>pk</code> 结合来完成一个模型上对主键的查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Get blogs entries with id 1, 4 and 7</div><div class="line">&gt;&gt;&gt; Blog.objects.filter(pk__in=[1,4,7])</div><div class="line"></div><div class="line"># Get all blog entries with id &gt; 14</div><div class="line">&gt;&gt;&gt; Blog.objects.filter(pk__gt=14)</div></pre></td></tr></table></figure>
+<p><code>pk</code>查询在join 中也可以工作。例如，下面三个语句是等同的：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(blog__id__exact=3) # Explicit form</div><div class="line">&gt;&gt;&gt; Entry.objects.filter(blog__id=3)        # __exact is implied</div><div class="line">&gt;&gt;&gt; Entry.objects.filter(blog__pk=3)        # __pk implies __id__exact</div></pre></td></tr></table></figure>
+<h3 id="转义LIKE-语句中的百分号和下划线¶"><a href="#转义LIKE-语句中的百分号和下划线¶" class="headerlink" title="转义LIKE 语句中的百分号和下划线¶"></a>转义LIKE 语句中的百分号和下划线<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#escaping-percent-signs-and-underscores-in-like-statements" target="_blank" rel="external">¶</a></h3><p>与<code>LIKE</code> SQL 语句等同的字段查询（<code>iexact</code>、 <code>contains</code>、<code>icontains</code>、<code>startswith</code>、 <code>istartswith</code>、<code>endswith</code> 和<code>iendswith</code>）将自动转义在<code>LIKE</code> 语句中使用的两个特殊的字符 —— 百分号和下划线。（在<code>LIKE</code> 语句中，百分号通配符表示多个字符，下划线通配符表示单个字符）。</p>
+<p>这意味着语句将很直观，不会显得太抽象。例如，要获取包含一个百分号的所有的Entry，只需要像其它任何字符一样使用百分号：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.filter(headline__contains=&apos;%&apos;)</div></pre></td></tr></table></figure>
+<p>Django 会帮你转义；生成的SQL 看上去会是这样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT ... WHERE headline LIKE &apos;%\%%&apos;;</div></pre></td></tr></table></figure>
+<p>对于下划线是同样的道理。百分号和下划线都会透明地帮你处理。</p>
+<h3 id="缓存和查询集¶"><a href="#缓存和查询集¶" class="headerlink" title="缓存和查询集¶"></a>缓存和查询集<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#caching-and-querysets" target="_blank" rel="external">¶</a></h3><p>每个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>都包含一个缓存来最小化对数据库的访问。理解它是如何工作的将让你编写最高效的代码。</p>
+<p>在一个新创建的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>中，缓存为空。首次对<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>进行求值 —— 同时发生数据库查询 ——Django 将保存查询的结果到<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>的缓存中并返回明确请求的结果（例如，如果正在迭代<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，则返回下一个结果）。接下来对该<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 的求值将重用缓存的结果。</p>
+<p>请牢记这个缓存行为，因为对<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>使用不当的话，它会坑你的。例如，下面的语句创建两个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>，对它们求值，然后扔掉它们：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; print([e.headline for e in Entry.objects.all()])</div><div class="line">&gt;&gt;&gt; print([e.pub_date for e in Entry.objects.all()])</div></pre></td></tr></table></figure>
+<p>这意味着相同的数据库查询将执行两次，显然倍增了你的数据库负载。同时，还有可能两个结果列表并不包含相同的数据库记录，因为在两次请求期间有可能有<code>Entry</code>被添加进来或删除掉。</p>
+<p>为了避免这个问题，只需保存<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>并重新使用它：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; queryset = Entry.objects.all()</div><div class="line">&gt;&gt;&gt; print([p.headline for p in queryset]) # Evaluate the query set.</div><div class="line">&gt;&gt;&gt; print([p.pub_date for p in queryset]) # Re-use the cache from the evaluation.</div></pre></td></tr></table></figure>
+<h4 id="何时查询集不会被缓存¶"><a href="#何时查询集不会被缓存¶" class="headerlink" title="何时查询集不会被缓存¶"></a>何时查询集不会被缓存<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#when-querysets-are-not-cached" target="_blank" rel="external">¶</a></h4><p>查询集不会永远缓存它们的结果。当只对查询集的<em>部分</em>进行求值时会检查缓存， 但是如果这个部分不在缓存中，那么接下来查询返回的记录都将不会被缓存。特别地，这意味着使用切片或索引来<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#limiting-querysets" target="_blank" rel="external"><em>限制查询集</em></a>将不会填充缓存。</p>
+<p>例如，重复获取查询集对象中一个特定的索引将每次都查询数据库：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; queryset = Entry.objects.all()</div><div class="line">&gt;&gt;&gt; print queryset[5] # Queries the database</div><div class="line">&gt;&gt;&gt; print queryset[5] # Queries the database again</div></pre></td></tr></table></figure>
+<p>然而，如果已经对全部查询集求值过，则将检查缓存：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; queryset = Entry.objects.all()</div><div class="line">&gt;&gt;&gt; [entry for entry in queryset] # Queries the database</div><div class="line">&gt;&gt;&gt; print queryset[5] # Uses cache</div><div class="line">&gt;&gt;&gt; print queryset[5] # Uses cache</div></pre></td></tr></table></figure>
+<p>下面是一些其它例子，它们会使得全部的查询集被求值并填充到缓存中：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; [entry for entry in queryset]</div><div class="line">&gt;&gt;&gt; bool(queryset)</div><div class="line">&gt;&gt;&gt; entry in queryset</div><div class="line">&gt;&gt;&gt; list(queryset)</div></pre></td></tr></table></figure>
+<p>注</p>
+<p>简单地打印查询集不会填充缓存。因为<code>__repr__()</code> 调用只返回全部查询集的一个切片。</p>
+<h2 id="使用Q-对象进行复杂的查询¶"><a href="#使用Q-对象进行复杂的查询¶" class="headerlink" title="使用Q 对象进行复杂的查询¶"></a>使用Q 对象进行复杂的查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#complex-lookups-with-q-objects" target="_blank" rel="external">¶</a></h2><p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a> 等方法中的关键字参数查询都是一起进行“AND” 的。 如果你需要执行更复杂的查询（例如<code>OR</code> 语句），你可以使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.Q" target="_blank" rel="external"><code>Q 对象</code></a>。</p>
+<p><a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.Q" target="_blank" rel="external"><code>Q 对象</code></a> (<code>django.db.models.Q</code>) 对象用于封装一组关键字参数。这些关键字参数就是上文“字段查询” 中所提及的那些。</p>
+<p>例如，下面的<code>Q</code> 对象封装一个<code>LIKE</code> 查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">from django.db.models import Q</div><div class="line">Q(question__startswith=&apos;What&apos;)</div></pre></td></tr></table></figure>
+<p><code>Q</code> 对象可以使用<code>&amp;</code> 和<code>|</code> 操作符组合起来。当一个操作符在两个<code>Q</code> 对象上使用时，它产生一个新的<code>Q</code> 对象。</p>
+<p>例如，下面的语句产生一个<code>Q</code> 对象，表示两个<code>&quot;question__startswith&quot;</code> 查询的“OR” ：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Q(question__startswith=&apos;Who&apos;) | Q(question__startswith=&apos;What&apos;)</div></pre></td></tr></table></figure>
+<p>它等同于下面的SQL <code>WHERE</code> 子句：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WHERE question LIKE &apos;Who%&apos; OR question LIKE &apos;What%&apos;</div></pre></td></tr></table></figure>
+<p>你可以组合<code>&amp;</code> 和<code>|</code>  操作符以及使用括号进行分组来编写任意复杂的<code>Q</code> 对象。同时，<code>Q</code> 对象可以使用<code>~</code> 操作符取反，这允许组合正常的查询和取反(<code>NOT</code>) 查询：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Q(question__startswith=&apos;Who&apos;) | ~Q(pub_date__year=2005)</div></pre></td></tr></table></figure>
+<p>每个接受关键字参数的查询函数（例如<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.filter" target="_blank" rel="external"><code>filter()</code></a>、<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.exclude" target="_blank" rel="external"><code>exclude()</code></a>、<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.get" target="_blank" rel="external"><code>get()</code></a>）都可以传递一个或多个<code>Q</code> 对象作为位置（不带名的）参数。如果一个查询函数有多个<code>Q</code> 对象参数，这些参数的逻辑关系为“AND”。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Poll.objects.get(</div><div class="line">    Q(question__startswith=&apos;Who&apos;),</div><div class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>… 大体上可以翻译成这个SQL：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT * from polls WHERE question LIKE &apos;Who%&apos;</div><div class="line">    AND (pub_date = &apos;2005-05-02&apos; OR pub_date = &apos;2005-05-06&apos;)</div></pre></td></tr></table></figure>
+<p>查询函数可以混合使用<code>Q 对象</code>和关键字参数。所有提供给查询函数的参数（关键字参数或<code>Q</code> 对象）都将”AND”在一起。但是，如果出现<code>Q</code> 对象，它必须位于所有关键字参数的前面。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Poll.objects.get(</div><div class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),</div><div class="line">    question__startswith=&apos;Who&apos;)</div></pre></td></tr></table></figure>
+<p>… 是一个合法的查询，等同于前面的例子；但是：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># INVALID QUERY</div><div class="line">Poll.objects.get(</div><div class="line">    question__startswith=&apos;Who&apos;,</div><div class="line">    Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))</div></pre></td></tr></table></figure>
+<p>… 是不合法的。</p>
+<p>另见</p>
+<p>Django 单元测试中的<a href="https://github.com/django/django/blob/master/tests/or_lookups/tests.py" target="_blank" rel="external">OR 查询示例</a>演示了几种<code>Q</code> 的用法。</p>
+<h2 id="比较对象¶"><a href="#比较对象¶" class="headerlink" title="比较对象¶"></a>比较对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#comparing-objects" target="_blank" rel="external">¶</a></h2><p>为了比较两个模型实例，只需要使用标准的Python 比较操作符，即双等于符号：<code>==</code>。在后台，它会比较两个模型主键的值。</p>
+<p>利用上面的<code>Entry</code> 示例，下面两个语句是等同的：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; some_entry == other_entry</div><div class="line">&gt;&gt;&gt; some_entry.id == other_entry.id</div></pre></td></tr></table></figure>
+<p>如果模型的主键不叫<code>id</code>，也没有问题。比较将始终使用主键，无论它叫什么。例如，如果模型的主键字段叫做<code>name</code>，下面的两条语句是等同的：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; some_obj == other_obj</div><div class="line">&gt;&gt;&gt; some_obj.name == other_obj.name</div></pre></td></tr></table></figure>
+<h2 id="删除对象¶"><a href="#删除对象¶" class="headerlink" title="删除对象¶"></a>删除对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#deleting-objects" target="_blank" rel="external">¶</a></h2><p>删除方法，为了方便，就取名为<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.delete" target="_blank" rel="external"><code>delete()</code></a>。这个方法将立即删除对象且没有返回值。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">e.delete()</div></pre></td></tr></table></figure>
+<p>你还可以批量删除对象。每个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 都有一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.delete" target="_blank" rel="external"><code>delete()</code></a> 方法，它将删除该<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>中的所有成员。</p>
+<p>例如，下面的语句删除<code>pub_date</code> 为2005 的所有<code>Entry</code> 对象：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(pub_date__year=2005).delete()</div></pre></td></tr></table></figure>
+<p>记住，这将尽可能地使用纯SQL 执行，所以这个过程中不需要调用每个对象实例的<code>delete()</code>方法。如果你给模型类提供了一个自定义的<code>delete()</code> 方法并希望确保它被调用，你需要手工删除该模型的实例（例如，迭代<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>并调用每个对象的<code>delete()</code>）而不能使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>的批量<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.delete" target="_blank" rel="external"><code>delete()</code></a> 方法。</p>
+<p>当Django 删除一个对象时，它默认使用SQL <code>ON DELETE CASCADE</code> 约束 —— 换句话讲，任何有外键指向要删除对象的对象将一起删除。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">b = Blog.objects.get(pk=1)</div><div class="line"># This will delete the Blog and all of its Entry objects.</div><div class="line">b.delete()</div></pre></td></tr></table></figure>
+<p>这种级联的行为可以通过的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey.on_delete" target="_blank" rel="external"><code>on_delete</code></a> 参数自定义。</p>
+<p>注意，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.delete" target="_blank" rel="external"><code>delete()</code></a> 是唯一没有在<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a> 上暴露出来的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>方法。这是一个安全机制来防止你意外地请求<code>Entry.objects.delete()</code>，而删除<em>所有</em> 的条目。如果你<em>确实</em>想删除所有的对象，你必须明确地请求一个完全的查询集：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.all().delete()</div></pre></td></tr></table></figure>
+<h2 id="拷贝模型实例¶"><a href="#拷贝模型实例¶" class="headerlink" title="拷贝模型实例¶"></a>拷贝模型实例<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#copying-model-instances" target="_blank" rel="external">¶</a></h2><p>虽然没有内建的方法用于拷贝模型实例，但还是很容易创建一个新的实例并让它的所有字段都拷贝过来。最简单的方法是，只需要将<code>pk</code> 设置为<code>None</code>。利用我们的Blog 示例：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">blog = Blog(name=&apos;My blog&apos;, tagline=&apos;Blogging is easy&apos;)</div><div class="line">blog.save() # blog.pk == 1</div><div class="line"></div><div class="line">blog.pk = None</div><div class="line">blog.save() # blog.pk == 2</div></pre></td></tr></table></figure>
+<p>如果你用继承，那么会复杂一些。考虑下面<code>Blog</code> 的子类：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">class ThemeBlog(Blog):</div><div class="line">    theme = models.CharField(max_length=200)</div><div class="line"></div><div class="line">django_blog = ThemeBlog(name=&apos;Django&apos;, tagline=&apos;Django is easy&apos;, theme=&apos;python&apos;)</div><div class="line">django_blog.save() # django_blog.pk == 3</div></pre></td></tr></table></figure>
+<p>由于继承的工作方式，你必须设置<code>pk</code> 和 <code>id</code> 都为None：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">django_blog.pk = None</div><div class="line">django_blog.id = None</div><div class="line">django_blog.save() # django_blog.pk == 4</div></pre></td></tr></table></figure>
+<p>这个过程不会拷贝关联的对象。如果你想拷贝关联关系，你必须编写一些更多的代码。在我们的例子中，<code>Entry</code> 有一个到<code>Author</code> 的多对多字段：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">entry = Entry.objects.all()[0] # some previous entry</div><div class="line">old_authors = entry.authors.all()</div><div class="line">entry.pk = None</div><div class="line">entry.save()</div><div class="line">entry.authors = old_authors # saves new many2many relations</div></pre></td></tr></table></figure>
+<h2 id="一次更新多个对象¶"><a href="#一次更新多个对象¶" class="headerlink" title="一次更新多个对象¶"></a>一次更新多个对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#updating-multiple-objects-at-once" target="_blank" rel="external">¶</a></h2><p>有时你想为一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>中所有对象的某个字段都设置一个特定的值。这时你可以使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.update" target="_blank" rel="external"><code>update()</code></a> 方法。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># Update all the headlines with pub_date in 2007.</div><div class="line">Entry.objects.filter(pub_date__year=2007).update(headline=&apos;Everything is the same&apos;)</div></pre></td></tr></table></figure>
+<p>你只可以对非关联字段和<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 字段使用这个方法。若要更新一个非关联字段，只需提供一个新的常数值。若要更新<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 字段，需设置新的值为你想指向的新的模型实例。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b = Blog.objects.get(pk=1)</div><div class="line"></div><div class="line"># Change every Entry so that it belongs to this Blog.</div><div class="line">&gt;&gt;&gt; Entry.objects.all().update(blog=b)</div></pre></td></tr></table></figure>
+<p><code>update()</code> 方法会立即执行并返回查询匹配的行数（如果有些行已经具有新的值，返回的行数可能和被更新的行数不相等）。更新<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 唯一的限制是它只能访问一个数据库表，也就是模型的主表。你可以根据关联的字段过滤，但是你只能更新模型主表中的列。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b = Blog.objects.get(pk=1)</div><div class="line"></div><div class="line"># Update all the headlines belonging to this Blog.</div><div class="line">&gt;&gt;&gt; Entry.objects.select_related().filter(blog=b).update(headline=&apos;Everything is the same&apos;)</div></pre></td></tr></table></figure>
+<p>要注意<code>update()</code> 方法会直接转换成一个SQL 语句。它是一个批量的直接更新操作。它不会运行模型的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a> 方法，或者发出<code>pre_save</code> 或 <code>post_save</code>信号（调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>方法产生）或者查看<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.DateField.auto_now" target="_blank" rel="external"><code>auto_now</code></a> 字段选项。如果你想保存<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>中的每个条目并确保每个实例的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a> 方法都被调用，你不需要使用任何特殊的函数来处理。只需要迭代它们并调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">for item in my_queryset:</div><div class="line">    item.save()</div></pre></td></tr></table></figure>
+<p>对update 的调用也可以使用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/expressions.html#django.db.models.F" target="_blank" rel="external"><code>F 表达式</code></a> 来根据模型中的一个字段更新另外一个字段。这对于在当前值的基础上加上一个值特别有用。例如，增加Blog 中每个Entry 的pingback 个数：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Entry.objects.all().update(n_pingbacks=F(&apos;n_pingbacks&apos;) + 1)</div></pre></td></tr></table></figure>
+<p>然而，与filter 和exclude 子句中的<code>F()</code> 对象不同，在update 中你不可以使用<code>F()</code> 对象引入join —— 你只可以引用正在更新的模型的字段。如果你尝试使用<code>F()</code> 对象引入一个join，将引发一个<code>FieldError</code>：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># THIS WILL RAISE A FieldError</div><div class="line">&gt;&gt;&gt; Entry.objects.update(headline=F(&apos;blog__name&apos;))</div></pre></td></tr></table></figure>
+<h2 id="关联的对象¶"><a href="#关联的对象¶" class="headerlink" title="关联的对象¶"></a>关联的对象<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#related-objects" target="_blank" rel="external">¶</a></h2><p>当你在一个模型中定义一个关联关系时（例如，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a>、 <a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.OneToOneField" target="_blank" rel="external"><code>OneToOneField</code></a> 或<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a>），该模型的实例将带有一个方便的API 来访问关联的对象。</p>
+<p>利用本页顶部的模型，一个<code>Entry</code> 对象<code>e</code> 可以通过<code>blog</code> 属性<code>e.blog</code> 获取关联的<code>Blog</code> 对象。</p>
+<p>（在幕后，这个功能是通过Python 的<a href="http://users.rcn.com/python/download/Descriptor.htm" target="_blank" rel="external">描述器</a>实现的。这应该不会对你有什么真正的影响，但是这里我们指出它以满足你的好奇）。</p>
+<p>Django 还会创建API 用于访问关联关系的另一头 —— 从关联的模型访问定义关联关系的模型。例如，<code>Blog</code> 对象<code>b</code> 可以通过<code>entry_set</code> 属性 <code>b.entry_set.all()</code>访问与它关联的所有<code>Entry</code> 对象。</p>
+<p>这一节中的所有示例都将使用本页顶部定义的<code>Blog</code>、 <code>Author</code> 和<code>Entry</code> 模型。</p>
+<h3 id="一对多关系¶"><a href="#一对多关系¶" class="headerlink" title="一对多关系¶"></a>一对多关系<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#one-to-many-relationships" target="_blank" rel="external">¶</a></h3><h4 id="前向查询¶"><a href="#前向查询¶" class="headerlink" title="前向查询¶"></a>前向查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#forward" target="_blank" rel="external">¶</a></h4><p>如果一个模型具有<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a>，那么该模型的实例将可以通过属性访问关联的（外部）对象。</p>
+<p>例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; e = Entry.objects.get(id=2)</div><div class="line">&gt;&gt;&gt; e.blog # Returns the related Blog object.</div></pre></td></tr></table></figure>
+<p>你可以通过外键属性获取和设置。和你预期的一样，对外键的修改不会保存到数据库中直至你调用<a href="http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save" target="_blank" rel="external"><code>save()</code></a>。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; e = Entry.objects.get(id=2)</div><div class="line">&gt;&gt;&gt; e.blog = some_blog</div><div class="line">&gt;&gt;&gt; e.save()</div></pre></td></tr></table></figure>
+<p>如果<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 字段有<code>null=True</code> 设置（即它允许<code>NULL</code> 值），你可以分配<code>None</code> 来删除对应的关联性。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; e = Entry.objects.get(id=2)</div><div class="line">&gt;&gt;&gt; e.blog = None</div><div class="line">&gt;&gt;&gt; e.save() # &quot;UPDATE blog_entry SET blog_id = NULL ...;&quot;</div></pre></td></tr></table></figure>
+<p>一对多关联关系的前向访问在第一次访问关联的对象时被缓存。以后对同一个对象的外键的访问都使用缓存。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; e = Entry.objects.get(id=2)</div><div class="line">&gt;&gt;&gt; print(e.blog)  # Hits the database to retrieve the associated Blog.</div><div class="line">&gt;&gt;&gt; print(e.blog)  # Doesn&apos;t hit the database; uses cached version.</div></pre></td></tr></table></figure>
+<p>注意<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.select_related" target="_blank" rel="external"><code>select_related()</code></a> <a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a>方法递归地预填充所有的一对多关系到缓存中。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; e = Entry.objects.select_related().get(id=2)</div><div class="line">&gt;&gt;&gt; print(e.blog)  # Doesn&apos;t hit the database; uses cached version.</div><div class="line">&gt;&gt;&gt; print(e.blog)  # Doesn&apos;t hit the database; uses cached version.</div></pre></td></tr></table></figure>
+<h4 id="反向查询¶"><a href="#反向查询¶" class="headerlink" title="反向查询¶"></a>反向查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#following-relationships-backward" target="_blank" rel="external">¶</a></h4><p>如果模型I有一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a>，那么该ForeignKey 所指的模型II实例可以通过一个<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>返回前面有ForeignKey的模型I的所有实例。默认情况下，这个<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>的名字为<code>foo_set</code>，其中<code>foo</code> 是源模型的小写名称。该<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>返回的<code>查询集</code>可以用上一节提到的方式进行过滤和操作。</p>
+<p>例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b = Blog.objects.get(id=1)</div><div class="line">&gt;&gt;&gt; b.entry_set.all() # Returns all Entry objects related to Blog.</div><div class="line"></div><div class="line"># b.entry_set is a Manager that returns QuerySets.</div><div class="line">&gt;&gt;&gt; b.entry_set.filter(headline__contains=&apos;Lennon&apos;)</div><div class="line">&gt;&gt;&gt; b.entry_set.count()</div></pre></td></tr></table></figure>
+<p>你可以在<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> 定义时设置<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey.related_name" target="_blank" rel="external"><code>related_name</code></a> 参数来覆盖<code>foo_set</code> 的名称。例如，如果<code>Entry</code> 模型改成<code>blog =ForeignKey(Blog, related_name=&#39;entries&#39;)</code>，那么上面的示例代码应该改成这样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b = Blog.objects.get(id=1)</div><div class="line">&gt;&gt;&gt; b.entries.all() # Returns all Entry objects related to Blog.</div><div class="line"></div><div class="line"># b.entries is a Manager that returns QuerySets.</div><div class="line">&gt;&gt;&gt; b.entries.filter(headline__contains=&apos;Lennon&apos;)</div><div class="line">&gt;&gt;&gt; b.entries.count()</div></pre></td></tr></table></figure>
+<h4 id="使用自定义的反向管理器¶"><a href="#使用自定义的反向管理器¶" class="headerlink" title="使用自定义的反向管理器¶"></a>使用自定义的反向管理器<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#using-a-custom-reverse-manager" target="_blank" rel="external">¶</a></h4><p>New in Django 1.7.</p>
+<p>默认情况下，用于反向关联关系的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/relations.html#django.db.models.fields.related.RelatedManager" target="_blank" rel="external"><code>RelatedManager</code></a> 是该模型<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#manager-names" target="_blank" rel="external"><em>默认管理器</em></a> 的子类。如果你想为一个查询指定一个不同的管理器，你可以使用下面的语法：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from django.db import models</div><div class="line"></div><div class="line">class Entry(models.Model):</div><div class="line">    #...</div><div class="line">    objects = models.Manager()  # Default Manager</div><div class="line">    entries = EntryManager()    # Custom Manager</div><div class="line"></div><div class="line">b = Blog.objects.get(id=1)</div><div class="line">b.entry_set(manager=&apos;entries&apos;).all()</div></pre></td></tr></table></figure>
+<p>如果<code>EntryManager</code> 在它的<code>get_queryset()</code> 方法中使用默认的过滤，那么该过滤将适用于<code>all()</code> 调用。</p>
+<p>当然，指定一个自定义的管理器还可以让你调用自定义的方法：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">b.entry_set(manager=&apos;entries&apos;).is_published()</div></pre></td></tr></table></figure>
+<h4 id="处理关联对象的其它方法¶"><a href="#处理关联对象的其它方法¶" class="headerlink" title="处理关联对象的其它方法¶"></a>处理关联对象的其它方法<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#additional-methods-to-handle-related-objects" target="_blank" rel="external">¶</a></h4><p>除了在上面”获取对象“一节中定义的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet" target="_blank" rel="external"><code>查询集</code></a> 方法之外，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a> <a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a> 还有其它方法用于处理关联的对象集合。下面是每个方法的大概，完整的细节可以在<a href="http://python.usyiyi.cn/documents/django_182/ref/models/relations.html" target="_blank" rel="external"><em>关联对象参考</em></a> 中找到。</p>
+<ul>
+<li><p><code>add(obj1, obj2, ...)</code></p>
+<p>添加一指定的模型对象到关联的对象集中。</p>
+</li>
+<li><p><code>create(**kwargs)</code></p>
+<p>创建一个新的对象，将它保存并放在关联的对象集中。返回新创建的对象。</p>
+</li>
+<li><p><code>remove(obj1, obj2, ...)</code></p>
+<p>从关联的对象集中删除指定的模型对象。</p>
+</li>
+<li><p><code>clear()</code></p>
+<p>从关联的对象集中删除所有的对象。</p>
+</li>
+</ul>
+<p>若要一次性给关联的对象集赋值，只需要给它赋值一个可迭代的对象。这个可迭代的对象可以包含对象的实例，或者一个主键值的列表。例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">b = Blog.objects.get(id=1)</div><div class="line">b.entry_set = [e1, e2]</div></pre></td></tr></table></figure>
+<p>在这个例子中，<code>e1</code> 和<code>e2</code> 可以是Entry 实例，也可以是主键的整数值。</p>
+<p>如果有<code>clear()</code> 方法，那么在将可迭代对象中的成员添加到集合中之前，将从<code>entry_set</code> 中删除所有已经存在的对象。如果<em>没有</em><code>clear()</code> 方法，那么将直接添加可迭代对象中的成员而不会删除所有已存在的对象。</p>
+<p>这一节中提到的每个”反向“操作都会立即对数据库产生作用。每个添加、创建和删除操作都会立即并自动保存到数据库中。</p>
+<h3 id="多对多关系¶"><a href="#多对多关系¶" class="headerlink" title="多对多关系¶"></a>多对多关系<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#many-to-many-relationships" target="_blank" rel="external">¶</a></h3><p>多对多关系的两端都会自动获得访问另一端的API。这些API 的工作方式与上面提到的“方向”一对多关系一样。</p>
+<p>唯一的区别在于属性的名称：定义 <a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 的模型使用该字段的属性名称，而“反向”模型使用源模型的小写名称加上<code>&#39;_set&#39;</code> （和一对多关系一样）。</p>
+<p>一个例子可以让它更好理解：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">e = Entry.objects.get(id=3)</div><div class="line">e.authors.all() # Returns all Author objects for this Entry.</div><div class="line">e.authors.count()</div><div class="line">e.authors.filter(name__contains=&apos;John&apos;)</div><div class="line"></div><div class="line">a = Author.objects.get(id=5)</div><div class="line">a.entry_set.all() # Returns all Entry objects for this Author.</div></pre></td></tr></table></figure>
+<p>类似<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ForeignKey" target="_blank" rel="external"><code>ForeignKey</code></a>，<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 可以指定<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField.related_name" target="_blank" rel="external"><code>related_name</code></a>。在上面的例子中，如果<code>Entry</code> 中的<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField" target="_blank" rel="external"><code>ManyToManyField</code></a> 指定<code>related_name=&#39;entries&#39;</code>，那么<code>Author</code> 实例将使用 <code>entries</code> 属性而不是<code>entry_set</code>。</p>
+<h3 id="一对一关系¶"><a href="#一对一关系¶" class="headerlink" title="一对一关系¶"></a>一对一关系<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#one-to-one-relationships" target="_blank" rel="external">¶</a></h3><p>一对一关系与多对一关系非常相似。如果你在模型中定义一个<a href="http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.OneToOneField" target="_blank" rel="external"><code>OneToOneField</code></a>，该模型的实例将可以通过该模型的一个简单属性访问关联的模型。</p>
+<p>例如：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class EntryDetail(models.Model):</div><div class="line">    entry = models.OneToOneField(Entry)</div><div class="line">    details = models.TextField()</div><div class="line"></div><div class="line">ed = EntryDetail.objects.get(id=2)</div><div class="line">ed.entry # Returns the related Entry object.</div></pre></td></tr></table></figure>
+<p>在“反向”查询中有所不同。一对一关系中的关联模型同样具有一个<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>对象，但是该<a href="http://python.usyiyi.cn/documents/django_182/topics/db/managers.html#django.db.models.Manager" target="_blank" rel="external"><code>管理器</code></a>表示一个单一的对象而不是对象的集合：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">e = Entry.objects.get(id=2)</div><div class="line">e.entrydetail # returns the related EntryDetail object</div></pre></td></tr></table></figure>
+<p>如果没有对象赋值给这个关联关系，Django 将引发一个<code>DoesNotExist</code> 异常。</p>
+<p>实例可以赋值给反向的关联关系，方法和正向的关联关系一样：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">e.entrydetail = ed</div></pre></td></tr></table></figure>
+<h3 id="反向的关联关系是如何实现的？¶"><a href="#反向的关联关系是如何实现的？¶" class="headerlink" title="反向的关联关系是如何实现的？¶"></a>反向的关联关系是如何实现的？<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#how-are-the-backward-relationships-possible" target="_blank" rel="external">¶</a></h3><p>其它对象关系映射要求你在关联关系的两端都要定义。Django 的开发人员相信这是对DRY（不要重复你自己的代码）原则的违背，所以Django 只要求你在一端定义关联关系。</p>
+<p>但是这怎么可能？因为一个模型类直到其它模型类被加载之后才知道哪些模型类是关联的。</p>
+<p>答案在<a href="http://python.usyiyi.cn/documents/django_182/ref/applications.html#django.apps.apps" target="_blank" rel="external"><code>app registry</code></a> 中。当Django 启动时，它导入<a href="http://python.usyiyi.cn/documents/django_182/ref/settings.html#std:setting-INSTALLED_APPS" target="_blank" rel="external"><code>INSTALLED_APPS</code></a> 中列出的每个应用，然后导入每个应用中的<code>models</code>模块。每创建一个新的模型时，Django 添加反向的关系到所有关联的模型。如果关联的模型还没有导入，Django 将保存关联关系的记录并在最终关联的模型导入时添加这些关联关系。</p>
+<p>由于这个原因，你使用的所有模型都定义在<a href="http://python.usyiyi.cn/documents/django_182/ref/settings.html#std:setting-INSTALLED_APPS" target="_blank" rel="external"><code>INSTALLED_APPS</code></a> 列出的应用中就显得特别重要。否则，反向的关联关系将不能正确工作。</p>
+<h3 id="通过关联的对象进行查询¶"><a href="#通过关联的对象进行查询¶" class="headerlink" title="通过关联的对象进行查询¶"></a>通过关联的对象进行查询<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#queries-over-related-objects" target="_blank" rel="external">¶</a></h3><p>在关联对象字段上的查询与正常字段的查询遵循同样的规则。当你指定查询需要匹配的一个值时，你可以使用一个对象实例或者对象的主键的值。</p>
+<p>例如，如果你有一个<code>id=5</code> 的Blog 对象<code>b</code>，下面的三个查询将是完全一样的：</p>
+<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(blog=b) # Query using object instance</div><div class="line">Entry.objects.filter(blog=b.id) # Query using id from instance</div><div class="line">Entry.objects.filter(blog=5) # Query using id directly</div></pre></td></tr></table></figure>
+<h2 id="回归到原始的-SQL¶"><a href="#回归到原始的-SQL¶" class="headerlink" title="回归到原始的 SQL¶"></a>回归到原始的 SQL<a href="http://python.usyiyi.cn/documents/django_182/topics/db/queries.html#falling-back-to-raw-sql" target="_blank" rel="external">¶</a></h2><p>如果你发现需要编写的SQL 查询对于Django 的数据库映射机制太复杂，你可以回归到手工编写SQL。Django 对于编写原始的SQL 查询有多个选项；参见<a href="http://python.usyiyi.cn/documents/django_182/topics/db/sql.html" target="_blank" rel="external"><em>执行原始的SQL 查询</em></a>。</p>
+<p>最后，值得注意的是Django 的数据库层只是数据库的一个接口。你可以利用其它工具、编程语言或数据库框架来访问数据库；对于数据库，Django 没有什么特别的地方。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/12/DjangoQuery/">Django 查询</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
+        <p><span>发布时间:</span>2017年10月12日 - 17时28分</p>
+        <p><span>最后更新:</span>2017年10月12日 - 17时29分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/12/DjangoQuery/" title="Django 查询">http://blog.star-chen.com/2017/10/12/DjangoQuery/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/12/DjangoQuery/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/12/DjangowithPostgres/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在Django中使用PosetgreSQL数据库</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#执行查询"><span class="toc-number">1.</span> <span class="toc-text">执行查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建对象"><span class="toc-number">1.1.</span> <span class="toc-text">创建对象.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#保存对象的改动"><span class="toc-number">1.2.</span> <span class="toc-text">保存对象的改动.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#保存ForeignKey和ManyToManyField字段¶"><span class="toc-number">1.2.1.</span> <span class="toc-text">保存ForeignKey和ManyToManyField字段¶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取对象¶"><span class="toc-number">1.3.</span> <span class="toc-text">获取对象¶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取所有对象¶"><span class="toc-number">1.3.1.</span> <span class="toc-text">获取所有对象¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用过滤器获取特定对象¶"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用过滤器获取特定对象¶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#链式过滤¶"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">链式过滤¶</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#过滤后的查询集是独立的¶"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">过滤后的查询集是独立的¶</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查询集是惰性执行的¶"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">查询集是惰性执行的¶</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过get-获取一个单一的对象¶"><span class="toc-number">1.3.3.</span> <span class="toc-text">通过get 获取一个单一的对象¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其它查询集方法¶"><span class="toc-number">1.3.4.</span> <span class="toc-text">其它查询集方法¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#限制查询集¶"><span class="toc-number">1.3.5.</span> <span class="toc-text">限制查询集¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段查询¶"><span class="toc-number">1.3.6.</span> <span class="toc-text">字段查询¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨关联关系的查询¶"><span class="toc-number">1.3.7.</span> <span class="toc-text">跨关联关系的查询¶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#跨越多值的关联关系¶"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">跨越多值的关联关系¶</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filter-可以引用模型的字段¶"><span class="toc-number">1.3.8.</span> <span class="toc-text">Filter 可以引用模型的字段¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询的快捷方式pk¶"><span class="toc-number">1.3.9.</span> <span class="toc-text">查询的快捷方式pk¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转义LIKE-语句中的百分号和下划线¶"><span class="toc-number">1.3.10.</span> <span class="toc-text">转义LIKE 语句中的百分号和下划线¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存和查询集¶"><span class="toc-number">1.3.11.</span> <span class="toc-text">缓存和查询集¶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#何时查询集不会被缓存¶"><span class="toc-number">1.3.11.1.</span> <span class="toc-text">何时查询集不会被缓存¶</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Q-对象进行复杂的查询¶"><span class="toc-number">1.4.</span> <span class="toc-text">使用Q 对象进行复杂的查询¶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较对象¶"><span class="toc-number">1.5.</span> <span class="toc-text">比较对象¶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除对象¶"><span class="toc-number">1.6.</span> <span class="toc-text">删除对象¶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝模型实例¶"><span class="toc-number">1.7.</span> <span class="toc-text">拷贝模型实例¶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一次更新多个对象¶"><span class="toc-number">1.8.</span> <span class="toc-text">一次更新多个对象¶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联的对象¶"><span class="toc-number">1.9.</span> <span class="toc-text">关联的对象¶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一对多关系¶"><span class="toc-number">1.9.1.</span> <span class="toc-text">一对多关系¶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#前向查询¶"><span class="toc-number">1.9.1.1.</span> <span class="toc-text">前向查询¶</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#反向查询¶"><span class="toc-number">1.9.1.2.</span> <span class="toc-text">反向查询¶</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用自定义的反向管理器¶"><span class="toc-number">1.9.1.3.</span> <span class="toc-text">使用自定义的反向管理器¶</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#处理关联对象的其它方法¶"><span class="toc-number">1.9.1.4.</span> <span class="toc-text">处理关联对象的其它方法¶</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多对多关系¶"><span class="toc-number">1.9.2.</span> <span class="toc-text">多对多关系¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一对一关系¶"><span class="toc-number">1.9.3.</span> <span class="toc-text">一对一关系¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向的关联关系是如何实现的？¶"><span class="toc-number">1.9.4.</span> <span class="toc-text">反向的关联关系是如何实现的？¶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过关联的对象进行查询¶"><span class="toc-number">1.9.5.</span> <span class="toc-text">通过关联的对象进行查询¶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回归到原始的-SQL¶"><span class="toc-number">1.10.</span> <span class="toc-text">回归到原始的 SQL¶</span></a></li></ol></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2017/10/12/DjangoQuery/" data-title="Django 查询" data-url="http://blog.star-chen.com/2017/10/12/DjangoQuery/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"star-chen"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/10/12/DjangowithPostgres/" title="下一篇: 在Django中使用PosetgreSQL数据库">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/DjangoQuery/">Django 查询</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/DjangowithPostgres/">在Django中使用PosetgreSQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/Ubuntu-install-Postgres/">Ubuntu 17.04 安装PostgreSQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/python-kwargs/">python-**kwargs的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/Django-Signal/">Django-信号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-SchemaClientLib/">DjangoRESTframework-Schema和客户端类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-ViewsetsRouters/">DjangoRESTframework-视图集合和路由</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/">DjangoRESTframework-关系与超链接API</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-AuthenticationPermissions/">DjangoRESTframework-认证与权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-class-based-view/">DjangoRESTframework-基于类的视图（class-based views）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-ReqAndRes/">DjangoRESTframework-请求与响应（Request Response）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-serializetion/">DjangoRESTframework-序列化（Serializetion）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-quickstart/">DjangoRESTframework-快速开始</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Django-helloworld/">Django快速上手笔记之HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Django-install/">Django快速上手笔记之安装Django</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/python-note-repr/">Python学习笔记之----repr()函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/19/TCP-Echo-Demo/">SOCKET编程----Echo Something</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/PDF-watermask/">利用iTextSharp向pdf文件中添加图片水印</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/OpenWrt-HelloWorl/">OpenWrt软件开发-----软件包HelloWorld的构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/19/ChangeUbuntuPassWd/">忘记Ubuntu用户密码，怎么办?</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/DokerStudy-install/">动手学Docker系列---在操作系统上安装Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/LoginNewTP/">TPLINK系列路由器新版UI登录算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/CompileNgrok/">在自己的VPS上编译部署Ngrok</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/31/CompileOpenJDK/">深入理解java虚拟机之动手编译OpenJDK 7</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/Linux-Add-Swap/">Linux学习笔记之添加SWAP分区</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/Linux-File-Priveleges/">Linux学习笔记之文件权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/SSH-LOG-USER/">修改OpenSSH源码，记录爆破SSH端口的密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/BubbleSort/">常见排序算法之冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/InsertSort/">常见排序算法之插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Factory-Notes/">设计模式学习之工厂模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Decorator-Notes/">设计模式学习之装饰者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/MariaDB-Create-Remote/">MariaDB创建新用户、新数据库并允许特定用户远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/Centos7-lnmp/">CentOS 7.2 搭建lnmp环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-hello-world/">与Tornado的第一次接触</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt && Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 STAR-CHEN
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
