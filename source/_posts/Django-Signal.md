@@ -15,77 +15,75 @@ Django自带一个信号调度程序允许*receiver*函数在某个动作出现�
 
 其中Django提供了一组内建信号，比如下面这些：
 
-- [`django.db.models.signals.pre_save`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.db.models.signals.pre_save)＆[`django.db.models.signals.post_save`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.db.models.signals.post_save)
+1. django.db.models.signals.pre_save
 
-  在模型 [`save()`](http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.save)方法调用之前或之后发送。
+   在模型 save()方法调用之前或之后发送。
 
-- [`django.db.models.signals.pre_delete`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.db.models.signals.pre_delete)＆[`django.db.models.signals.post_delete`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.db.models.signals.post_delete)
+2. django.db.models.signals.pre_delete
 
-  在模型[`delete()`](http://python.usyiyi.cn/documents/django_182/ref/models/instances.html#django.db.models.Model.delete)方法或查询集的[`delete()`](http://python.usyiyi.cn/documents/django_182/ref/models/querysets.html#django.db.models.query.QuerySet.delete) 方法调用之前或之后发送。
+   在模型delete() 方法调用之前或之后发送。
 
-- [`django.db.models.signals.m2m_changed`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.db.models.signals.m2m_changed)
+3. django.db.models.signals.m2m_changed
 
-  模型上的 [`ManyToManyField`](http://python.usyiyi.cn/documents/django_182/ref/models/fields.html#django.db.models.ManyToManyField) 修改时发送。
+   模型上的 ManyToManyField 修改时发送。
 
-- [`django.core.signals.request_started`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.core.signals.request_started)＆[`django.core.signals.request_finished`](http://python.usyiyi.cn/documents/django_182/ref/signals.html#django.core.signals.request_finished)
+4. django.core.signals.request_started
 
-  Django建立或关闭HTTP 请求时发送。
+   Django建立或关闭HTTP 请求时发送。
 
-  ​
+​
 
-  上面的每个信号的完整使用方法可以参考Django官方的详细文档。
+上面的每个信号的完整使用方法可以参考Django官方的详细文档。
 
-  #### 如何使用Django中的信号呢？
+#### 如何使用Django中的信号呢？
 
-  首先了解一下Django Signal的处理流程：
+首先了解一下Django Signal的处理流程：
 
-  ![image](/blogimg/signal_process.png)
+![image](/blogimg/signal_process.png)
 
-  那么我就用个小例子来演示一下如何使用signal
+那么我就用个小例子来演示一下如何使用signal
 
-  ##### 应用目的
+##### 应用目的
 
-  之前根据DjangoRESTframework官方教程做了一个简单的管理代码片段的api，我想当有用户创建代码片段的时候打印点日志，这可以通过signal来完成。
+之前根据DjangoRESTframework官方教程做了一个简单的管理代码片段的api，我想当有用户创建代码片段的时候打印点日志，这可以通过signal来完成。
 
-  #### 使用receiver装饰器处理signal
+#### 使用receiver装饰器处理signal
 
-  在应用下新建一个signals.py文件，内容如下：
+在应用下新建一个signals.py文件，内容如下：
 
-  ```python
-  # -*- coding:utf-8 -*-
-  from django.db.models.signals import post_save
-  from django.dispatch import receiver
-  from snippets.models import Snippet
-  import logging
+```python
+# -*- coding:utf-8 -*-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from snippets.models import Snippet
+import logging
 
-  #使用了receiver装饰器来将on_snippet_create注册成监听函数，用以监听Snippet这个model的post_save事件
-  @receiver(post_save, sender=Snippet)
-  #这个就是post_save事件对应的回调函数
-  def on_snippet_create(sender,instance, **kwargs):
-      logging.debug("New Snippet")
-      print "New snippet created!"
-      print "The code = %s" % instance.code
-  ```
+#使用了receiver装饰器来将on_snippet_create注册成监听函数，用以监听Snippet这个model的post_save事件
+@receiver(post_save, sender=Snippet)
+#这个就是post_save事件对应的回调函数
+def on_snippet_create(sender,instance, **kwargs):
+    logging.debug("New Snippet")
+    print "New snippet created!"
+    print "The code = %s" % instance.code
+```
 
-  然后需要在app引入一下signals.py这个文件，不然它是不会被执行的。一个可以的位置是在apps.py中，在ready()方法中注册。apps.py文件内容如下：
+然后需要在app引入一下signals.py这个文件，不然它是不会被执行的。一个可以的位置是在apps.py中，在ready()方法中注册。apps.py文件内容如下：
 
-  ```python
-  # -*- coding: utf-8 -*-
-  from __future__ import unicode_literals
+```python
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-  from django.apps import AppConfig
-  ```
+from django.apps import AppConfig
+```
 
-  ```python
-   class SnippetsConfig(AppConfig):
-      name = 'snippets'
+```python
+ class SnippetsConfig(AppConfig):
+    name = 'snippets'
 
-      def ready(self):
-          # import signal handlers
-          import snippets.signals
-  ```
-
-
+    def ready(self):
+        # import signal handlers
+        import snippets.signals
+```
 
 
   接下来可以开启测试服务器，看一下是否能够监听到model的post_save事件。
@@ -104,7 +102,7 @@ Django自带一个信号调度程序允许*receiver*函数在某个动作出现�
 
 class Signal([providing_args=list])
 
-所有信号都是 [`django.dispatch.Signal`](http://python.usyiyi.cn/documents/django_182/topics/signals.html#django.dispatch.Signal) 的实例。`providing_args`是一个列表，由信号将提供给监听者的参数名称组成。理论上是这样，但是实际上并没有任何检查来保证向监听者提供了这些参数。
+所有信号都是 django.dispatch.Signal 的实例。`providing_args`是一个列表，由信号将提供给监听者的参数名称组成。理论上是这样，但是实际上并没有任何检查来保证向监听者提供了这些参数。
 
 那么我们可以这样来定义一个信号：
 
@@ -125,7 +123,7 @@ Django中可以有两种方法去发送信号
 
 - Signal.send_robust(sender, **kwargs)
 
-调用 [`Signal.send()`](http://python.usyiyi.cn/documents/django_182/topics/signals.html#django.dispatch.Signal.send)或者[`Signal.send_robust()`](http://python.usyiyi.cn/documents/django_182/topics/signals.html#django.dispatch.Signal.send_robust)来发送信号。你必须提供`sender` 参数（大多数情况下它是一个类），并且可以提供尽可能多的关键字参数。
+调用 Signal.send()来发送信号。你必须提供`sender` 参数（大多数情况下它是一个类），并且可以提供尽可能多的关键字参数。
 
 我们可以这样子来发送信号：
 
