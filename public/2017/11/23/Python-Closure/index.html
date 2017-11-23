@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>pwnable练习之fd | STAR-CHEN&#39;s BLOG</title>
+  <title>Python学习笔记之-----闭包 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
+  <meta name="description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pwnable练习之fd">
-<meta property="og:url" content="http://blog.star-chen.com/2016/11/27/Pwnable-fd/index.html">
+<meta property="og:title" content="Python学习笔记之-----闭包">
+<meta property="og:url" content="http://blog.star-chen.com/2017/11/23/Python-Closure/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
-<meta property="og:updated_time" content="2017-11-22T07:25:13.938Z">
+<meta property="og:description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
+<meta property="og:updated_time" content="2017-11-23T07:16:14.104Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pwnable练习之fd">
-<meta name="twitter:description" content="fd.c的代码如下：123456789101112131415161718192021#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;string.h&amp;gt;char buf[32];int main(int argc, char* argv[], char* envp[])&amp;#123;	if(argc&amp;lt;2)&amp;#12">
+<meta name="twitter:title" content="Python学习笔记之-----闭包">
+<meta name="twitter:description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -221,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Pwnable-fd" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Python-Closure" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/27/Pwnable-fd/" class="article-date">
-      <time datetime="2016-11-27T11:25:18.000Z" itemprop="datePublished">2016-11-27</time>
+      <a href="/2017/11/23/Python-Closure/" class="article-date">
+      <time datetime="2017-11-23T06:50:44.000Z" itemprop="datePublished">2017-11-23</time>
 </a>
     </div>
   
@@ -238,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pwnable练习之fd
+      Python学习笔记之-----闭包
     </h1>
   
 
@@ -247,13 +247,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/CTF/">CTF</a>
+    <a class="article-category-link" href="/categories/Program/">Program</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PWN/">PWN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pwnable/">pwnable</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -263,41 +263,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>fd.c的代码如下：<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">char buf[32];</div><div class="line">int main(int argc, char* argv[], char* envp[])&#123;</div><div class="line">	if(argc&lt;2)&#123;</div><div class="line">		printf(&quot;pass argv[1] a number\n&quot;);</div><div class="line">		return 0;</div><div class="line">	&#125;</div><div class="line">	int fd = atoi( argv[1] ) - 0x1234;</div><div class="line">	int len = 0;</div><div class="line">	len = read(fd, buf, 32);</div><div class="line">	if(!strcmp(&quot;LETMEWIN\n&quot;, buf))&#123;</div><div class="line">		printf(&quot;good job :)\n&quot;);</div><div class="line">		system(&quot;/bin/cat flag&quot;);</div><div class="line">		exit(0);</div><div class="line">	&#125;</div><div class="line">	printf(&quot;learn about Linux file IO\n&quot;);</div><div class="line">	return 0;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>代码逻辑比较清楚，需要输入一个数字，然后减去0x1234，所得的值作为read函数的第一个参数，然后调用read函数读取输入，然后将读取的值和“LETMEWIN\n”比较，若相等则cat输出flag文件中的值。<br>接下来我们看一下read函数的函数描述:<br><a id="more"></a><br><figure class="highlight c" data-lang=" c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NAME</div><div class="line">       read - read from a file descriptor</div><div class="line"></div><div class="line">SYNOPSIS</div><div class="line">       <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line">       <span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buf, <span class="keyword">size_t</span> count);</div></pre></td></tr></table></figure></p>
-<p>可以看到第一个参数为文件描述符。在Linux系统中存在三个比较特殊的文件描述符：  </p>
-<table>
-<thead>
-<tr>
-<th>文件描述符</th>
-<th style="text-align:right">用途</th>
-<th style="text-align:right">POISX名称</th>
-<th style="text-align:right">stdio流</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td style="text-align:right">标准输入</td>
-<td style="text-align:right">STDIN_FILENO</td>
-<td style="text-align:right">stdin</td>
-</tr>
-<tr>
-<td>1</td>
-<td style="text-align:right">标准输出</td>
-<td style="text-align:right">STDOUT_FILENO</td>
-<td style="text-align:right">stdout</td>
-</tr>
-<tr>
-<td>2</td>
-<td style="text-align:right">标准错误</td>
-<td style="text-align:right">STDERR_FILENO</td>
-<td style="text-align:right">stderr</td>
-</tr>
-</tbody>
-</table>
-<p>这里我们可以让read参数的第一个参数为0（从标准输入读取），然后输入“LETMEWIN”即可让程序执行cat flag操作。<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fd@ubuntu:~$ ./fd 4660</div><div class="line">LETMEWIN</div><div class="line">good job :)</div><div class="line">mommy! I think I know what a file descriptor is!!</div></pre></td></tr></table></figure></p>
-<p>注：fd,file decriptor 文件描述符</p>
+        <p>在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。<br><a id="more"></a></p>
+<h4 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h4><p>闭包（Closure）是词法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创始它的环境也不例外。所以，闭包是函数和与其相关的引用环境组合而形成的实体。</p>
+<h4 id="一个闭包的例子"><a href="#一个闭包的例子" class="headerlink" title="一个闭包的例子"></a>一个闭包的例子</h4><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> urlopen</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">page</span><span class="params">(url)</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> urlopen(url).read()</div><div class="line">  <span class="keyword">return</span> get</div><div class="line"></div><div class="line">baidu_page = page(<span class="string">"http://www.baidu.com"</span>)</div><div class="line"><span class="keyword">print</span> baidu_page</div><div class="line"><span class="keyword">print</span> baidu_page()</div></pre></td></tr></table></figure>
+<p>在这个例子中，在page函数中，其内部的get函数作为返回值给返回了，在执行get()函数的时候，它会使用原来提供给page（）函数的url去调用urlopen（url）。<br>如果想查看闭包中的变量内容，可以这样：<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;baidu_page.__closure__  #可以看到其closure属性是一个元组</div><div class="line">&gt;&gt;&gt;baidu_page.__closure__[0].cell_contents #查看元组的内容，即传入的url</div></pre></td></tr></table></figure></p>
+<h4 id="使用闭包需要注意的地方"><a href="#使用闭包需要注意的地方" class="headerlink" title="使用闭包需要注意的地方"></a>使用闭包需要注意的地方</h4><p>闭包中是不能修改外部作用域的局部变量的<br><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">  m = <span class="number">0</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">foo1</span><span class="params">()</span>:</span></div><div class="line">    m = <span class="number">1</span></div><div class="line">    <span class="keyword">print</span> m</div><div class="line">  <span class="keyword">print</span> m</div><div class="line">  foo1()</div><div class="line">  <span class="keyword">print</span> m</div><div class="line"></div><div class="line">&gt;&gt;&gt;foo()</div></pre></td></tr></table></figure></p>
+<p>错误的使用局部变量<br><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">  a = <span class="number">1</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></div><div class="line">    a = a + <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> a</div><div class="line">  <span class="keyword">return</span> bar</div><div class="line">&gt;&gt;&gt;c = foo()</div><div class="line">&gt;&gt;&gt;<span class="keyword">print</span> c()</div></pre></td></tr></table></figure></p>
+<p>这样在调用的时候会产生错误，因为在bar内部，a在=号之前，被认为是bar的局部变量，等待赋值，而稍后去取a的值，而此时a是未被初始化的，所以会报一个a未定义的错误。解决这个问题的话，可以将a定义为一个可变变量，例如list</p>
+<h4 id="闭包的应用例子"><a href="#闭包的应用例子" class="headerlink" title="闭包的应用例子"></a>闭包的应用例子</h4><p>在有的函数中，如果想让函数调用保持某个状态，那么使用闭包是一种非常有效的方式。<br>另外一个就是常用的装饰器了。<br>闭包有效的减少了函数所需定义的参数数目，便于用于并行计算。</p>
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><p><a href="http://python.jobbole.com/82624/" target="_blank" rel="external">http://python.jobbole.com/82624/</a><br><a href="https://www.cnblogs.com/ma6174/archive/2013/04/15/3022548.html" target="_blank" rel="external">https://www.cnblogs.com/ma6174/archive/2013/04/15/3022548.html</a><br><a href="https://www.cnblogs.com/ChrisChen3121/p/3208119.html" target="_blank" rel="external">https://www.cnblogs.com/ChrisChen3121/p/3208119.html</a><br><a href="http://python.jobbole.com/82296/" target="_blank" rel="external">http://python.jobbole.com/82296/</a><br>《python参考手册》</p>
 
       
     </div>
@@ -306,13 +280,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></p>
+        <p><span>本文标题:</span><a href="/2017/11/23/Python-Closure/">Python学习笔记之-----闭包</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年11月27日 - 19时25分</p>
-        <p><span>最后更新:</span>2017年11月22日 - 15时25分</p>
+        <p><span>发布时间:</span>2017年11月23日 - 14时50分</p>
+        <p><span>最后更新:</span>2017年11月23日 - 15时16分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/27/Pwnable-fd/" title="pwnable练习之fd">http://blog.star-chen.com/2016/11/27/Pwnable-fd/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/27/Pwnable-fd/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/23/Python-Closure/" title="Python学习笔记之-----闭包">http://blog.star-chen.com/2017/11/23/Python-Closure/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/23/Python-Closure/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -325,18 +299,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/11/28/Pwnable-collision/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          pwnable练习之collision
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/20/GDB-peda/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">在Ubuntu16.04上配置peda</div>
+    <a href="/2017/11/22/Ubuntu-17-10-Systemd-Networkd/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ubuntu-17.10-使用Systemd-Networkd接管网络配置</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -347,7 +312,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是闭包"><span class="toc-number">1.</span> <span class="toc-text">什么是闭包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个闭包的例子"><span class="toc-number">2.</span> <span class="toc-text">一个闭包的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用闭包需要注意的地方"><span class="toc-number">3.</span> <span class="toc-text">使用闭包需要注意的地方</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#闭包的应用例子"><span class="toc-number">4.</span> <span class="toc-text">闭包的应用例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -395,7 +360,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/11/27/Pwnable-fd/" data-title="pwnable练习之fd" data-url="http://blog.star-chen.com/2016/11/27/Pwnable-fd/"></div>
+    <div class="ds-thread" data-thread-key="2017/11/23/Python-Closure/" data-title="Python学习笔记之-----闭包" data-url="http://blog.star-chen.com/2017/11/23/Python-Closure/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -418,13 +383,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/11/28/Pwnable-collision/" title="上一篇: pwnable练习之collision">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/11/20/GDB-peda/" title="下一篇: 在Ubuntu16.04上配置peda">
+            <a href="/2017/11/22/Ubuntu-17-10-Systemd-Networkd/" title="下一篇: Ubuntu-17.10-使用Systemd-Networkd接管网络配置">
                 <i class="fa fa-angle-right"></i>
             </a>
         
