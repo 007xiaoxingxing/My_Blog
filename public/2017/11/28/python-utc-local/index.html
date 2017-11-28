@@ -3,21 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>DjangoRESTframework-Schema和客户端类库 | STAR-CHEN&#39;s BLOG</title>
+  <title>python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DjangoRESTframework    Schemas &amp;amp; client librariesshema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。
-shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。">
+  <meta name="description" content="在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DjangoRESTframework-Schema和客户端类库">
-<meta property="og:url" content="http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/index.html">
+<meta property="og:title" content="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">
+<meta property="og:url" content="http://blog.star-chen.com/2017/11/28/python-utc-local/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="DjangoRESTframework    Schemas &amp;amp; client librariesshema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。
-shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。">
-<meta property="og:updated_time" content="2017-10-11T04:28:53.034Z">
+<meta property="og:description" content="在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。">
+<meta property="og:updated_time" content="2017-11-28T08:58:22.148Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DjangoRESTframework-Schema和客户端类库">
-<meta name="twitter:description" content="DjangoRESTframework    Schemas &amp;amp; client librariesshema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。
-shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。">
+<meta name="twitter:title" content="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">
+<meta name="twitter:description" content="在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -224,11 +221,11 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-DjangoRESTframework-SchemaClientLib" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-python-utc-local" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/10/11/DjangoRESTframework-SchemaClientLib/" class="article-date">
-      <time datetime="2017-10-11T04:28:03.000Z" itemprop="datePublished">2017-10-11</time>
+      <a href="/2017/11/28/python-utc-local/" class="article-date">
+      <time datetime="2017-11-28T08:35:08.000Z" itemprop="datePublished">2017-11-28</time>
 </a>
     </div>
   
@@ -241,7 +238,7 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
         
   
     <h1 class="article-title" itemprop="name">
-      DjangoRESTframework-Schema和客户端类库
+      python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换
     </h1>
   
 
@@ -256,7 +253,7 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/djangorestframework/">djangorestframework</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -266,50 +263,14 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="DjangoRESTframework-Schemas-amp-client-libraries"><a href="#DjangoRESTframework-Schemas-amp-client-libraries" class="headerlink" title="DjangoRESTframework    Schemas &amp; client libraries"></a>DjangoRESTframework    Schemas &amp; client libraries</h3><p>shema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。</p>
-<p>shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。</p>
+        <p>在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。</p>
 <a id="more"></a>
-<h4 id="Core-API"><a href="#Core-API" class="headerlink" title="Core API"></a>Core API</h4><p>为了提供shema支持REST框架使用了Core API。</p>
-<p>Core API是用于描述API的文档规范。它用于提供可用接口的内部表示格式和API公开的可能交互。它既可以使用服务器端，也可以使用客户端。</p>
-<p>在使用服务器端时，Core API允许API支持对多种schema或hypermedia格式的呈现。</p>
-<p>在使用客户端时，Core API允许动态驱动的客户端库，可以与公开支持的模式或hypermedia格式的任何API交互。</p>
-<h4 id="添加schema"><a href="#添加schema" class="headerlink" title="添加schema"></a>添加schema</h4><p>REST framework支持显式定义的模式视图或自动生成的模式。由于我们使用的是viewset和路由器，所以我们可以简单地使用自动模式生成。</p>
-<p>为了包含API schema，您需要安装coreapi 包。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install coreapi</div></pre></td></tr></table></figure>
-<p>现在，我们可以通过在URL配置中包含一个自动生成的模式视图来包含API的模式。</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> rest_framework.schemas <span class="keyword">import</span> get_schema_view</div><div class="line"></div><div class="line">schema_view = get_schema_view(title=<span class="string">'Pastebin API'</span>)</div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(<span class="string">r'^schema/$'</span>, schema_view),</div><div class="line">    ...</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>如果您在浏览器中访问API接口，您现在应该可以看到corejson表示作为一个选项可用。</p>
-<p>我们还可以从命令行请求schema，通过在Accept标头中指定所需的内容类型。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ http http://127.0.0.1:8000/schema/ Accept:application/coreapi+json</div><div class="line">HTTP/1.0 200 OK</div><div class="line">Allow: GET, HEAD, OPTIONS</div><div class="line">Content-Type: application/coreapi+json</div><div class="line"></div><div class="line">&#123;</div><div class="line">    &quot;_meta&quot;: &#123;</div><div class="line">        &quot;title&quot;: &quot;Pastebin API&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;_type&quot;: &quot;document&quot;,</div><div class="line">    ...</div></pre></td></tr></table></figure>
-<p>默认的输出样式是使用核心的JSON编码。</p>
-<p>其他的模式格式，如Open API也得到了支持。</p>
-<h4 id="使用命令行的客户端"><a href="#使用命令行的客户端" class="headerlink" title="使用命令行的客户端"></a>使用命令行的客户端</h4><p>既然我们的API公开了一个schema 接口，我们就可以使用动态客户端库来与API交互。为了演示这一点，让我们使用核心API命令行客户端。</p>
-<p>命令行客户端可以作为coreapi-cli包:</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install coreapi-cli</div></pre></td></tr></table></figure>
-<p>现在检查命令行上是否有可用的命令。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ coreapi</div><div class="line">Usage: coreapi [OPTIONS] COMMAND [ARGS]...</div><div class="line"></div><div class="line">  Command line client for interacting with CoreAPI services.</div><div class="line"></div><div class="line">  Visit http://www.coreapi.org for more information.</div><div class="line"></div><div class="line">Options:</div><div class="line">  --version  Display the package version number.</div><div class="line">  --help     Show this message and exit.</div><div class="line"></div><div class="line">Commands:</div><div class="line">...</div></pre></td></tr></table></figure>
-<p>首先，我们将使用命令行客户端加载API schema。</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ coreapi get http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8000</span>/schema/</div><div class="line">&lt;Pastebin API <span class="string">"http://127.0.0.1:8000/schema/"</span>&gt;</div><div class="line">    snippets: &#123;</div><div class="line">        highlight(id)</div><div class="line">        list()</div><div class="line">        read(id)</div><div class="line">    &#125;</div><div class="line">    users: &#123;</div><div class="line">        list()</div><div class="line">        read(id)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>我们还没有经过身份验证，所以现在我们只能看到只读的接口，这与我们如何设置API的权限是一致的。</p>
-<p>让我们尝试使用命令行客户端来列出已存在的代码片段:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ coreapi action snippets list</div><div class="line">[</div><div class="line">    &#123;</div><div class="line">        &quot;url&quot;: &quot;http://127.0.0.1:8000/snippets/1/&quot;,</div><div class="line">        &quot;id&quot;: 1,</div><div class="line">        &quot;highlight&quot;: &quot;http://127.0.0.1:8000/snippets/1/highlight/&quot;,</div><div class="line">        &quot;owner&quot;: &quot;lucy&quot;,</div><div class="line">        &quot;title&quot;: &quot;Example&quot;,</div><div class="line">        &quot;code&quot;: &quot;print(&apos;hello, world!&apos;)&quot;,</div><div class="line">        &quot;linenos&quot;: true,</div><div class="line">        &quot;language&quot;: &quot;python&quot;,</div><div class="line">        &quot;style&quot;: &quot;friendly&quot;</div><div class="line">    &#125;,</div><div class="line">    ...</div></pre></td></tr></table></figure>
-<p>一些API接口需要指定的参数。例如，为了获取特定代码片段的突出显示HTML，我们需要提供一个id。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ coreapi action snippets highlight --param id=1</div><div class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;</div><div class="line"></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;title&gt;Example&lt;/title&gt;</div><div class="line">  ...</div></pre></td></tr></table></figure>
-<h4 id="客户端登录认证"><a href="#客户端登录认证" class="headerlink" title="客户端登录认证"></a>客户端登录认证</h4><p>如果我们想要创建、编辑和删除代码片段，我们需要作为一个有效的用户进行身份验证。在本例中，我们将使用基本的身份验证。</p>
-<p>使用您的实际用户名和密码来替换下面的用户名和密码。</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ coreapi credentials add <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> &lt;username&gt;:&lt;password&gt; --auth basic</div><div class="line">Added credentials</div><div class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">"Basic &lt;...&gt;"</span></div></pre></td></tr></table></figure>
-<p>现在，如果我们再次获取shema，我们应该能够看到完整的可用交互集。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$ coreapi reload</div><div class="line">Pastebin API &quot;http://127.0.0.1:8000/schema/&quot;&gt;</div><div class="line">    snippets: &#123;</div><div class="line">        create(code, [title], [linenos], [language], [style])</div><div class="line">        delete(id)</div><div class="line">        highlight(id)</div><div class="line">        list()</div><div class="line">        partial_update(id, [title], [code], [linenos], [language], [style])</div><div class="line">        read(id)</div><div class="line">        update(id, code, [title], [linenos], [language], [style])</div><div class="line">    &#125;</div><div class="line">    users: &#123;</div><div class="line">        list()</div><div class="line">        read(id)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>我们现在可以与这些接口进行交互。例如，要创建一个新的代码片段:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$ coreapi action snippets create --param title=&quot;Example&quot; --param code=&quot;print(&apos;hello, world&apos;)&quot;</div><div class="line">&#123;</div><div class="line">    &quot;url&quot;: &quot;http://127.0.0.1:8000/snippets/7/&quot;,</div><div class="line">    &quot;id&quot;: 7,</div><div class="line">    &quot;highlight&quot;: &quot;http://127.0.0.1:8000/snippets/7/highlight/&quot;,</div><div class="line">    &quot;owner&quot;: &quot;lucy&quot;,</div><div class="line">    &quot;title&quot;: &quot;Example&quot;,</div><div class="line">    &quot;code&quot;: &quot;print(&apos;hello, world&apos;)&quot;,</div><div class="line">    &quot;linenos&quot;: false,</div><div class="line">    &quot;language&quot;: &quot;python&quot;,</div><div class="line">    &quot;style&quot;: &quot;friendly&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后删除一个片段:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ coreapi action snippets delete --param id=7</div></pre></td></tr></table></figure>
-<p>除了命令行客户端，开发人员还可以使用客户端库与您的API进行交互。Python客户机库是第一个可用的，并且计划很快发布一个Javascript客户机库。</p>
-<p>关于定制模式生成和使用核心API客户端库的更多细节，您需要参考完整的文档。</p>
-<h4 id="回顾一下我们的工作"><a href="#回顾一下我们的工作" class="headerlink" title="回顾一下我们的工作"></a>回顾一下我们的工作</h4><p>有了非常少的代码，我们现在得到了一个完整的粘贴本Web API，它是完全Web浏览的，包括一个由模式驱动的客户端库，并且完成了身份验证、每个对象的权限和多个渲染器格式。</p>
-<p>我们已经经历了设计过程的每一步，并看到如果我们需要定制任何东西，我们就可以逐步地使用普通的Django视图。</p>
-<p>您可以在GitHub上查看最终的教程代码，或者在沙箱中尝试这个示例。</p>
-<p>原文链接:<a href="http://www.django-rest-framework.org/tutorial/7-schemas-and-client-libraries/" target="_blank" rel="external">http://www.django-rest-framework.org/tutorial/7-schemas-and-client-libraries/</a></p>
+<p>这篇文章记录一下UTC格式的字符串与本地时间字符串相互转换的方法。</p>
+<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line">utc_time_str = <span class="string">'2017-10-15T00:00:00.000Z'</span></div><div class="line">utc_format_str = <span class="string">"%Y-%m-%dT%H:%M:%S.%fZ"</span></div><div class="line">time_obj = datetime.datetime.strptime(start_time, utc_format_str)</div><div class="line">time_format_str = <span class="string">"%Y.%m.%d"</span></div><div class="line">local_time_str = time_obj.strftime(time_format_str)</div></pre></td></tr></table></figure>
+<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># UTC时间转换为时间戳 2016-07-31T16:00:00Z</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">utc_to_local</span><span class="params">(utc_time_str, utc_format=<span class="string">'%Y-%m-%dT%H:%M:%SZ'</span>)</span>:</span></div><div class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</div><div class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></div><div class="line">    utc_dt = datetime.datetime.strptime(utc_time_str, utc_format)</div><div class="line">    local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)</div><div class="line">    time_str = local_dt.strftime(local_format)</div><div class="line">    <span class="keyword">return</span> int(time.mktime(time.strptime(time_str, local_format)))</div><div class="line"> </div><div class="line"><span class="comment"># 本地时间转换为UTC</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">local_to_utc</span><span class="params">(local_ts, utc_format=<span class="string">'%Y-%m-%dT%H:%MZ'</span>)</span>:</span></div><div class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</div><div class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></div><div class="line">    time_str = time.strftime(local_format, time.localtime(local_ts))</div><div class="line">    dt = datetime.datetime.strptime(time_str, local_format)</div><div class="line">    local_dt = local_tz.localize(dt, is_dst=<span class="keyword">None</span>)</div><div class="line">    utc_dt = local_dt.astimezone(pytz.utc)</div><div class="line">    <span class="keyword">return</span> utc_dt.strftime(utc_format)</div></pre></td></tr></table></figure>
+<p>参考链接：</p>
+<p><a href="https://www.cnblogs.com/shenwenlong/p/6088765.html" target="_blank" rel="external">https://www.cnblogs.com/shenwenlong/p/6088765.html</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_4da051a60102v221.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4da051a60102v221.html</a></p>
 
       
     </div>
@@ -318,13 +279,13 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/10/11/DjangoRESTframework-SchemaClientLib/">DjangoRESTframework-Schema和客户端类库</a></p>
+        <p><span>本文标题:</span><a href="/2017/11/28/python-utc-local/">python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2017年10月11日 - 12时28分</p>
-        <p><span>最后更新:</span>2017年10月11日 - 12时28分</p>
+        <p><span>发布时间:</span>2017年11月28日 - 16时35分</p>
+        <p><span>最后更新:</span>2017年11月28日 - 16时58分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/10/11/DjangoRESTframework-SchemaClientLib/" title="DjangoRESTframework-Schema和客户端类库">http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/28/python-utc-local/" title="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">http://blog.star-chen.com/2017/11/28/python-utc-local/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/28/python-utc-local/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -337,18 +298,9 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
 
 <nav id="article-nav">
   
-    <a href="/2017/10/12/Django-Signal/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Django-信号
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/11/DjangoRESTframework-ViewsetsRouters/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DjangoRESTframework-视图集合和路由</div>
+    <a href="/2017/11/23/Python-Closure/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python学习笔记之-----闭包</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -359,7 +311,7 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-Schemas-amp-client-libraries"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework    Schemas & client libraries</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Core-API"><span class="toc-number">1.1.</span> <span class="toc-text">Core API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加schema"><span class="toc-number">1.2.</span> <span class="toc-text">添加schema</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用命令行的客户端"><span class="toc-number">1.3.</span> <span class="toc-text">使用命令行的客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端登录认证"><span class="toc-number">1.4.</span> <span class="toc-text">客户端登录认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回顾一下我们的工作"><span class="toc-number">1.5.</span> <span class="toc-text">回顾一下我们的工作</span></a></li></ol></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -407,7 +359,7 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2017/10/11/DjangoRESTframework-SchemaClientLib/" data-title="DjangoRESTframework-Schema和客户端类库" data-url="http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/"></div>
+    <div class="ds-thread" data-thread-key="2017/11/28/python-utc-local/" data-title="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换" data-url="http://blog.star-chen.com/2017/11/28/python-utc-local/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -430,13 +382,11 @@ shema可以成为自动生成文档的有用工具，还可以用于驱动与API
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/10/12/Django-Signal/" title="上一篇: Django-信号">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2017/10/11/DjangoRESTframework-ViewsetsRouters/" title="下一篇: DjangoRESTframework-视图集合和路由">
+            <a href="/2017/11/23/Python-Closure/" title="下一篇: Python学习笔记之-----闭包">
                 <i class="fa fa-angle-right"></i>
             </a>
         
