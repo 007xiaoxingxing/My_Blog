@@ -222,6 +222,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-LoginNewTP" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/02/LoginNewTP/" class="article-date">
+      <time datetime="2017-06-02T08:18:32.000Z" itemprop="datePublished">2017-06-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/02/LoginNewTP/">TPLINK系列路由器新版UI登录算法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>因为某些原因需要用程序来向路由器提交宽带帐号和密码，进行拨号等操作。原本的TP系的路由器使用的是Basic认证，只要在http请求头中加上个Authtication头就可以通过认证了，某些型号也最多要求个Referer或者cookie，但是新版的UI登录的过程需要在浏览器端把密码加密后再发送到路由以获得一个token来通过认证。下面记录一下我的分析过程。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/router/">router</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2017/06/02/LoginNewTP/#more">有完没完了? >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CompileNgrok" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -819,70 +885,6 @@
         <p class="article-more-link">
           <a  href="/2017/05/12/Decorator-Notes/#more">有完没完了? >></a>
         </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MariaDB-Create-Remote" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/11/MariaDB-Create-Remote/" class="article-date">
-      <time datetime="2017-03-11T05:43:00.000Z" itemprop="datePublished">2017-03-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/11/MariaDB-Create-Remote/">MariaDB创建新用户、新数据库并允许特定用户远程访问</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="创建新的可远程访问的数据库用户"><a href="#创建新的可远程访问的数据库用户" class="headerlink" title="创建新的可远程访问的数据库用户"></a>创建新的可远程访问的数据库用户</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; create user <span class="string">'user'</span>@<span class="string">'%'</span> identified by <span class="string">'pass'</span>;</div></pre></td></tr></table></figure>
-<h3 id="创建新的数据库"><a href="#创建新的数据库" class="headerlink" title="创建新的数据库"></a>创建新的数据库</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; create database newdb;</div></pre></td></tr></table></figure>
-<h3 id="把新创建的数据库授权给新创建的用户"><a href="#把新创建的数据库授权给新创建的用户" class="headerlink" title="把新创建的数据库授权给新创建的用户"></a>把新创建的数据库授权给新创建的用户</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; grant all privileges on newdb.* to <span class="string">'user'</span>@<span class="string">'%'</span>;</div><div class="line">MariaDB [(none)]&gt; flush privileges;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MariaDB/">MariaDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/New-DB/">New DB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Remote/">Remote</a></li></ul>
-    </div>
-
       
       <div class="clearfix"></div>
     </div>

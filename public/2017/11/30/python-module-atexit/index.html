@@ -3,20 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>在自己的VPS上编译部署Ngrok | STAR-CHEN&#39;s BLOG</title>
+  <title>Python学习笔记之------atexit模块 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
+  <meta name="description" content="atexit模块用于注册python解释器退出时要执行的函数，这个模块只提供一个函数：register（func, [,args [,kwargs]]）解释器退出的时候会按照注册的顺序逆序调用这些函数，如果出现了错误，将一条异常信息打印到标准错误，然后继续执行下一个回调，直到所有的回调都执行完毕后，重新抛出最后接收到的异常。register支持装饰器语法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在自己的VPS上编译部署Ngrok">
-<meta property="og:url" content="http://blog.star-chen.com/2017/06/02/CompileNgrok/index.html">
+<meta property="og:title" content="Python学习笔记之------atexit模块">
+<meta property="og:url" content="http://blog.star-chen.com/2017/11/30/python-module-atexit/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
-<meta property="og:image" content="http://blog.star-chen.com/blogimg/fan.png">
-<meta property="og:updated_time" content="2017-11-22T07:25:13.938Z">
+<meta property="og:description" content="atexit模块用于注册python解释器退出时要执行的函数，这个模块只提供一个函数：register（func, [,args [,kwargs]]）解释器退出的时候会按照注册的顺序逆序调用这些函数，如果出现了错误，将一条异常信息打印到标准错误，然后继续执行下一个回调，直到所有的回调都执行完毕后，重新抛出最后接收到的异常。register支持装饰器语法。">
+<meta property="og:updated_time" content="2017-11-30T07:04:32.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在自己的VPS上编译部署Ngrok">
-<meta name="twitter:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
-<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/fan.png">
+<meta name="twitter:title" content="Python学习笔记之------atexit模块">
+<meta name="twitter:description" content="atexit模块用于注册python解释器退出时要执行的函数，这个模块只提供一个函数：register（func, [,args [,kwargs]]）解释器退出的时候会按照注册的顺序逆序调用这些函数，如果出现了错误，将一条异常信息打印到标准错误，然后继续执行下一个回调，直到所有的回调都执行完毕后，重新抛出最后接收到的异常。register支持装饰器语法。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -223,11 +221,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-CompileNgrok" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-python-module-atexit" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/06/02/CompileNgrok/" class="article-date">
-      <time datetime="2017-06-02T03:12:12.000Z" itemprop="datePublished">2017-06-02</time>
+      <a href="/2017/11/30/python-module-atexit/" class="article-date">
+      <time datetime="2017-11-30T06:57:00.000Z" itemprop="datePublished">2017-11-30</time>
 </a>
     </div>
   
@@ -240,7 +238,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      在自己的VPS上编译部署Ngrok
+      Python学习笔记之------atexit模块
     </h1>
   
 
@@ -249,13 +247,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/Program/">Program</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/转发/">转发</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -265,50 +263,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。</p>
-<a id="more"></a>
-<h3 id="Ngrok是个啥？"><a href="#Ngrok是个啥？" class="headerlink" title="Ngrok是个啥？"></a>Ngrok是个啥？</h3><blockquote>
-<p>ngrok is a reverse proxy that creates a secure tunnel from a public endpoint to a locally running web service. ngrok captures and analyzes all traffic over the tunnel for later inspection and replay.</p>
-<p>——-github上作者对ngrok的说明</p>
-</blockquote>
-<p>简单的来说，ngrok就是一个反向代理，可以通过公网服务器来和本地内网机器之间建立一个隧道，使得可以从外网访问内网的服务。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>1.在服务器上搭建go环境</p>
-<p>我选择直接下载go的源码</p>
-<blockquote>
-<p> <a href="http://www.golangtc.com/download" target="_blank" rel="external">http://www.golangtc.com/download</a> </p>
-</blockquote>
-<p>选取适合服务器系统的go环境压缩包，由于我的VPS是Centos 7 64位，所以我下载的是1.8 amd64</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># wget http://www.golangtc.com/static/go/1.8/go1.8.linux-amd64.tar.gz</span></div></pre></td></tr></table></figure>
-<p>然后需要解压一下，需要注意的是要把go解压到/usr/local，免得后面出现一些不可描述的问题。</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># tar -C /usr/local  -xzf go1.8.linux-amd64.tar.gz</span></div></pre></td></tr></table></figure>
-<p>为go创建个软连接到/usr/bin，方便直接使用go命令</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># ln -s /usr/local/go/bin/* /usr/bin</span></div></pre></td></tr></table></figure>
-<p>到此，go环境就搭建好了。</p>
-<p>2.克隆ngrok的git仓库到本地</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># git clone https://github.com/inconshreveable/ngrok.git</span></div></pre></td></tr></table></figure>
-<p>3.设置一些编译所需的环境变量</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok]<span class="comment"># export GOPATH=/opt/ngrok_compile/ngrok/</span></div><div class="line">[root@vultr ngrok]<span class="comment"># export NGROK_DOMAIN="ngrok.star-chen.com"</span></div></pre></td></tr></table></figure>
-<p>4.为域名生成证书</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok_compile]<span class="comment"># cd ngrok</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out rootCA.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" days 5000 -out rootCA.pem</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 5000 -out rootCA.pem</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl -genrsa -out sever.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out sever.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj "/CN=$NGROK_DOMAIN" -out server.csr</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out server.key 2048</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj "/CN=$NGROK_DOMAIN" -out server.csr</span></div><div class="line">[root@vultr ngrok]<span class="comment"># openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 5000</span></div></pre></td></tr></table></figure>
-<p>5.把生成的证书拷贝到指定的目录下</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok]<span class="comment"># cp rootCA.pem assets/client/tls/ngrokroot.crt </span></div><div class="line">[root@vultr ngrok]<span class="comment"># cp server.crt assets/server/tls/snakeoil.crt </span></div><div class="line">[root@vultr ngrok]<span class="comment"># cp server.key assets/server/tls/snakeoil.key</span></div></pre></td></tr></table></figure>
-<p>6.为域名设置A记录泛解析</p>
-<p><img src="/blogimg/fan.png" alt="img"></p>
-<h3 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#先编译个Linux 64位的服务端和客户端程序</span></div><div class="line">[root@vultr ngrok]<span class="comment">#  GOOS=linux GOARCH=amd64 make release-server</span></div><div class="line">[root@vultr ngrok]<span class="comment">#  GOOS=linux GOARCH=amd64 make release-client</span></div><div class="line"><span class="comment">#再编译个windows64位的客户端</span></div><div class="line">[root@vultr ngrok]<span class="comment">#  GOOS=windows GOARCH=amd64 make release-client</span></div></pre></td></tr></table></figure>
-<p>看一下编译好的程序</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@vultr ngrok]<span class="comment"># ls -la bin</span></div><div class="line">total 21544</div><div class="line">drwxr-xr-x 3 root root     4096 Jun  2 03:06 .</div><div class="line">drwxr-xr-x 9 root root     4096 Jun  2 02:31 ..</div><div class="line">-rwxr-xr-x 1 root root  2527810 Jun  2 02:31 go-bindata</div><div class="line">-rwxr-xr-x 1 root root 10672322 Jun  2 02:31 ngrok</div><div class="line">-rwxr-xr-x 1 root root  8841733 Jun  2 03:06 ngrokd</div><div class="line">drwxr-xr-x 2 root root     4096 Jun  2 02:35 windows_amd64</div></pre></td></tr></table></figure>
-<h3 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h3><p>服务端：</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">#因为我的服务上的80和443端口上运行着这个博客，所以我把http和https的端口进行了更改</span></div><div class="line"> [root@vultr ngrok]<span class="comment"># bin/ngrokd -domain=ngrok.star-chen.com -httpAddr=":8080" -httpsAddr=":8081"</span></div><div class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified</div><div class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> public http connections on [::]:8080</div><div class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> public https connections on [::]:8081</div><div class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> control and proxy connections on [::]:4443</div><div class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds</div></pre></td></tr></table></figure>
-<p>windows客户端:</p>
-<p>在ngrok.exe的所在目录新建一个简单的配置文件，内容如下：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">server_addr: &quot;ngrok.star-chen.com:4443&quot;   #尤其注意，这里的域名需要和你生成证书所使用的域名一致</div><div class="line">trust_host_root_certs: false</div></pre></td></tr></table></figure>
-<p>运行客户端程序：</p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PS G:\&gt; .\ngrok.exe -config .\ngrok.cfg  -subdomain local <span class="number">80</span> #subdomain为指定的子域名</div></pre></td></tr></table></figure>
-<p>运行的显示，status为online则表明已经建立了转发连接。</p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ngrok</div><div class="line"></div><div class="line">Tunnel Status                 online</div><div class="line">Version                       <span class="number">1</span>.<span class="number">7</span>/<span class="number">1</span>.<span class="number">7</span></div><div class="line">Forwarding                    http://local.ngrok.star-chen.com:<span class="number">8080</span> -&gt; <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">80</span></div><div class="line">Forwarding                    https://local.ngrok.star-chen.com:<span class="number">8080</span> -&gt; <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">80</span></div><div class="line">Web Interface                 <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">4040</span></div><div class="line"># Conn                        <span class="number">0</span></div><div class="line">Avg Conn <span class="built_in">Time</span>                 <span class="number">0</span>.<span class="number">00</span>ms</div></pre></td></tr></table></figure>
-<p>然后访问 <a href="http://local.ngrok.star-chen.com:8080" target="_blank" rel="external">http://local.ngrok.star-chen.com:8080</a>  就可以访问到我本机的xampp测试环境了。当然客户端还可以转发tcp连接，例如我的虚拟机里边的ssh：</p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PS G:\&gt; .\ngrok.exe -config .\ngrok.cfg  -proto tcp <span class="number">192</span>.<span class="number">168</span>.<span class="number">10</span>.<span class="number">176</span>:<span class="number">22</span></div></pre></td></tr></table></figure>
-<p>这样子，在外边也可以方便的ssh到内网中的虚拟机了。</p>
+        <p>atexit模块用于注册python解释器退出时要执行的函数，这个模块只提供一个函数：<br>register（func, [,args [,kwargs]]）<br>解释器退出的时候会按照注册的顺序逆序调用这些函数，如果出现了错误，将一条异常信息打印到标准错误，然后继续执行下一个回调，直到所有的回调都执行完毕后，重新抛出最后接收到的异常。register支持装饰器语法。<br><a id="more"></a><br>这里给出一个例子程序：<br><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> atexit</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exit0</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'exit0'</span></div><div class="line">    <span class="keyword">for</span> arg <span class="keyword">in</span> args:</div><div class="line">        <span class="keyword">print</span> <span class="string">' '</span> * <span class="number">4</span>, arg</div><div class="line"></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> kwargs.items():</div><div class="line">        <span class="keyword">print</span> <span class="string">' '</span> * <span class="number">4</span>, item</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exit1</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'exit1'</span></div><div class="line">    <span class="keyword">raise</span> Exception, <span class="string">'exit1'</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exit2</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'exit2'</span></div><div class="line"></div><div class="line">atexit.register(exit0, *[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], **&#123;<span class="string">"a"</span>:<span class="number">1</span>, <span class="string">"b"</span>:<span class="number">2</span>&#125;)</div><div class="line">atexit.register(exit1)</div><div class="line">atexit.register(exit2)</div><div class="line"></div><div class="line"><span class="meta">@atexit.register</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exit3</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'exit3'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">❯ python atexit_example.py </div><div class="line">exit3</div><div class="line">exit2</div><div class="line">exit1</div><div class="line">Error in atexit._run_exitfuncs:</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;/usr/lib/python2.7/atexit.py&quot;, line 24, in _run_exitfuncs</div><div class="line">    func(*targs, **kargs)</div><div class="line">  File &quot;atexit_example.py&quot;, line 15, in exit1</div><div class="line">    raise Exception, &apos;exit1&apos;</div><div class="line">Exception: exit1</div><div class="line">exit0</div><div class="line">     1</div><div class="line">     2</div><div class="line">     3</div><div class="line">     (&apos;a&apos;, 1)</div><div class="line">     (&apos;b&apos;, 2)</div><div class="line">Error in sys.exitfunc:</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;/usr/lib/python2.7/atexit.py&quot;, line 24, in _run_exitfuncs</div><div class="line">    func(*targs, **kargs)</div><div class="line">  File &quot;atexit_example.py&quot;, line 15, in exit1</div><div class="line">    raise Exception, &apos;exit1&apos;</div><div class="line">Exception: exit1</div></pre></td></tr></table></figure></p>
+<p>参考链接：<br><a href="http://python.jobbole.com/81473/" target="_blank" rel="external">http://python.jobbole.com/81473/</a></p>
 
       
     </div>
@@ -317,13 +274,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/06/02/CompileNgrok/">在自己的VPS上编译部署Ngrok</a></p>
+        <p><span>本文标题:</span><a href="/2017/11/30/python-module-atexit/">Python学习笔记之------atexit模块</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2017年06月02日 - 11时12分</p>
-        <p><span>最后更新:</span>2017年11月22日 - 15时25分</p>
+        <p><span>发布时间:</span>2017年11月30日 - 14时57分</p>
+        <p><span>最后更新:</span>2017年11月30日 - 15时04分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/06/02/CompileNgrok/" title="在自己的VPS上编译部署Ngrok">http://blog.star-chen.com/2017/06/02/CompileNgrok/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/06/02/CompileNgrok/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/30/python-module-atexit/" title="Python学习笔记之------atexit模块">http://blog.star-chen.com/2017/11/30/python-module-atexit/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/30/python-module-atexit/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -336,18 +293,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2017/06/02/LoginNewTP/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          TPLINK系列路由器新版UI登录算法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/05/31/CompileOpenJDK/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">深入理解java虚拟机之动手编译OpenJDK 7</div>
+    <a href="/2017/11/28/python-utc-local/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -358,7 +306,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ngrok是个啥？"><span class="toc-number">1.</span> <span class="toc-text">Ngrok是个啥？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始编译"><span class="toc-number">3.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行测试"><span class="toc-number">4.</span> <span class="toc-text">运行测试</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -406,7 +354,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2017/06/02/CompileNgrok/" data-title="在自己的VPS上编译部署Ngrok" data-url="http://blog.star-chen.com/2017/06/02/CompileNgrok/"></div>
+    <div class="ds-thread" data-thread-key="2017/11/30/python-module-atexit/" data-title="Python学习笔记之------atexit模块" data-url="http://blog.star-chen.com/2017/11/30/python-module-atexit/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -429,13 +377,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/06/02/LoginNewTP/" title="上一篇: TPLINK系列路由器新版UI登录算法">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2017/05/31/CompileOpenJDK/" title="下一篇: 深入理解java虚拟机之动手编译OpenJDK 7">
+            <a href="/2017/11/28/python-utc-local/" title="下一篇: python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">
                 <i class="fa fa-angle-right"></i>
             </a>
         

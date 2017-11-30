@@ -222,6 +222,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-python-module-atexit" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/30/python-module-atexit/" class="article-date">
+      <time datetime="2017-11-30T06:57:00.000Z" itemprop="datePublished">2017-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/30/python-module-atexit/">Python学习笔记之------atexit模块</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>atexit模块用于注册python解释器退出时要执行的函数，这个模块只提供一个函数：<br>register（func, [,args [,kwargs]]）<br>解释器退出的时候会按照注册的顺序逆序调用这些函数，如果出现了错误，将一条异常信息打印到标准错误，然后继续执行下一个回调，直到所有的回调都执行完毕后，重新抛出最后接收到的异常。register支持装饰器语法。<br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2017/11/30/python-module-atexit/#more">有完没完了? >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-python-utc-local" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -801,72 +867,6 @@
       
         <p class="article-more-link">
           <a  href="/2017/10/12/DjangoQuery/#more">有完没完了? >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-DjangowithPostgres" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/12/DjangowithPostgres/" class="article-date">
-      <time datetime="2017-10-12T06:40:50.000Z" itemprop="datePublished">2017-10-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/12/DjangowithPostgres/">在Django中使用PosetgreSQL数据库</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <h3 id="在Django中使用PosetgreSQL数据库"><a href="#在Django中使用PosetgreSQL数据库" class="headerlink" title="在Django中使用PosetgreSQL数据库"></a>在Django中使用PosetgreSQL数据库</h3><p>Postgres的安装过程就略过了，在Django中使用PostgreSQL只需要改一下settings.py中的数据库连接字符串就好了。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Program/">Program</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/">django</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2017/10/12/DjangowithPostgres/#more">有完没完了? >></a>
         </p>
       
       <div class="clearfix"></div>
