@@ -72,4 +72,5 @@ Exception: exit1
 
 ```
 参考链接：
+https://docs.python.org/2/library/atexit.html
 http://python.jobbole.com/81473/
