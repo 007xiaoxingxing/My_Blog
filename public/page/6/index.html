@@ -222,6 +222,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Github-Add-SSHKEY" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/30/Github-Add-SSHKEY/" class="article-date">
+      <time datetime="2016-11-30T02:43:18.000Z" itemprop="datePublished">2016-11-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥<br><figure class="highlight bash"data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">user@user MINGW64 ~</div><div class="line">$ <span class="built_in">cd</span> ~</div><div class="line"></div><div class="line">user@user MINGW64 ~</div><div class="line">$ ssh-keygen -t rsa -C <span class="string">"hahaha9@gmail.com"</span> <span class="_">-f</span> ~/.ssh/PCWIN10（<span class="_">-f</span>参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</div><div class="line">Enter same passphrase again:（重复刚刚的密码）</div><div class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</div><div class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</div><div class="line">The key<span class="string">'s randomart image is:</div><div class="line">+---[RSA 2048]----+</div><div class="line">| .+ooBo*+        |</div><div class="line">| o.+= O.*.       |</div><div class="line">|. o..=.X..       |</div><div class="line">| .  o.=..        |</div><div class="line">|     + +So       |</div><div class="line">|    . E o o      |</div><div class="line">|       + . +.    |</div><div class="line">|      o + oooo   |</div><div class="line">|       + o..o..  |</div><div class="line">+----[SHA256]-----+</span></div></pre></td></tr></table></figure></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-key/">ssh key</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/11/30/Github-Add-SSHKEY/#more">有完没完了? >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Learn_VIM" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
