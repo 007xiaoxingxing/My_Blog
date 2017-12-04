@@ -5,16 +5,16 @@
   
   <title>python学习笔记之------元类 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="“元类（Meta Class）”,用于创建类的类。">
+  <meta name="description" content="“元类（Meta Class）”,即用于创建类的类。那我们先来看看python中的类是个啥东西。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python学习笔记之------元类">
 <meta property="og:url" content="http://blog.star-chen.com/2017/12/04/python-metaclass/index.html">
 <meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="“元类（Meta Class）”,用于创建类的类。">
-<meta property="og:updated_time" content="2017-12-04T09:23:55.482Z">
+<meta property="og:description" content="“元类（Meta Class）”,即用于创建类的类。那我们先来看看python中的类是个啥东西。">
+<meta property="og:updated_time" content="2017-12-04T15:51:50.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python学习笔记之------元类">
-<meta name="twitter:description" content="“元类（Meta Class）”,用于创建类的类。">
+<meta name="twitter:description" content="“元类（Meta Class）”,即用于创建类的类。那我们先来看看python中的类是个啥东西。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -263,8 +263,13 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>“元类（Meta Class）”,用于创建类的类。</p>
+        <p>“元类（Meta Class）”,即用于创建类的类。那我们先来看看python中的类是个啥东西。</p>
 <a id="more"></a>
+<figure class="highlight" data-lang=""><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; class this_is_a_class(object):</div><div class="line">...     pass</div><div class="line">...</div><div class="line">&gt;&gt;&gt; a_object = this_is_a_class()</div><div class="line">&gt;&gt;&gt; print a_object</div><div class="line">&lt;__main__.this_is_a_class object at 0x105a11a90&gt;</div><div class="line">&gt;&gt;&gt; type(a_object)</div><div class="line">&lt;class '__main__.this_is_a_class'&gt;</div><div class="line">&gt;&gt;&gt; type(this_is_a_class)</div><div class="line">&lt;type 'type'&gt;</div><div class="line">&gt;&gt;&gt; print this_is_a_class</div><div class="line">&lt;class '__main__.this_is_a_class'&gt;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>可以看出来，类其实也是个对象。那么这个对象能不能动态的改变呢？我们来试试看</p>
+<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>this_is_a_class.func = func</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>this_is_a_class.attr = <span class="string">'attr'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>object_b = this_is_a_class()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>object_b.attr</div><div class="line"><span class="string">'attr'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>object_b.func()</div><div class="line">func</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>哇，是不是很神奇？我们直接给类赋值属性和方法，然后用这个类得到的实例也都具有了这些属性和方法。那么更近一步，我们可不可以自由的生成一个类呢？答案的肯定的，那么该如何创建一个类呢？看代码：</p>
+
       
     </div>
     
@@ -275,7 +280,7 @@
         <p><span>本文标题:</span><a href="/2017/12/04/python-metaclass/">python学习笔记之------元类</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年12月04日 - 16时34分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 17时23分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 23时51分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/04/python-metaclass/" title="python学习笔记之------元类">http://blog.star-chen.com/2017/12/04/python-metaclass/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/12/04/python-metaclass/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
