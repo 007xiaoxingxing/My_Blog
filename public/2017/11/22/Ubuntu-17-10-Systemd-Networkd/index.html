@@ -6,12 +6,13 @@
   <title>Ubuntu-17.10-使用Systemd-Networkd接管网络配置 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近在使用Ubuntu17.10的时候，被设置ip折磨的挺惨。我使用的台式机是戴尔的optiplex 9020，装的是win10和Ubuntu17.10双系统。最开始是从win10重启到Ubuntu后，Ubuntu无法上网。经过一番搜索设置也无果，在一次偶然将win10关机，进到bios设置了一下网卡后，开机到Ubuntu竟然能够正常上网了。">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu-17.10-使用Systemd-Networkd接管网络配置">
 <meta property="og:url" content="http://blog.star-chen.com/2017/11/22/Ubuntu-17-10-Systemd-Networkd/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="最近在使用Ubuntu17.10的时候，被设置ip折磨的挺惨。我使用的台式机是戴尔的optiplex 9020，装的是win10和Ubuntu17.10双系统。最开始是从win10重启到Ubuntu后，Ubuntu无法上网。经过一番搜索设置也无果，在一次偶然将win10关机，进到bios设置了一下网卡后，开机到Ubuntu竟然能够正常上网了。">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.763Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu-17.10-使用Systemd-Networkd接管网络配置">
 <meta name="twitter:description" content="最近在使用Ubuntu17.10的时候，被设置ip折磨的挺惨。我使用的台式机是戴尔的optiplex 9020，装的是win10和Ubuntu17.10双系统。最开始是从win10重启到Ubuntu后，Ubuntu无法上网。经过一番搜索设置也无果，在一次偶然将win10关机，进到bios设置了一下网卡后，开机到Ubuntu竟然能够正常上网了。">
@@ -279,7 +280,7 @@
         <p><span>本文标题:</span><a href="/2017/11/22/Ubuntu-17-10-Systemd-Networkd/">Ubuntu-17.10-使用Systemd-Networkd接管网络配置</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年11月22日 - 15时03分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/22/Ubuntu-17-10-Systemd-Networkd/" title="Ubuntu-17.10-使用Systemd-Networkd接管网络配置">http://blog.star-chen.com/2017/11/22/Ubuntu-17-10-Systemd-Networkd/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/22/Ubuntu-17-10-Systemd-Networkd/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -317,7 +318,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.</span> <span class="toc-text">步骤</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;" class="headerlink" title="&#x6B65;&#x9AA4;"></a>&#x6B65;&#x9AA4;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

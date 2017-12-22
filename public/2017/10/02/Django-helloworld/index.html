@@ -6,10 +6,11 @@
   <title>Django快速上手笔记之HelloWorld | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在上篇博文中，成功的安装好了Django框架，在这篇博文中，先建个helloworl工程试试水。再根据helloworld工程进一步介绍Django框架中的各个模块怎么配置和使用。废话不多讲，上图。">
+<meta name="keywords" content="python web Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django快速上手笔记之HelloWorld">
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/02/Django-helloworld/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在上篇博文中，成功的安装好了Django框架，在这篇博文中，先建个helloworl工程试试水。再根据helloworld工程进一步介绍Django框架中的各个模块怎么配置和使用。废话不多讲，上图。">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/django-step-1.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/django-step-2.png">
@@ -17,7 +18,7 @@
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/django-step-4.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/django-step-5.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/django-step-6.png">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.745Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django快速上手笔记之HelloWorld">
 <meta name="twitter:description" content="在上篇博文中，成功的安装好了Django框架，在这篇博文中，先建个helloworl工程试试水。再根据helloworld工程进一步介绍Django框架中的各个模块怎么配置和使用。废话不多讲，上图。">
@@ -309,7 +310,7 @@
         <p><span>本文标题:</span><a href="/2017/10/02/Django-helloworld/">Django快速上手笔记之HelloWorld</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月02日 - 13时09分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/02/Django-helloworld/" title="Django快速上手笔记之HelloWorld">http://blog.star-chen.com/2017/10/02/Django-helloworld/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/02/Django-helloworld/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -347,7 +348,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.</span> <span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Django-APP"><span class="toc-number">2.</span> <span class="toc-text">创建Django APP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写路由"><span class="toc-number">3.</span> <span class="toc-text">编写路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写对应的业务逻辑"><span class="toc-number">4.</span> <span class="toc-text">编写对应的业务逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让服务跑起来"><span class="toc-number">5.</span> <span class="toc-text">让服务跑起来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#看看效果"><span class="toc-number">6.</span> <span class="toc-text">看看效果</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建项目"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;&#x9879;&#x76EE;" class="headerlink" title="&#x521B;&#x5EFA;&#x9879;&#x76EE;"></a>&#x521B;&#x5EFA;&#x9879;&#x76EE;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Django-APP"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;Django-APP" class="headerlink" title="&#x521B;&#x5EFA;Django APP"></a>&#x521B;&#x5EFA;Django APP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写路由"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x7F16;&#x5199;&#x8DEF;&#x7531;" class="headerlink" title="&#x7F16;&#x5199;&#x8DEF;&#x7531;"></a>&#x7F16;&#x5199;&#x8DEF;&#x7531;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写对应的业务逻辑"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x7F16;&#x5199;&#x5BF9;&#x5E94;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;" class="headerlink" title="&#x7F16;&#x5199;&#x5BF9;&#x5E94;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;"></a>&#x7F16;&#x5199;&#x5BF9;&#x5E94;&#x7684;&#x4E1A;&#x52A1;&#x903B;&#x8F91;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让服务跑起来"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x8BA9;&#x670D;&#x52A1;&#x8DD1;&#x8D77;&#x6765;" class="headerlink" title="&#x8BA9;&#x670D;&#x52A1;&#x8DD1;&#x8D77;&#x6765;"></a>&#x8BA9;&#x670D;&#x52A1;&#x8DD1;&#x8D77;&#x6765;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#看看效果"><span class="toc-number">6.</span> <span class="toc-text"><a href="#&#x770B;&#x770B;&#x6548;&#x679C;" class="headerlink" title="&#x770B;&#x770B;&#x6548;&#x679C;"></a>&#x770B;&#x770B;&#x6548;&#x679C;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

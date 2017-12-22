@@ -5,19 +5,17 @@
   
   <title>常见排序算法之插入排序 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。
-插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
+  <meta name="description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。 插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
+<meta name="keywords" content="排序,算法,插入排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常见排序算法之插入排序">
 <meta property="og:url" content="http://blog.star-chen.com/2017/05/17/InsertSort/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。
-插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.757Z">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
+<meta property="og:description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。 插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见排序算法之插入排序">
-<meta name="twitter:description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。
-插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
+<meta name="twitter:description" content="由这篇博文开始，来回顾一下常见的排序算法。算法实现主要以Python语言为主。 插入排序，对于少量的元素排序，它是一个有效的算法。插入排序的方式有点类似于打扑克牌的时候抓牌后，然后根据牌的大小插入到合适的位置。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -298,7 +296,7 @@
         <p><span>本文标题:</span><a href="/2017/05/17/InsertSort/">常见排序算法之插入排序</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年05月17日 - 23时41分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/17/InsertSort/" title="常见排序算法之插入排序">http://blog.star-chen.com/2017/05/17/InsertSort/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/17/InsertSort/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -336,7 +334,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的基本思想"><span class="toc-number">1.</span> <span class="toc-text">插入排序的基本思想:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的工作过程的伪代码表示"><span class="toc-number">2.</span> <span class="toc-text">插入排序的工作过程的伪代码表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的Python代码实现"><span class="toc-number">3.</span> <span class="toc-text">插入排序的Python代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序算法的分析"><span class="toc-number">4.</span> <span class="toc-text">插入排序算法的分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序算法的特点"><span class="toc-number">5.</span> <span class="toc-text">插入排序算法的特点</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的基本思想"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x601D;&#x60F3;" class="headerlink" title="&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x601D;&#x60F3;:"></a>&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x601D;&#x60F3;:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的工作过程的伪代码表示"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x8868;&#x793A;" class="headerlink" title="&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x8868;&#x793A;"></a>&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x8868;&#x793A;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序的Python代码实现"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;Python&#x4EE3;&#x7801;&#x5B9E;&#x73B0;" class="headerlink" title="&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;Python&#x4EE3;&#x7801;&#x5B9E;&#x73B0;"></a>&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7684;Python&#x4EE3;&#x7801;&#x5B9E;&#x73B0;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序算法的分析"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x5206;&#x6790;" class="headerlink" title="&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x5206;&#x6790;"></a>&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x5206;&#x6790;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序算法的特点"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x7279;&#x70B9;" class="headerlink" title="&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x7279;&#x70B9;"></a>&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x7B97;&#x6CD5;&#x7684;&#x7279;&#x70B9;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

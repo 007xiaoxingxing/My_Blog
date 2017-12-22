@@ -6,10 +6,11 @@
   <title>Nginx location的匹配规则 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="​      今天有个群里的老兄提了个问题，具体就是他配置的nginx不能正常访问静态文件，引起前端未能正确加载js，css等文件。我一看，这问题简单呀，nginx配个location就可以了的。然而自己之前没有实际动手配置过，中途还闹出了笑话，此处是一个悲伤脸。">
+<meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx location的匹配规则">
 <meta property="og:url" content="http://blog.star-chen.com/2017/12/13/nginx-location-rule/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="​      今天有个群里的老兄提了个问题，具体就是他配置的nginx不能正常访问静态文件，引起前端未能正确加载js，css等文件。我一看，这问题简单呀，nginx配个location就可以了的。然而自己之前没有实际动手配置过，中途还闹出了笑话，此处是一个悲伤脸。">
 <meta property="og:updated_time" content="2017-12-13T09:03:15.079Z">
 <meta name="twitter:card" content="summary">
@@ -316,7 +317,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#location-匹配规则"><span class="toc-number">1.</span> <span class="toc-text">location 匹配规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#location匹配的优先级"><span class="toc-number">2.</span> <span class="toc-text">location匹配的优先级</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#location-匹配规则"><span class="toc-number">1.</span> <span class="toc-text"><a href="#location-&#x5339;&#x914D;&#x89C4;&#x5219;" class="headerlink" title="location &#x5339;&#x914D;&#x89C4;&#x5219;"></a>location &#x5339;&#x914D;&#x89C4;&#x5219;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#location匹配的优先级"><span class="toc-number">2.</span> <span class="toc-text"><a href="#location&#x5339;&#x914D;&#x7684;&#x4F18;&#x5148;&#x7EA7;" class="headerlink" title="location&#x5339;&#x914D;&#x7684;&#x4F18;&#x5148;&#x7EA7;"></a>location&#x5339;&#x914D;&#x7684;&#x4F18;&#x5148;&#x7EA7;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

@@ -6,12 +6,13 @@
   <title>Python学习笔记之-----闭包 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python学习笔记之-----闭包">
 <meta property="og:url" content="http://blog.star-chen.com/2017/11/23/Python-Closure/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.761Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.146Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习笔记之-----闭包">
 <meta name="twitter:description" content="在函数式编程中，经常听到闭包。那么闭包到底是什么呢？使用闭包有什么好处？在python中又应该怎么使用呢？这里用几个小例子记录一下我了解到的python闭包。">
@@ -283,7 +284,7 @@
         <p><span>本文标题:</span><a href="/2017/11/23/Python-Closure/">Python学习笔记之-----闭包</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年11月23日 - 14时50分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/23/Python-Closure/" title="Python学习笔记之-----闭包">http://blog.star-chen.com/2017/11/23/Python-Closure/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/23/Python-Closure/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -321,7 +322,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是闭包"><span class="toc-number">1.</span> <span class="toc-text">什么是闭包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个闭包的例子"><span class="toc-number">2.</span> <span class="toc-text">一个闭包的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用闭包需要注意的地方"><span class="toc-number">3.</span> <span class="toc-text">使用闭包需要注意的地方</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#闭包的应用例子"><span class="toc-number">4.</span> <span class="toc-text">闭包的应用例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是闭包"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x95ED;&#x5305;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x95ED;&#x5305;"></a>&#x4EC0;&#x4E48;&#x662F;&#x95ED;&#x5305;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一个闭包的例子"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x4E00;&#x4E2A;&#x95ED;&#x5305;&#x7684;&#x4F8B;&#x5B50;" class="headerlink" title="&#x4E00;&#x4E2A;&#x95ED;&#x5305;&#x7684;&#x4F8B;&#x5B50;"></a>&#x4E00;&#x4E2A;&#x95ED;&#x5305;&#x7684;&#x4F8B;&#x5B50;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用闭包需要注意的地方"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x95ED;&#x5305;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;" class="headerlink" title="&#x4F7F;&#x7528;&#x95ED;&#x5305;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;"></a>&#x4F7F;&#x7528;&#x95ED;&#x5305;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5730;&#x65B9;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#闭包的应用例子"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x95ED;&#x5305;&#x7684;&#x5E94;&#x7528;&#x4F8B;&#x5B50;" class="headerlink" title="&#x95ED;&#x5305;&#x7684;&#x5E94;&#x7528;&#x4F8B;&#x5B50;"></a>&#x95ED;&#x5305;&#x7684;&#x5E94;&#x7528;&#x4F8B;&#x5B50;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考链接"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x53C2;&#x8003;&#x94FE;&#x63A5;" class="headerlink" title="&#x53C2;&#x8003;&#x94FE;&#x63A5;"></a>&#x53C2;&#x8003;&#x94FE;&#x63A5;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

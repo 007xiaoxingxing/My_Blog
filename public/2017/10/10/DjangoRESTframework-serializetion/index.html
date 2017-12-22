@@ -5,21 +5,19 @@
   
   <title>DjangoRESTframework-序列化（Serializetion） | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。
-那就开始吧！">
+  <meta name="description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。 那就开始吧！">
+<meta name="keywords" content="Django djangorestframework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DjangoRESTframework-序列化（Serializetion）">
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/10/DjangoRESTframework-serializetion/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
-<meta property="og:description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。
-那就开始吧！">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
+<meta property="og:description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。 那就开始吧！">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/rest-ser-1.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/rest-ser-2.png">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.755Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.142Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DjangoRESTframework-序列化（Serializetion）">
-<meta name="twitter:description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。
-那就开始吧！">
+<meta name="twitter:description" content="DjangoRESTframework ——–序列化（Serializetion）简介这个教程将建立一个简单的Web API代码片段。通过这个例子将想你介绍众多的REST framework的特性，以及让你深入理解每个组件是怎么组合在一起运行的。 那就开始吧！">
 <meta name="twitter:image" content="http://blog.star-chen.com/blogimg/rest-ser-1.png">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
@@ -358,7 +356,7 @@
         <p><span>本文标题:</span><a href="/2017/10/10/DjangoRESTframework-serializetion/">DjangoRESTframework-序列化（Serializetion）</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月10日 - 14时55分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/10/DjangoRESTframework-serializetion/" title="DjangoRESTframework-序列化（Serializetion）">http://blog.star-chen.com/2017/10/10/DjangoRESTframework-serializetion/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/10/DjangoRESTframework-serializetion/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -396,7 +394,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-——–序列化（Serializetion）"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework ——–序列化（Serializetion）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建立一个新的环境"><span class="toc-number">1.2.</span> <span class="toc-text">建立一个新的环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开始编码"><span class="toc-number">1.3.</span> <span class="toc-text">开始编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个下一步工作所需的model"><span class="toc-number">1.4.</span> <span class="toc-text">创建一个下一步工作所需的model</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Serializer类"><span class="toc-number">1.5.</span> <span class="toc-text">创建Serializer类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Serializers"><span class="toc-number">1.6.</span> <span class="toc-text">使用Serializers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用ModelSerializers"><span class="toc-number">1.7.</span> <span class="toc-text">使用ModelSerializers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Serializer来编写Django-views"><span class="toc-number">1.8.</span> <span class="toc-text">使用Serializer来编写Django views</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试我们的第一个Web-API"><span class="toc-number">1.9.</span> <span class="toc-text">测试我们的第一个Web API</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-——–序列化（Serializetion）"><span class="toc-number">1.</span> <span class="toc-text"><a href="#DjangoRESTframework-&#x2014;&#x2014;&#x2013;&#x5E8F;&#x5217;&#x5316;&#xFF08;Serializetion&#xFF09;" class="headerlink" title="DjangoRESTframework &#x2014;&#x2014;&#x2013;&#x5E8F;&#x5217;&#x5316;&#xFF08;Serializetion&#xFF09;"></a>DjangoRESTframework &#x2014;&#x2014;&#x2013;&#x5E8F;&#x5217;&#x5316;&#xFF08;Serializetion&#xFF09;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建立一个新的环境"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x73AF;&#x5883;" class="headerlink" title="&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x73AF;&#x5883;"></a>&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x73AF;&#x5883;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开始编码"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x5F00;&#x59CB;&#x7F16;&#x7801;" class="headerlink" title="&#x5F00;&#x59CB;&#x7F16;&#x7801;"></a>&#x5F00;&#x59CB;&#x7F16;&#x7801;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建一个下一步工作所需的model"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E0B;&#x4E00;&#x6B65;&#x5DE5;&#x4F5C;&#x6240;&#x9700;&#x7684;model" class="headerlink" title="&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E0B;&#x4E00;&#x6B65;&#x5DE5;&#x4F5C;&#x6240;&#x9700;&#x7684;model"></a>&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E0B;&#x4E00;&#x6B65;&#x5DE5;&#x4F5C;&#x6240;&#x9700;&#x7684;model</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Serializer类"><span class="toc-number">1.5.</span> <span class="toc-text"><a href="#&#x521B;&#x5EFA;Serializer&#x7C7B;" class="headerlink" title="&#x521B;&#x5EFA;Serializer&#x7C7B;"></a>&#x521B;&#x5EFA;Serializer&#x7C7B;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Serializers"><span class="toc-number">1.6.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;Serializers" class="headerlink" title="&#x4F7F;&#x7528;Serializers"></a>&#x4F7F;&#x7528;Serializers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用ModelSerializers"><span class="toc-number">1.7.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;ModelSerializers" class="headerlink" title="&#x4F7F;&#x7528;ModelSerializers"></a>&#x4F7F;&#x7528;ModelSerializers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Serializer来编写Django-views"><span class="toc-number">1.8.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;Serializer&#x6765;&#x7F16;&#x5199;Django-views" class="headerlink" title="&#x4F7F;&#x7528;Serializer&#x6765;&#x7F16;&#x5199;Django views"></a>&#x4F7F;&#x7528;Serializer&#x6765;&#x7F16;&#x5199;Django views</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试我们的第一个Web-API"><span class="toc-number">1.9.</span> <span class="toc-text"><a href="#&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;Web-API" class="headerlink" title="&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;Web API"></a>&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;Web API</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

@@ -6,14 +6,15 @@
   <title>Tornado框架中的Requesthandler | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+<meta name="keywords" content="python,web,tornado">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tornado框架中的Requesthandler">
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/tornado-requesthandler/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_form.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/tornado_up_success.png">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.765Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tornado框架中的Requesthandler">
 <meta name="twitter:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
@@ -326,7 +327,7 @@
         <p><span>本文标题:</span><a href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 20时24分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/tornado-requesthandler/" title="Tornado框架中的Requesthandler">http://blog.star-chen.com/2016/12/15/tornado-requesthandler/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/tornado-requesthandler/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -364,7 +365,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler是个什么家伙？"><span class="toc-number">1.</span> <span class="toc-text">0x1:RequestHandler是个什么家伙？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo的需求"><span class="toc-number">2.</span> <span class="toc-text">0x2:Demo的需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-具体编码"><span class="toc-number">3.</span> <span class="toc-text">0x3:具体编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-实际验证效果"><span class="toc-number">4.</span> <span class="toc-text">0x4:实际验证效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-思考"><span class="toc-number">5.</span> <span class="toc-text">0x5:思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-参考链接"><span class="toc-number">6.</span> <span class="toc-text">0x6 参考链接</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler是个什么家伙？"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x1-RequestHandler&#x662F;&#x4E2A;&#x4EC0;&#x4E48;&#x5BB6;&#x4F19;&#xFF1F;" class="headerlink" title="0x1:RequestHandler&#x662F;&#x4E2A;&#x4EC0;&#x4E48;&#x5BB6;&#x4F19;&#xFF1F;"></a>0x1:RequestHandler&#x662F;&#x4E2A;&#x4EC0;&#x4E48;&#x5BB6;&#x4F19;&#xFF1F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo的需求"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x2-Demo&#x7684;&#x9700;&#x6C42;" class="headerlink" title="0x2:Demo&#x7684;&#x9700;&#x6C42;"></a>0x2:Demo&#x7684;&#x9700;&#x6C42;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-具体编码"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x3-&#x5177;&#x4F53;&#x7F16;&#x7801;" class="headerlink" title="0x3:&#x5177;&#x4F53;&#x7F16;&#x7801;"></a>0x3:&#x5177;&#x4F53;&#x7F16;&#x7801;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-实际验证效果"><span class="toc-number">4.</span> <span class="toc-text"><a href="#0x4-&#x5B9E;&#x9645;&#x9A8C;&#x8BC1;&#x6548;&#x679C;" class="headerlink" title="0x4:&#x5B9E;&#x9645;&#x9A8C;&#x8BC1;&#x6548;&#x679C;"></a>0x4:&#x5B9E;&#x9645;&#x9A8C;&#x8BC1;&#x6548;&#x679C;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-思考"><span class="toc-number">5.</span> <span class="toc-text"><a href="#0x5-&#x601D;&#x8003;" class="headerlink" title="0x5:&#x601D;&#x8003;"></a>0x5:&#x601D;&#x8003;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-参考链接"><span class="toc-number">6.</span> <span class="toc-text"><a href="#0x6-&#x53C2;&#x8003;&#x94FE;&#x63A5;" class="headerlink" title="0x6 &#x53C2;&#x8003;&#x94FE;&#x63A5;"></a>0x6 &#x53C2;&#x8003;&#x94FE;&#x63A5;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

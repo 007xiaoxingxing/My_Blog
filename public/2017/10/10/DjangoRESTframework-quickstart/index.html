@@ -6,13 +6,14 @@
   <title>DjangoRESTframework-快速开始 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="DjangoRESTframework  快速开始我们将开始建立一个简单的API，让admin用户去查看和编辑系统中用户和用户组。">
+<meta name="keywords" content="python djangorestframework">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DjangoRESTframework-快速开始">
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/10/DjangoRESTframework-quickstart/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="DjangoRESTframework  快速开始我们将开始建立一个简单的API，让admin用户去查看和编辑系统中用户和用户组。">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/quick_start.png">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.755Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DjangoRESTframework-快速开始">
 <meta name="twitter:description" content="DjangoRESTframework  快速开始我们将开始建立一个简单的API，让admin用户去查看和编辑系统中用户和用户组。">
@@ -307,7 +308,7 @@
         <p><span>本文标题:</span><a href="/2017/10/10/DjangoRESTframework-quickstart/">DjangoRESTframework-快速开始</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月10日 - 11时28分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/10/DjangoRESTframework-quickstart/" title="DjangoRESTframework-快速开始">http://blog.star-chen.com/2017/10/10/DjangoRESTframework-quickstart/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/10/DjangoRESTframework-quickstart/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -345,7 +346,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-快速开始"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework  快速开始</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#建立工程"><span class="toc-number">1.1.</span> <span class="toc-text">建立工程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#序列化器（Serializers）"><span class="toc-number">1.2.</span> <span class="toc-text">序列化器（Serializers）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#视图（Views）"><span class="toc-number">1.3.</span> <span class="toc-text">视图（Views）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL配置（URLs"><span class="toc-number">1.4.</span> <span class="toc-text">URL配置（URLs)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置（Settings）"><span class="toc-number">1.5.</span> <span class="toc-text">设置（Settings）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试我们的API"><span class="toc-number">1.6.</span> <span class="toc-text">测试我们的API</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-快速开始"><span class="toc-number">1.</span> <span class="toc-text"><a href="#DjangoRESTframework-&#x5FEB;&#x901F;&#x5F00;&#x59CB;" class="headerlink" title="DjangoRESTframework  &#x5FEB;&#x901F;&#x5F00;&#x59CB;"></a>DjangoRESTframework  &#x5FEB;&#x901F;&#x5F00;&#x59CB;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#建立工程"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x5EFA;&#x7ACB;&#x5DE5;&#x7A0B;" class="headerlink" title="&#x5EFA;&#x7ACB;&#x5DE5;&#x7A0B;"></a>&#x5EFA;&#x7ACB;&#x5DE5;&#x7A0B;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#序列化器（Serializers）"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x5E8F;&#x5217;&#x5316;&#x5668;&#xFF08;Serializers&#xFF09;" class="headerlink" title="&#x5E8F;&#x5217;&#x5316;&#x5668;&#xFF08;Serializers&#xFF09;"></a>&#x5E8F;&#x5217;&#x5316;&#x5668;&#xFF08;Serializers&#xFF09;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#视图（Views）"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x89C6;&#x56FE;&#xFF08;Views&#xFF09;" class="headerlink" title="&#x89C6;&#x56FE;&#xFF08;Views&#xFF09;"></a>&#x89C6;&#x56FE;&#xFF08;Views&#xFF09;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#URL配置（URLs"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#URL&#x914D;&#x7F6E;&#xFF08;URLs" class="headerlink" title="URL&#x914D;&#x7F6E;&#xFF08;URLs)"></a>URL&#x914D;&#x7F6E;&#xFF08;URLs)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置（Settings）"><span class="toc-number">1.5.</span> <span class="toc-text"><a href="#&#x8BBE;&#x7F6E;&#xFF08;Settings&#xFF09;" class="headerlink" title="&#x8BBE;&#x7F6E;&#xFF08;Settings&#xFF09;"></a>&#x8BBE;&#x7F6E;&#xFF08;Settings&#xFF09;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试我们的API"><span class="toc-number">1.6.</span> <span class="toc-text"><a href="#&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;API" class="headerlink" title="&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;API"></a>&#x6D4B;&#x8BD5;&#x6211;&#x4EEC;&#x7684;API</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

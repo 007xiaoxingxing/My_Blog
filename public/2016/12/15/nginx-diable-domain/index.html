@@ -6,12 +6,13 @@
   <title>配置nginx，防止ip被恶意绑定域名 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="0x1 事情起因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
+<meta name="keywords" content="nginx,domain">
 <meta property="og:type" content="article">
 <meta property="og:title" content="配置nginx，防止ip被恶意绑定域名">
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/nginx-diable-domain/index.html">
-<meta property="og:site_name" content="STAR-CHEN's BLOG">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="0x1 事情起因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.764Z">
+<meta property="og:updated_time" content="2017-11-30T16:47:43.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置nginx，防止ip被恶意绑定域名">
 <meta name="twitter:description" content="0x1 事情起因偶然在百度上搜索了一下我这个博客的域名，发现百度有个快照是另外一个不相干的域名解析到我现在用的这个ip上了。这样子好像有点不科学嘛，还是把不属于本站域名的访问给禁用掉好了。">
@@ -278,7 +279,7 @@
         <p><span>本文标题:</span><a href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 04时53分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/nginx-diable-domain/" title="配置nginx，防止ip被恶意绑定域名">http://blog.star-chen.com/2016/12/15/nginx-diable-domain/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/nginx-diable-domain/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -316,7 +317,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-事情起因"><span class="toc-number">1.</span> <span class="toc-text">0x1 事情起因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-解决方案"><span class="toc-number">2.</span> <span class="toc-text">0x2 解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-配置文件具体内容"><span class="toc-number">3.</span> <span class="toc-text">0x3 配置文件具体内容</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-事情起因"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x1-&#x4E8B;&#x60C5;&#x8D77;&#x56E0;" class="headerlink" title="0x1 &#x4E8B;&#x60C5;&#x8D77;&#x56E0;"></a>0x1 &#x4E8B;&#x60C5;&#x8D77;&#x56E0;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-解决方案"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x2-&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="0x2 &#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>0x2 &#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-配置文件具体内容"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x3-&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5177;&#x4F53;&#x5185;&#x5BB9;" class="headerlink" title="0x3 &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5177;&#x4F53;&#x5185;&#x5BB9;"></a>0x3 &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5177;&#x4F53;&#x5185;&#x5BB9;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
