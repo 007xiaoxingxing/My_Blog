@@ -17,11 +17,10 @@ date: 2017-11-22 15:03:28
 [Match]
     Name=eno1
 [Network]
-    Address=10.70.27.35/19
-    Gateway=10.70.31.254
+    Address=10.1.1.10/19
+    Gateway=10.1.1.254
     DNS=223.5.5.5
     DNS=223.6.6.6
-
 ```
 这里由两个地方需要注意，Match段，需要指定配置的网卡Name，Name需要注意首字母大写。Address是网卡的ip地址，由ip和掩码长度组成。需要设置多个DNS的话，请写多行。
 2.设置systemd-networkd开机启动
