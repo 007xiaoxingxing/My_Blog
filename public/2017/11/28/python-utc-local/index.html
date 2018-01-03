@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/11/28/python-utc-local/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.149Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">
 <meta name="twitter:description" content="在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。">
@@ -267,11 +267,11 @@
         <p>在程序编写中，经常会与时间打交道。通常涉及到时间的比较，时间戳与时间字符串的转换等等。在python中，与时间操作有关的常用模块有time和datetime。</p>
 <a id="more"></a>
 <p>这篇文章记录一下UTC格式的字符串与本地时间字符串相互转换的方法。</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> datetime</div><div class="line">utc_time_str = <span class="string">'2017-10-15T00:00:00.000Z'</span></div><div class="line">utc_format_str = <span class="string">"%Y-%m-%dT%H:%M:%S.%fZ"</span></div><div class="line">time_obj = datetime.datetime.strptime(start_time, utc_format_str)</div><div class="line">time_format_str = <span class="string">"%Y.%m.%d"</span></div><div class="line">local_time_str = time_obj.strftime(time_format_str)</div></pre></td></tr></table></figure>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># UTC时间转换为时间戳 2016-07-31T16:00:00Z</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">utc_to_local</span><span class="params">(utc_time_str, utc_format=<span class="string">'%Y-%m-%dT%H:%M:%SZ'</span>)</span>:</span></div><div class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</div><div class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></div><div class="line">    utc_dt = datetime.datetime.strptime(utc_time_str, utc_format)</div><div class="line">    local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)</div><div class="line">    time_str = local_dt.strftime(local_format)</div><div class="line">    <span class="keyword">return</span> int(time.mktime(time.strptime(time_str, local_format)))</div><div class="line"> </div><div class="line"><span class="comment"># 本地时间转换为UTC</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">local_to_utc</span><span class="params">(local_ts, utc_format=<span class="string">'%Y-%m-%dT%H:%MZ'</span>)</span>:</span></div><div class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</div><div class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></div><div class="line">    time_str = time.strftime(local_format, time.localtime(local_ts))</div><div class="line">    dt = datetime.datetime.strptime(time_str, local_format)</div><div class="line">    local_dt = local_tz.localize(dt, is_dst=<span class="keyword">None</span>)</div><div class="line">    utc_dt = local_dt.astimezone(pytz.utc)</div><div class="line">    <span class="keyword">return</span> utc_dt.strftime(utc_format)</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line">utc_time_str = <span class="string">'2017-10-15T00:00:00.000Z'</span></span><br><span class="line">utc_format_str = <span class="string">"%Y-%m-%dT%H:%M:%S.%fZ"</span></span><br><span class="line">time_obj = datetime.datetime.strptime(start_time, utc_format_str)</span><br><span class="line">time_format_str = <span class="string">"%Y.%m.%d"</span></span><br><span class="line">local_time_str = time_obj.strftime(time_format_str)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># UTC时间转换为时间戳 2016-07-31T16:00:00Z</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">utc_to_local</span><span class="params">(utc_time_str, utc_format=<span class="string">'%Y-%m-%dT%H:%M:%SZ'</span>)</span>:</span></span><br><span class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</span><br><span class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></span><br><span class="line">    utc_dt = datetime.datetime.strptime(utc_time_str, utc_format)</span><br><span class="line">    local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)</span><br><span class="line">    time_str = local_dt.strftime(local_format)</span><br><span class="line">    <span class="keyword">return</span> int(time.mktime(time.strptime(time_str, local_format)))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 本地时间转换为UTC</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">local_to_utc</span><span class="params">(local_ts, utc_format=<span class="string">'%Y-%m-%dT%H:%MZ'</span>)</span>:</span></span><br><span class="line">    local_tz = pytz.timezone(<span class="string">'Asia/Chongqing'</span>)</span><br><span class="line">    local_format = <span class="string">"%Y-%m-%d %H:%M"</span></span><br><span class="line">    time_str = time.strftime(local_format, time.localtime(local_ts))</span><br><span class="line">    dt = datetime.datetime.strptime(time_str, local_format)</span><br><span class="line">    local_dt = local_tz.localize(dt, is_dst=<span class="keyword">None</span>)</span><br><span class="line">    utc_dt = local_dt.astimezone(pytz.utc)</span><br><span class="line">    <span class="keyword">return</span> utc_dt.strftime(utc_format)</span><br></pre></td></tr></table></figure>
 <p>参考链接：</p>
-<p><a href="https://www.cnblogs.com/shenwenlong/p/6088765.html" target="_blank" rel="external">https://www.cnblogs.com/shenwenlong/p/6088765.html</a></p>
-<p><a href="http://blog.sina.com.cn/s/blog_4da051a60102v221.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4da051a60102v221.html</a></p>
+<p><a href="https://www.cnblogs.com/shenwenlong/p/6088765.html" target="_blank" rel="noopener">https://www.cnblogs.com/shenwenlong/p/6088765.html</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_4da051a60102v221.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_4da051a60102v221.html</a></p>
 
       
     </div>
@@ -283,7 +283,7 @@
         <p><span>本文标题:</span><a href="/2017/11/28/python-utc-local/">python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年11月28日 - 16时35分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/28/python-utc-local/" title="python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换">http://blog.star-chen.com/2017/11/28/python-utc-local/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/11/28/python-utc-local/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -433,7 +433,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -473,8 +473,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

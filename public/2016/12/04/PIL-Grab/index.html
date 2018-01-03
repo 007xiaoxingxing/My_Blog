@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/04/PIL-Grab/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="0x1：在Windows 64位系统上安装python的PIL库Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。Win 64 PIL下载地址 下载下来会发现是.whl扩展名。其安装方法：   1pip install Pillow-3.4.2-cp27-cp27m-win_amd64.whl 0x2:利用PIL截屏123from">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.145Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Python的PIL截屏">
 <meta name="twitter:description" content="0x1：在Windows 64位系统上安装python的PIL库Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。Win 64 PIL下载地址 下载下来会发现是.whl扩展名。其安装方法：   1pip install Pillow-3.4.2-cp27-cp27m-win_amd64.whl 0x2:利用PIL截屏123from">
@@ -264,9 +264,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="0x1：在Windows-64位系统上安装python的PIL库"><a href="#0x1：在Windows-64位系统上安装python的PIL库" class="headerlink" title="0x1：在Windows 64位系统上安装python的PIL库"></a>0x1：在Windows 64位系统上安装python的PIL库</h3><p>Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="external">Win 64 PIL下载地址</a> 下载下来会发现是.whl扩展名。其安装方法：  </p>
-<figure class="highlight cmd" data-lang=" cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install Pillow-<span class="number">3</span>.<span class="number">4</span>.<span class="number">2</span>-cp27-cp27m-win_amd64.whl</div></pre></td></tr></table></figure>
-<h3 id="0x2-利用PIL截屏"><a href="#0x2-利用PIL截屏" class="headerlink" title="0x2:利用PIL截屏"></a>0x2:利用PIL截屏</h3><figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab</div><div class="line">image=ImageGrab.grab()</div><div class="line">image.save(<span class="string">"E:/grab.jpg"</span>,<span class="string">"jpeg"</span>)</div></pre></td></tr></table></figure>
+        <h3 id="0x1：在Windows-64位系统上安装python的PIL库"><a href="#0x1：在Windows-64位系统上安装python的PIL库" class="headerlink" title="0x1：在Windows 64位系统上安装python的PIL库"></a>0x1：在Windows 64位系统上安装python的PIL库</h3><p>Pillow的官方网站上默认只提供32位版本的安装程序，所以我们需要到第三方网站去下载64位版本的Pillow安装包。<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="noopener">Win 64 PIL下载地址</a> 下载下来会发现是.whl扩展名。其安装方法：  </p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Pillow-<span class="number">3</span>.<span class="number">4</span>.<span class="number">2</span>-cp27-cp27m-win_amd64.whl</span><br></pre></td></tr></table></figure>
+<h3 id="0x2-利用PIL截屏"><a href="#0x2-利用PIL截屏" class="headerlink" title="0x2:利用PIL截屏"></a>0x2:利用PIL截屏</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab</span><br><span class="line">image=ImageGrab.grab()</span><br><span class="line">image.save(<span class="string">"E:/grab.jpg"</span>,<span class="string">"jpeg"</span>)</span><br></pre></td></tr></table></figure>
 <p>仅仅需要简单的两行代码就可以实现截取整个屏幕并保存为文件，很方便。grab方法还可以指定参数，截取屏幕某坐标范围内的内容。</p>
 
       
@@ -279,7 +279,7 @@
         <p><span>本文标题:</span><a href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月04日 - 10时23分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/04/PIL-Grab/" title="利用Python的PIL截屏">http://blog.star-chen.com/2016/12/04/PIL-Grab/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/04/PIL-Grab/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -429,7 +429,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -469,8 +469,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

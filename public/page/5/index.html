@@ -457,9 +457,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="创建新的可远程访问的数据库用户"><a href="#创建新的可远程访问的数据库用户" class="headerlink" title="创建新的可远程访问的数据库用户"></a>创建新的可远程访问的数据库用户</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; create user <span class="string">'user'</span>@<span class="string">'%'</span> identified by <span class="string">'pass'</span>;</div></pre></td></tr></table></figure>
-<h3 id="创建新的数据库"><a href="#创建新的数据库" class="headerlink" title="创建新的数据库"></a>创建新的数据库</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; create database newdb;</div></pre></td></tr></table></figure>
-<h3 id="把新创建的数据库授权给新创建的用户"><a href="#把新创建的数据库授权给新创建的用户" class="headerlink" title="把新创建的数据库授权给新创建的用户"></a>把新创建的数据库授权给新创建的用户</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; grant all privileges on newdb.* to <span class="string">'user'</span>@<span class="string">'%'</span>;</div><div class="line">MariaDB [(none)]&gt; flush privileges;</div></pre></td></tr></table></figure>
+        <h3 id="创建新的可远程访问的数据库用户"><a href="#创建新的可远程访问的数据库用户" class="headerlink" title="创建新的可远程访问的数据库用户"></a>创建新的可远程访问的数据库用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; create user <span class="string">'user'</span>@<span class="string">'%'</span> identified by <span class="string">'pass'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="创建新的数据库"><a href="#创建新的数据库" class="headerlink" title="创建新的数据库"></a>创建新的数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; create database newdb;</span><br></pre></td></tr></table></figure>
+<h3 id="把新创建的数据库授权给新创建的用户"><a href="#把新创建的数据库授权给新创建的用户" class="headerlink" title="把新创建的数据库授权给新创建的用户"></a>把新创建的数据库授权给新创建的用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; grant all privileges on newdb.* to <span class="string">'user'</span>@<span class="string">'%'</span>;</span><br><span class="line">MariaDB [(none)]&gt; flush privileges;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -522,7 +522,7 @@
       
           
               <h3 id="Centos7-安装php7"><a href="#Centos7-安装php7" class="headerlink" title="Centos7 安装php7"></a>Centos7 安装php7</h3><p>由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式.</p>
-<h4 id="首先rpm安装php7-0的yum源"><a href="#首先rpm安装php7-0的yum源" class="headerlink" title="首先rpm安装php7.0的yum源"></a>首先rpm安装php7.0的yum源</h4><figure class="highlight bash"data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@vultr ~]<span class="comment"># rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span></div></pre></td></tr></table></figure>
+<h4 id="首先rpm安装php7-0的yum源"><a href="#首先rpm安装php7-0的yum源" class="headerlink" title="首先rpm安装php7.0的yum源"></a>首先rpm安装php7.0的yum源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span></span><br></pre></td></tr></table></figure>
           
       
     </div>
@@ -795,7 +795,7 @@
 <p>HTTP资源得到确认和位于网络通[统一资源定位器（URL）的，使用统一资源标识符（URI的）计划，<em>HTTP</em>和<em>HTTPS</em>。URI和超链接的HTML文档形成相互关联的超文本文档。</p>
 <p>HTTP / 1.1是原来的HTTP（HTTP / 1.0）的修订。在HTTP / 1.0的单独连接到同一台服务器为每个资源的要求而作出。HTTP / 1.1可以重复使用的连接多次下载图像，脚本，样式表，<em>等等</em>页面已交付之后。因此，HTTP / 1.1的通信经验少的延迟为建立TCP连接的呈现相当大的开销。</p>
 </blockquote>
-<p>——-引自wikipedia <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">维基百科.HTTP词条</a></p>
+<p>——-引自wikipedia <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank" rel="noopener">维基百科.HTTP词条</a></p>
           
       
     </div>
@@ -910,7 +910,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -950,8 +950,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

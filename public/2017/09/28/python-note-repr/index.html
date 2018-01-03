@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/09/28/python-note-repr/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.149Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习笔记之----repr()函数">
 <meta name="twitter:description" content="在python中，可以通过str()方法和repr()方法将一个对象转换为字符串。但是这两个方法也有少许的不同，python官方手册上对这两个方法的描述分别如下：">
@@ -279,7 +279,7 @@
 <p>  Return a string containing a nicely printable representation of an object. For strings, this returns the string itself. The difference with <code>repr(object)</code> is that <code>str(object)</code> does not always attempt to return a string that is acceptable to <a href="#eval"><code>eval()</code></a>; its goal is to return a printable string. If no argument is given, returns the empty string, <code>&#39;&#39;</code>.For more information on strings see <a href="stdtypes.html#typesseq">Sequence Types — str, unicode, list, tuple, bytearray, buffer, xrange</a> which describes sequence functionality (strings are sequences), and also the string-specific methods described in the <a href="stdtypes.html#string-methods">String Methods</a> section. To output formatted strings use template strings or the <code>%</code> operator described in the <a href="stdtypes.html#string-formatting">String Formatting Operations</a> section. In addition see the <a href="strings.html#stringservices">String Services</a> section. See also <a href="#unicode"><code>unicode()</code></a>.</p>
 </blockquote>
 <p>简单来说就是str()得到的字符串对象更方便用于人类识别和打印，repr()方法得到的字符串对象更容易被python解释器识别，而且使用repr()方法，这个等式通常是成立的obj == eval(repr(obj))</p>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj = <span class="string">"hello python"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(repr(obj))</div><div class="line"><span class="keyword">True</span></div><div class="line"><span class="comment">#而str()方法则不具备这个功能</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(str(obj))</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">  File <span class="string">"&lt;string&gt;"</span>, line <span class="number">1</span></div><div class="line">    hello python</div><div class="line">               ^</div><div class="line">SyntaxError: unexpected EOF <span class="keyword">while</span> parsing</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj = <span class="string">"hello python"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(repr(obj))</span><br><span class="line"><span class="keyword">True</span></span><br><span class="line"><span class="comment">#而str()方法则不具备这个功能</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj == eval(str(obj))</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"&lt;string&gt;"</span>, line <span class="number">1</span></span><br><span class="line">    hello python</span><br><span class="line">               ^</span><br><span class="line">SyntaxError: unexpected EOF <span class="keyword">while</span> parsing</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -291,7 +291,7 @@
         <p><span>本文标题:</span><a href="/2017/09/28/python-note-repr/">Python学习笔记之----repr()函数</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年09月28日 - 19时41分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/28/python-note-repr/" title="Python学习笔记之----repr()函数">http://blog.star-chen.com/2017/09/28/python-note-repr/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/09/28/python-note-repr/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -441,7 +441,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -481,8 +481,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

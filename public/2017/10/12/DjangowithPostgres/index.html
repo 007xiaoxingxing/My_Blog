@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/12/DjangowithPostgres/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在Django中使用PosetgreSQL数据库Postgres的安装过程就略过了，在Django中使用PostgreSQL只需要改一下settings.py中的数据库连接字符串就好了。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.142Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Django中使用PosetgreSQL数据库">
 <meta name="twitter:description" content="在Django中使用PosetgreSQL数据库Postgres的安装过程就略过了，在Django中使用PostgreSQL只需要改一下settings.py中的数据库连接字符串就好了。">
@@ -266,9 +266,9 @@
           
         <h3 id="在Django中使用PosetgreSQL数据库"><a href="#在Django中使用PosetgreSQL数据库" class="headerlink" title="在Django中使用PosetgreSQL数据库"></a>在Django中使用PosetgreSQL数据库</h3><p>Postgres的安装过程就略过了，在Django中使用PostgreSQL只需要改一下settings.py中的数据库连接字符串就好了。</p>
 <a id="more"></a>
-<figure class="highlight python" data-lang=" python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</div><div class="line">        <span class="string">'NAME'</span>: <span class="string">'testdb'</span>,</div><div class="line">        <span class="string">'USER'</span>: <span class="string">'db_test'</span>,</div><div class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'db_test'</span>,</div><div class="line">        <span class="string">'HOST'</span>: <span class="string">''</span>,</div><div class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'testdb'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'db_test'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'db_test'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以用Django shell测试一下：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">xing@ubuntu-server:~/pstest$ python manage.py shell</div><div class="line">Python 2.7.13 (default, Jan 19 2017, 14:48:08) </div><div class="line">[GCC 6.3.0 20170118] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">(InteractiveConsole)</div><div class="line">&gt;&gt;&gt; from django.db import connection</div><div class="line">&gt;&gt;&gt; cusor = connection.cursor</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-server:~/pstest$ python manage.py shell</span><br><span class="line">Python 2.7.13 (default, Jan 19 2017, 14:48:08) </span><br><span class="line">[GCC 6.3.0 20170118] on linux2</span><br><span class="line">Type "help", "copyright", "credits" or "license" for more information.</span><br><span class="line">(InteractiveConsole)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; from django.db import connection</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; cusor = connection.cursor</span></span><br></pre></td></tr></table></figure>
 <p>如果没有报错的话，说明已经配置成功了。</p>
 
       
@@ -281,7 +281,7 @@
         <p><span>本文标题:</span><a href="/2017/10/12/DjangowithPostgres/">在Django中使用PosetgreSQL数据库</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月12日 - 14时40分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/12/DjangowithPostgres/" title="在Django中使用PosetgreSQL数据库">http://blog.star-chen.com/2017/10/12/DjangowithPostgres/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/12/DjangowithPostgres/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -431,7 +431,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -471,8 +471,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

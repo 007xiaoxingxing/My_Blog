@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/09/10/PDF-watermask/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.145Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用iTextSharp向pdf文件中添加图片水印">
 <meta name="twitter:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
@@ -267,7 +267,7 @@
         <p>由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。</p>
 <a id="more"></a>
 <p>怎么加载iTextSharp库就不啰嗦了，这里贴一下添加图片水印的代码，以防忘记。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">String srcPdf = &quot;I:\\文档文件\\xxx.pdf&quot;;</div><div class="line">         String dstPdf = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxxx.pdf&quot;;</div><div class="line">         String imagepath = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxx\\qrcode.jpg&quot;;</div><div class="line">         iTextSharp.text.Image img = Image.GetInstance(imagepath);</div><div class="line">         PdfReader reader = new PdfReader(srcPdf);</div><div class="line">         PdfStamper stamp = new PdfStamper(reader, new FileStream(dstPdf, FileMode.Create));</div><div class="line"></div><div class="line">         PdfContentByte page;</div><div class="line">         float width = reader.GetPageSize(1).Width;</div><div class="line">         float height = reader.GetPageSize(1).Height;</div><div class="line">         int num = reader.NumberOfPages;</div><div class="line">         int margin = 100;</div><div class="line">         img.ScalePercent(20);</div><div class="line">         </div><div class="line">         for (int i = 1; i &lt;= num; ++i)</div><div class="line">         &#123;</div><div class="line">             page = stamp.GetOverContent(i);</div><div class="line"></div><div class="line">             img.SetAbsolutePosition(width-img.ScaledWidth-10,10);//设置图片插入的位置，左下角为坐标系（0，0）位置</div><div class="line">             page.AddImage(img);</div><div class="line">         &#125;</div><div class="line"></div><div class="line">         stamp.Close();</div><div class="line">         reader.Close();</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">String srcPdf = &quot;I:\\文档文件\\xxx.pdf&quot;;</span><br><span class="line">         String dstPdf = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxxx.pdf&quot;;</span><br><span class="line">         String imagepath = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxx\\qrcode.jpg&quot;;</span><br><span class="line">         iTextSharp.text.Image img = Image.GetInstance(imagepath);</span><br><span class="line">         PdfReader reader = new PdfReader(srcPdf);</span><br><span class="line">         PdfStamper stamp = new PdfStamper(reader, new FileStream(dstPdf, FileMode.Create));</span><br><span class="line"></span><br><span class="line">         PdfContentByte page;</span><br><span class="line">         float width = reader.GetPageSize(1).Width;</span><br><span class="line">         float height = reader.GetPageSize(1).Height;</span><br><span class="line">         int num = reader.NumberOfPages;</span><br><span class="line">         int margin = 100;</span><br><span class="line">         img.ScalePercent(20);</span><br><span class="line">         </span><br><span class="line">         for (int i = 1; i &lt;= num; ++i)</span><br><span class="line">         &#123;</span><br><span class="line">             page = stamp.GetOverContent(i);</span><br><span class="line"></span><br><span class="line">             img.SetAbsolutePosition(width-img.ScaledWidth-10,10);//设置图片插入的位置，左下角为坐标系（0，0）位置</span><br><span class="line">             page.AddImage(img);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         stamp.Close();</span><br><span class="line">         reader.Close();</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -279,7 +279,7 @@
         <p><span>本文标题:</span><a href="/2017/09/10/PDF-watermask/">利用iTextSharp向pdf文件中添加图片水印</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年09月10日 - 11时18分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/10/PDF-watermask/" title="利用iTextSharp向pdf文件中添加图片水印">http://blog.star-chen.com/2017/09/10/PDF-watermask/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/09/10/PDF-watermask/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -429,7 +429,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -469,8 +469,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

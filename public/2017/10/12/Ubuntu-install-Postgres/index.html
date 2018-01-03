@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/12/Ubuntu-install-Postgres/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="在Ubuntu17.04 Server中安装PostgreSQL与基本使用方法PostgreSQL是自由的对象-关系型数据库服务器（数据库管理系统），在灵活的BSD-风格许可证下发行。它在其他开放源代码数据库系统（比如MySQL和Firebird），和专有系统比如Oracle、Sybase、IBM的DB2和Microsoft SQL Server之外，为用户又提供了一种选择。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.147Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 17.04 安装PostgreSQL">
 <meta name="twitter:description" content="在Ubuntu17.04 Server中安装PostgreSQL与基本使用方法PostgreSQL是自由的对象-关系型数据库服务器（数据库管理系统），在灵活的BSD-风格许可证下发行。它在其他开放源代码数据库系统（比如MySQL和Firebird），和专有系统比如Oracle、Sybase、IBM的DB2和Microsoft SQL Server之外，为用户又提供了一种选择。">
@@ -267,36 +267,36 @@
         <h3 id="在Ubuntu17-04-Server中安装PostgreSQL与基本使用方法"><a href="#在Ubuntu17-04-Server中安装PostgreSQL与基本使用方法" class="headerlink" title="在Ubuntu17.04 Server中安装PostgreSQL与基本使用方法"></a>在Ubuntu17.04 Server中安装PostgreSQL与基本使用方法</h3><p>PostgreSQL是自由的对象-关系型数据库服务器（数据库管理系统），在灵活的BSD-风格许可证下发行。它在其他开放源代码数据库系统（比如MySQL和Firebird），和专有系统比如Oracle、Sybase、IBM的DB2和Microsoft SQL Server之外，为用户又提供了一种选择。</p>
 <a id="more"></a>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>在ubuntu的软件仓库中已经包含了Postgre软件包 ，使用apt可以很方便的安装。</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xing@ubuntu-server:~$ sudo apt-get install postgresql postgresql-contrib</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-server:~$ sudo apt-get install postgresql postgresql-contrib</span><br></pre></td></tr></table></figure>
 <p>然后坐等安装完成。安装完成之后，会在系统中创建一个名为postgres的用户，查看/etc/passwd可以看到：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres:x:113:119:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres:x:113:119:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash</span><br></pre></td></tr></table></figure>
 <p>这个Linux用户默认和Postgres管理员身份进行了关联，接下来我们就可以使用这个用户来对Postgres进行管理</p>
 <h4 id="使用Postgre角色和创建数据库"><a href="#使用Postgre角色和创建数据库" class="headerlink" title="使用Postgre角色和创建数据库"></a>使用Postgre角色和创建数据库</h4><p>首先切换到postgres用户:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xing@ubuntu-server:~$ sudo -i -u postgres </div><div class="line">#出现这个提示符表示已经切换到了postgres用户</div><div class="line">postgres@ubuntu-server:~$</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-server:~$ sudo -i -u postgres </span><br><span class="line"><span class="meta">#</span><span class="bash">出现这个提示符表示已经切换到了postgres用户</span></span><br><span class="line">postgres@ubuntu-server:~$</span><br></pre></td></tr></table></figure>
 <p>使用psql命令登录PostgreSQL控制台：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">postgres@ubuntu-server:~$ psql</div><div class="line">psql (9.6.5)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">postgres=#</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">postgres@ubuntu-server:~$ psql</span><br><span class="line">psql (9.6.5)</span><br><span class="line">Type "help" for help.</span><br><span class="line"></span><br><span class="line">postgres=#</span><br></pre></td></tr></table></figure>
 <p>然后可以在PostgreSQL控制台为postgres用户先设置给密码：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres=# \password postgres</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \password postgres</span><br></pre></td></tr></table></figure>
 <p>再创建一个名为db_test数据库用户，并设置它的密码为db_test：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres=# create user db_test with password &apos;db_test&apos;;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=# create user db_test with password 'db_test';</span><br></pre></td></tr></table></figure>
 <p>创建数据库并将数据库的权限的所有者指定为db_test用户:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres=# create database testdb owner db_test;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=# create database testdb owner db_test;</span><br></pre></td></tr></table></figure>
 <p>然后再把testdb的权限给db_test用户：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres=# grant all privileges on database testdb to db_test;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=# grant all privileges on database testdb to db_test;</span><br></pre></td></tr></table></figure>
 <p>退出psql控制台的方法是:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres=# \q</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres=# \q</span><br></pre></td></tr></table></figure>
 <p>除了使用psql控制台管理数据库，还可以使用shell命令行来进行配置:</p>
 <p>在postgres用户的命令提示符下创建数据库用户：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres@ubuntu-server:~$ createuser --interactive</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres@ubuntu-server:~$ createuser --interactive</span><br></pre></td></tr></table></figure>
 <p>在其他用户的命令终端下可以这样:</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xing@ubuntu-server:~$ sudo -u postgres createuser --interactive</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-server:~$ sudo -u postgres createuser --interactive</span><br></pre></td></tr></table></figure>
 <p>在命令终端创建数据库：</p>
 <p>​    在postgres用户的终端：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postgres@ubuntu-server:~$ createdb testdb</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres@ubuntu-server:~$ createdb testdb</span><br></pre></td></tr></table></figure>
 <p>​    在其他用户的终端；</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u postgres createdb testdb</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres createdb testdb</span><br></pre></td></tr></table></figure>
 <h4 id="登录数据库"><a href="#登录数据库" class="headerlink" title="登录数据库"></a>登录数据库</h4><p>添加了新的用户和数据库之后，就可以使用新的用户登录到数据库了：</p>
-<figure class="highlight plain" data-lang=" plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">xing@ubuntu-server:~$ psql -U db_test -d testdb -h localhost -p 5432</div><div class="line">Password for user db_test: </div><div class="line">psql (9.6.5)</div><div class="line">SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">testdb=&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-server:~$ psql -U db_test -d testdb -h localhost -p 5432</span><br><span class="line">Password for user db_test: </span><br><span class="line">psql (9.6.5)</span><br><span class="line">SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)</span><br><span class="line">Type "help" for help.</span><br><span class="line"></span><br><span class="line">testdb=&gt;</span><br></pre></td></tr></table></figure>
 <h4 id="psql控制台的一些命令"><a href="#psql控制台的一些命令" class="headerlink" title="psql控制台的一些命令"></a>psql控制台的一些命令</h4><ul>
 <li>\h：查看SQL命令的解释，比如\h select。</li>
 <li>\?：查看psql命令列表。</li>
@@ -309,8 +309,8 @@
 <li>\conninfo：列出当前数据库和连接的信息。</li>
 </ul>
 <p>参考资料:</p>
-<p><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
-<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/12/getting_started_with_postgresql.html</a></p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04</a></p>
 
       
     </div>
@@ -322,7 +322,7 @@
         <p><span>本文标题:</span><a href="/2017/10/12/Ubuntu-install-Postgres/">Ubuntu 17.04 安装PostgreSQL</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月12日 - 13时44分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/12/Ubuntu-install-Postgres/" title="Ubuntu 17.04 安装PostgreSQL">http://blog.star-chen.com/2017/10/12/Ubuntu-install-Postgres/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/12/Ubuntu-install-Postgres/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -472,7 +472,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -512,8 +512,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

@@ -14,7 +14,7 @@
 <meta property="og:description" content="在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/ls_detail.png">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/linux_umask.png">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.144Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux学习笔记之文件权限">
 <meta name="twitter:description" content="在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。">
@@ -269,7 +269,7 @@
           
         <p>在Linux系统中，一切皆为文件。当然文件权限的管理也相对复杂一些了。 Linux继续沿用了Unix管理文件权限的办法，其允许用户和组基于每个文件和目录的一组安全性设置来访问文件。但是对于使用“ls”命令查看Linux系统上的文件、目录和设备的权限时，输出的信息也没有弄得十分清楚，特地又重新学习了一下，免得遗忘，还是做下笔记。</p>
 <a id="more"></a>
-<h3 id="理解ls命令的输出"><a href="#理解ls命令的输出" class="headerlink" title="理解ls命令的输出"></a>理解ls命令的输出</h3><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@vultr etc]<span class="comment"># ls -la</span></div><div class="line">total 1660</div><div class="line">drwxr-xr-x 85 root  root   4096 May 22 07:14 .</div><div class="line">dr-xr-xr-x 18 root  root   4096 Dec 16 14:24 ..</div><div class="line">-rw-r--r--  1 root  root     16 Nov 14  2016 adjtime</div><div class="line">-rw-r--r--  1 root  root   1518 Jun  7  2013 aliases</div><div class="line">-rw-r--r--  1 root  root  12288 Dec 27 09:14 aliases.db</div><div class="line">drwxr-xr-x  2 root  root   4096 Mar 11 04:11 alternatives</div><div class="line">-rw-r--r--  1 root  root     55 Nov  4  2016 asound.conf</div><div class="line">drwxr-xr-x  2 root  root   4096 Dec 16 14:26 avahi</div><div class="line">drwxr-xr-x  2 root  root   4096 May 22 07:31 bash_completion.d</div><div class="line">-rw-r--r--  1 root  root   2853 Nov  5  2016 bashrc</div><div class="line">drwxr-xr-x  2 root  root   4096 Mar  3 03:23 binfmt.d</div><div class="line">-rw-r--r--  1 root  root     38 Nov 29 18:12 centos-release</div><div class="line">-rw-r--r--  1 root  root     51 Nov 29 18:12 centos-release-upstream</div></pre></td></tr></table></figure>
+<h3 id="理解ls命令的输出"><a href="#理解ls命令的输出" class="headerlink" title="理解ls命令的输出"></a>理解ls命令的输出</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr etc]<span class="comment"># ls -la</span></span><br><span class="line">total 1660</span><br><span class="line">drwxr-xr-x 85 root  root   4096 May 22 07:14 .</span><br><span class="line">dr-xr-xr-x 18 root  root   4096 Dec 16 14:24 ..</span><br><span class="line">-rw-r--r--  1 root  root     16 Nov 14  2016 adjtime</span><br><span class="line">-rw-r--r--  1 root  root   1518 Jun  7  2013 aliases</span><br><span class="line">-rw-r--r--  1 root  root  12288 Dec 27 09:14 aliases.db</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Mar 11 04:11 alternatives</span><br><span class="line">-rw-r--r--  1 root  root     55 Nov  4  2016 asound.conf</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Dec 16 14:26 avahi</span><br><span class="line">drwxr-xr-x  2 root  root   4096 May 22 07:31 bash_completion.d</span><br><span class="line">-rw-r--r--  1 root  root   2853 Nov  5  2016 bashrc</span><br><span class="line">drwxr-xr-x  2 root  root   4096 Mar  3 03:23 binfmt.d</span><br><span class="line">-rw-r--r--  1 root  root     38 Nov 29 18:12 centos-release</span><br><span class="line">-rw-r--r--  1 root  root     51 Nov 29 18:12 centos-release-upstream</span><br></pre></td></tr></table></figure>
 <p>上面是我查看/etc目录下的文件时的部分输出。其输出结果有七个字段，下面来具体解释一下具体含义：</p>
 <h4 id="第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。"><a href="#第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。" class="headerlink" title="第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。"></a>第一个字段：drwxr-xr-x，这个字段描述的是文件和目录权限码。</h4><p>这个字段的第一个字符代表的含义有以下几种情况：</p>
 <ul>
@@ -308,7 +308,7 @@
 <p>chmod options mode file</p>
 </blockquote>
 <p>mode参数后边可以跟上八进制模式或符号模式来设置文件权限</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #原本file_test的权限为644</span></div><div class="line">-rw-r--r-- 1 root apache 0 5月  23 21:55 file_<span class="built_in">test</span></div><div class="line">[root@VM_0_49_centos ~]<span class="comment"># chmod 760 file_test </span></div><div class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #更改后为760</span></div><div class="line">-rwxrw---- 1 root apache 0 5月  23 21:55 file_<span class="built_in">test</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #原本file_test的权限为644</span></span><br><span class="line">-rw-r--r-- 1 root apache 0 5月  23 21:55 file_test</span><br><span class="line">[root@VM_0_49_centos ~]<span class="comment"># chmod 760 file_test </span></span><br><span class="line">[root@VM_0_49_centos ~]<span class="comment"># ls -la file_test #更改后为760</span></span><br><span class="line">-rwxrw---- 1 root apache 0 5月  23 21:55 file_test</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>chmod还有另外一种表示方式，较为复杂一些，命令格式如下：</p>
@@ -333,14 +333,14 @@
 <li>o  将权限设置为跟其他用户一样</li>
 </ul>
 <p>举个栗子：</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ chmod o+r newfile <span class="comment">#给文件所有者加上读权限</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chmod o+r newfile <span class="comment">#给文件所有者加上读权限</span></span><br></pre></td></tr></table></figure>
 <h4 id="第二个字段表示该文件的链接数，包括硬链接和软链接"><a href="#第二个字段表示该文件的链接数，包括硬链接和软链接" class="headerlink" title="第二个字段表示该文件的链接数，包括硬链接和软链接"></a>第二个字段表示该文件的链接数，包括硬链接和软链接</h4><p>创建软链接：ln -s</p>
 <p>创建硬链接：ln</p>
 <h4 id="第三个字段表示该文件的所有者"><a href="#第三个字段表示该文件的所有者" class="headerlink" title="第三个字段表示该文件的所有者"></a>第三个字段表示该文件的所有者</h4><p>文件所有者可以通过chown命令来更改。命令格式：</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$  chown [OPTION]... [OWNER][:[GROUP]] FILE...</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  chown [OPTION]... [OWNER][:[GROUP]] FILE...</span><br></pre></td></tr></table></figure>
 <p>当然，chown也可以同时更改文件所属的组。-R参数可以递归的更改子目录和文件的所属关系，-h参数可以改变文件的所有符号链接文件的所属关系。</p>
 <h4 id="第四个字段表示该文件所在的用户组"><a href="#第四个字段表示该文件所在的用户组" class="headerlink" title="第四个字段表示该文件所在的用户组"></a>第四个字段表示该文件所在的用户组</h4><p>文件所属的用户组可通过chgrp来进行更改。命令格式：</p>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$   chgrp [OPTION]... GROUP FILE...</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$   chgrp [OPTION]... GROUP FILE...</span><br></pre></td></tr></table></figure>
 <h4 id="第五个字段表示该文件的文件大小，单位字节"><a href="#第五个字段表示该文件的文件大小，单位字节" class="headerlink" title="第五个字段表示该文件的文件大小，单位字节"></a>第五个字段表示该文件的文件大小，单位字节</h4><h4 id="第六个字段表示文件的修改时间"><a href="#第六个字段表示文件的修改时间" class="headerlink" title="第六个字段表示文件的修改时间"></a>第六个字段表示文件的修改时间</h4><h4 id="第七个字段表示文件名"><a href="#第七个字段表示文件名" class="headerlink" title="第七个字段表示文件名"></a>第七个字段表示文件名</h4>
       
     </div>
@@ -352,7 +352,7 @@
         <p><span>本文标题:</span><a href="/2017/05/23/Linux-File-Priveleges/">Linux学习笔记之文件权限</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年05月23日 - 17时32分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/23/Linux-File-Priveleges/" title="Linux学习笔记之文件权限">http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/23/Linux-File-Priveleges/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -502,7 +502,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -542,8 +542,6 @@
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {

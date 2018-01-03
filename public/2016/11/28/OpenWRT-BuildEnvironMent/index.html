@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="本次搭建编译环境所需的准备工作：  操作系统：物理机或者虚拟机安装—-Ubuntu 16.10 预备知识：了解一点点Linux终端的基本操作">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/op-makemenu.png">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.145Z">
+<meta property="og:updated_time" content="2017-12-04T07:27:28.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建OpenWRT编译开发环境">
 <meta name="twitter:description" content="本次搭建编译环境所需的准备工作：  操作系统：物理机或者虚拟机安装—-Ubuntu 16.10 预备知识：了解一点点Linux终端的基本操作">
@@ -272,16 +272,16 @@
 <li>预备知识：了解一点点Linux终端的基本操作<a id="more"></a>
 Let’s go!<br>首先还是更新一下系统：</li>
 </ol>
-<figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">star-chen@starchen-op:~$ sudo apt-get update &amp;&amp; apt-get dist-upgrade</div></pre></td></tr></table></figure>
-<p>接下来参考OpenWRT官方网站给出的搭建编译环境所需要进行的软件包的安装步骤进行安装，官网步骤网址：<a href="https://wiki.openwrt.org/doc/howto/buildroot.exigence" target="_blank" rel="external">OpenWRT官方步骤</a><br>由于我使用的是Ubuntu16.10 64bit系统，所以需要执行的安装命令为：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">star-chen@starchen-op:~$ sudo apt-get install git-core mercurial build-essential subversion libncurses5-dev zlib1g-dev gawk gcc-multilib flex git-core gettext libssl-dev</div></pre></td></tr></table></figure></p>
-<p>软件包安装完毕之后，测试一下git命令是否可用：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ git</div><div class="line">usage: git [--version] [--help] [-C &lt;path&gt;] [-c name=value]</div><div class="line">           [--exec-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]</div><div class="line">           [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]</div><div class="line">           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]</div><div class="line">           &lt;<span class="built_in">command</span>&gt; [&lt;args&gt;]</div><div class="line">           此处省略一万字.......</div></pre></td></tr></table></figure></p>
-<p>经测试，git命令可用，接下来创建一个新的目录用来存放OpenWRT源码：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ mkdir OP1505</div></pre></td></tr></table></figure></p>
-<p>进入OP1505目录并从git仓库克隆OpenWRT 15.05(chaos_calmer)分支：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">star-chen@starchen-op:~$ <span class="built_in">cd</span> OP1505/</div><div class="line">star-chen@starchen-op:~$ git <span class="built_in">clone</span> -b chaos_calmer git://github.com/openwrt/openwrt.git</div></pre></td></tr></table></figure></p>
-<p>更新并安装软件包：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> <span class="built_in">cd</span> openwrt</div><div class="line">./scripts/feeds update <span class="_">-a</span></div><div class="line">./scripts/feeds install <span class="_">-a</span></div></pre></td></tr></table></figure></p>
-<p>根据自己的需要设置编译条件，生成makefile（另一篇专门讲讲这部分）：<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make menuconfig</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">star-chen@starchen-op:~$ sudo apt-get update &amp;&amp; apt-get dist-upgrade</span><br></pre></td></tr></table></figure>
+<p>接下来参考OpenWRT官方网站给出的搭建编译环境所需要进行的软件包的安装步骤进行安装，官网步骤网址：<a href="https://wiki.openwrt.org/doc/howto/buildroot.exigence" target="_blank" rel="noopener">OpenWRT官方步骤</a><br>由于我使用的是Ubuntu16.10 64bit系统，所以需要执行的安装命令为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">star-chen@starchen-op:~$ sudo apt-get install git-core mercurial build-essential subversion libncurses5-dev zlib1g-dev gawk gcc-multilib flex git-core gettext libssl-dev</span><br></pre></td></tr></table></figure></p>
+<p>软件包安装完毕之后，测试一下git命令是否可用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">star-chen@starchen-op:~$ git</span><br><span class="line">usage: git [--version] [--<span class="built_in">help</span>] [-C &lt;path&gt;] [-c name=value]</span><br><span class="line">           [--<span class="built_in">exec</span>-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]</span><br><span class="line">           [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]</span><br><span class="line">           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]</span><br><span class="line">           &lt;<span class="built_in">command</span>&gt; [&lt;args&gt;]</span><br><span class="line">           此处省略一万字.......</span><br></pre></td></tr></table></figure></p>
+<p>经测试，git命令可用，接下来创建一个新的目录用来存放OpenWRT源码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">star-chen@starchen-op:~$ mkdir OP1505</span><br></pre></td></tr></table></figure></p>
+<p>进入OP1505目录并从git仓库克隆OpenWRT 15.05(chaos_calmer)分支：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">star-chen@starchen-op:~$ <span class="built_in">cd</span> OP1505/</span><br><span class="line">star-chen@starchen-op:~$ git <span class="built_in">clone</span> -b chaos_calmer git://github.com/openwrt/openwrt.git</span><br></pre></td></tr></table></figure></p>
+<p>更新并安装软件包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">cd</span> openwrt</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br></pre></td></tr></table></figure></p>
+<p>根据自己的需要设置编译条件，生成makefile（另一篇专门讲讲这部分）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure></p>
 <p>OK,make menuconfig通过，接下来咱们编译一个x86的固件来爽爽：</p>
 <p><img src="/blogimg/op-makemenu.png" alt="image"></p>
-<p>就以默认参数吧,我给虚拟机分了四个核，4GB内存，这里用两个线程来跑吧。<br><figure class="highlight bash" data-lang=" bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">make j=2 V=99</div></pre></td></tr></table></figure></p>
+<p>就以默认参数吧,我给虚拟机分了四个核，4GB内存，这里用两个线程来跑吧。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">make j=2 V=99</span><br></pre></td></tr></table></figure></p>
 <p>编译过程中可能需要下载很多文件，所以挂个代理什么的很有必要，不然很多依赖无法下载，造成编译失败，耐心等待吧。编译完成之后，固件将会在openwrt/bin目录下躺好了。</p>
 
       
@@ -294,7 +294,7 @@ Let’s go!<br>首先还是更新一下系统：</li>
         <p><span>本文标题:</span><a href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年11月28日 - 19时25分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/28/OpenWRT-BuildEnvironMent/" title="搭建OpenWRT编译开发环境">http://blog.star-chen.com/2016/11/28/OpenWRT-BuildEnvironMent/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/28/OpenWRT-BuildEnvironMent/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -444,7 +444,7 @@ Let’s go!<br>首先还是更新一下系统：</li>
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2017 STAR-CHEN
+                &copy; 2018 STAR-CHEN
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
@@ -484,8 +484,6 @@ Let’s go!<br>首先还是更新一下系统：</li>
     })
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
 
   <script language="javascript">
     $(function() {
