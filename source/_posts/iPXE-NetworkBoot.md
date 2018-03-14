@@ -1,5 +1,5 @@
 ---
-title: 树莓派搭建iPXE服务
+title: 树莓派搭建iPXE服务并实现无人职守安装CentOS 7
 categories:
   - Linux
 tags:
