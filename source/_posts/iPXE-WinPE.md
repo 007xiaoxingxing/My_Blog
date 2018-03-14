@@ -13,7 +13,7 @@ date: 2018-03-14 10:16:54
 
 于是我找到了无忧论坛上一位大佬制作的win10 pe，自带网络功能和网络启动功能，我仔细一看，他用的还是TinyPXE server，正好这个网络启动软件也支持iPXE，于是乎就可以直接拿来用了嘛。
 
-http://bbs.wuyou.net/forum.php?mod=viewthread&tid=378234  ，于是乎我花了一晚上从百度网盘将该PE的iso下载回来，用个虚拟机将该iso启动，开启共享，关闭防火墙将它里边原本的D盘的文件全部复制了出来放到了树莓派的/var/www/winpe下。
+http://bbs.wuyou.net/forum.php?mod=viewthread&tid=378234  ，于是乎我花了一晚上从百度网盘将该PE的iso下载回来，然后把该iso内的全部文件都弄到树莓派的/var/www/winpe目录下。
 
 ```shell
 pi@raspberrypi:/var/www/html/winpe $ ls -la
