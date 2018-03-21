@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>利用iTextSharp向pdf文件中添加图片水印 | STAR-CHEN&#39;s BLOG</title>
+  <title>从Django1.x迁移至2.0需要注意的几个点 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
-<meta name="keywords" content="C# pdf">
+  <meta name="description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
+<meta name="keywords" content="django">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用iTextSharp向pdf文件中添加图片水印">
-<meta property="og:url" content="http://blog.star-chen.com/2017/09/10/PDF-watermask/index.html">
+<meta property="og:title" content="从Django1.x迁移至2.0需要注意的几个点">
+<meta property="og:url" content="http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
-<meta property="og:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
-<meta property="og:updated_time" content="2017-12-04T07:27:28.760Z">
+<meta property="og:description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
+<meta property="og:updated_time" content="2018-03-21T06:02:12.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用iTextSharp向pdf文件中添加图片水印">
-<meta name="twitter:description" content="由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。">
+<meta name="twitter:title" content="从Django1.x迁移至2.0需要注意的几个点">
+<meta name="twitter:description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -222,11 +222,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-PDF-watermask" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Migrate-Django1-x-To-Django2-0" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/09/10/PDF-watermask/" class="article-date">
-      <time datetime="2017-09-10T03:18:30.000Z" itemprop="datePublished">2017-09-10</time>
+      <a href="/2018/03/21/Migrate-Django1-x-To-Django2-0/" class="article-date">
+      <time datetime="2018-03-21T05:54:37.000Z" itemprop="datePublished">2018-03-21</time>
 </a>
     </div>
   
@@ -239,7 +239,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      利用iTextSharp向pdf文件中添加图片水印
+      从Django1.x迁移至2.0需要注意的几个点
     </h1>
   
 
@@ -254,7 +254,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-pdf/">C# pdf</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/">django</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -264,10 +264,37 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>由于某些需要，我需要向pdf文件中插入图片水印，经过往上搜索发现iTextSharp这个文件操作库就可以实现我的需求。其实向pdf文件中插入水印就是重新读取pdf文件，再朝文件中写入新增的图片。</p>
+        <p>最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：</p>
 <a id="more"></a>
-<p>怎么加载iTextSharp库就不啰嗦了，这里贴一下添加图片水印的代码，以防忘记。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">String srcPdf = &quot;I:\\文档文件\\xxx.pdf&quot;;</span><br><span class="line">         String dstPdf = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxxx.pdf&quot;;</span><br><span class="line">         String imagepath = &quot;C:\\Users\\xiaoxing\\Desktop\\xxxx\\qrcode.jpg&quot;;</span><br><span class="line">         iTextSharp.text.Image img = Image.GetInstance(imagepath);</span><br><span class="line">         PdfReader reader = new PdfReader(srcPdf);</span><br><span class="line">         PdfStamper stamp = new PdfStamper(reader, new FileStream(dstPdf, FileMode.Create));</span><br><span class="line"></span><br><span class="line">         PdfContentByte page;</span><br><span class="line">         float width = reader.GetPageSize(1).Width;</span><br><span class="line">         float height = reader.GetPageSize(1).Height;</span><br><span class="line">         int num = reader.NumberOfPages;</span><br><span class="line">         int margin = 100;</span><br><span class="line">         img.ScalePercent(20);</span><br><span class="line">         </span><br><span class="line">         for (int i = 1; i &lt;= num; ++i)</span><br><span class="line">         &#123;</span><br><span class="line">             page = stamp.GetOverContent(i);</span><br><span class="line"></span><br><span class="line">             img.SetAbsolutePosition(width-img.ScaledWidth-10,10);//设置图片插入的位置，左下角为坐标系（0，0）位置</span><br><span class="line">             page.AddImage(img);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         stamp.Close();</span><br><span class="line">         reader.Close();</span><br></pre></td></tr></table></figure>
+<h5 id="URL的匹配规则"><a href="#URL的匹配规则" class="headerlink" title="URL的匹配规则"></a>URL的匹配规则</h5><p>不再支持patterns，下边这种写法是不行的了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> patterns, url</span><br><span class="line"><span class="keyword">from</span> django.contrib.auth <span class="keyword">import</span> views <span class="keyword">as</span> auth_views</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = patterns(<span class="string">''</span>,</span><br><span class="line">    url(<span class="string">r'^logout/$'</span>, views.logout, name=<span class="string">"logout"</span>),</span><br><span class="line">    url(<span class="string">r'^login/$'</span>, views.LoginView.as_view(), name=<span class="string">"login"</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果想保留以上的正则路由匹配的方式，可以微调成以下的样子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line">from django.contrib.auth import views as auth_views</span><br><span class="line"></span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(r'^logout/$', views.logout, name="logout"),</span><br><span class="line">    url(r'^login/$', views.LoginView.as_view(), name="login")</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>对比一下可以看出，url函数一致，只是把patterns函数直接换为[]，去掉’’这个规则。</p>
+<p>另外一种使用正则路由的方式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> include, re_path</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    re_path(<span class="string">r'^index/$'</span>, views.index, name=<span class="string">'index'</span>),</span><br><span class="line">    re_path(<span class="string">r'^bio/(?P&lt;username&gt;\w+)/$'</span>, views.bio, name=<span class="string">'bio'</span>),</span><br><span class="line">    re_path(<span class="string">r'^weblog/'</span>, include(<span class="string">'blog.urls'</span>)),</span><br><span class="line">    ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>此外，Django2.0提供了新的path语法来定义路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'articles/2003/'</span>, views.special_case_2003),</span><br><span class="line">    path(<span class="string">'articles/&lt;int:year&gt;/'</span>, views.year_archive),</span><br><span class="line">    path(<span class="string">'articles/&lt;int:year&gt;/&lt;int:month&gt;/'</span>, views.month_archive),</span><br><span class="line">    path(<span class="string">'articles/&lt;int:year&gt;/&lt;int:month&gt;/&lt;slug:slug&gt;/'</span>, views.article_detail),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>具体说明和使用方法请参见Django官方文档。</p>
+<h5 id="MIDDLEWARE的变化"><a href="#MIDDLEWARE的变化" class="headerlink" title="MIDDLEWARE的变化"></a>MIDDLEWARE的变化</h5><p><code>settings.py</code>文件，<code>MIDDLEWARE_CLASSES</code>更改成了<code>MIDDLEWARE</code>，这个一定要注意。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MIDDLEWARE = (</span><br><span class="line">    <span class="string">'webapp.lib.acl.AclMiddleware'</span>,</span><br><span class="line">    <span class="string">'django.contrib.sessions.middleware.SessionMiddleware'</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>为了将之前的1.x的middleware迁移至2.0的middleware，可以这么做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .globals <span class="keyword">import</span> set_thread_globals</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin  <span class="comment">#引入此包</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Global</span><span class="params">(MiddlewareMixin)</span>:</span>  <span class="comment">#继承MiddlewareMixin</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        set_thread_globals(<span class="string">'request'</span>, request)</span><br><span class="line">        set_thread_globals(<span class="string">'user'</span>, getattr(request, <span class="string">'user'</span>, <span class="keyword">None</span>))</span><br><span class="line">        set_thread_globals(<span class="string">'engine_exceptions'</span>, [])</span><br></pre></td></tr></table></figure>
+<p>这样做之后，MiddlewareMixin的 <code>__call__</code>方法会去调用process_request等方法。具体详情可参见官方文档说明：<a href="https://docs.djangoproject.com/en/2.0/topics/http/middleware/#view-middleware" target="_blank" rel="noopener">https://docs.djangoproject.com/en/2.0/topics/http/middleware/#view-middleware</a></p>
+<p>当然有更简单的编写midlleware的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleMiddleware</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, get_response)</span>:</span></span><br><span class="line">        self.get_response = get_response</span><br><span class="line">        <span class="comment"># One-time configuration and initialization.</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        <span class="comment"># Code to be executed for each request before</span></span><br><span class="line">        <span class="comment"># the view (and later middleware) are called.</span></span><br><span class="line"></span><br><span class="line">        response = self.get_response(request)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Code to be executed for each request/response after</span></span><br><span class="line">        <span class="comment"># the view is called.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<h5 id="User-is-authenticated-和User-is-anonymous"><a href="#User-is-authenticated-和User-is-anonymous" class="headerlink" title="User.is_authenticated 和User.is_anonymous"></a>User.is_authenticated 和User.is_anonymous</h5><p>之前的<code>User.is_authenticated()</code>和<code>User.is_anonymous()</code>方法更改成了属性：<code>User.is_authenticated</code>和<code>User.is_anonymous</code>。</p>
+<h5 id="外键的on-delete属性"><a href="#外键的on-delete属性" class="headerlink" title="外键的on_delete属性"></a>外键的on_delete属性</h5><p>外键的on_delete关系必须指明，不可省略。</p>
+<h5 id="django-filters的变化"><a href="#django-filters的变化" class="headerlink" title="django-filters的变化"></a>django-filters的变化</h5><p>之前项目中使用的django-filter是0.x版本，对于现在的drf 3.7.x版本支持不是那么好，所以更换为了1.x版本。它有两点发生了变化。</p>
+<p>MethodFilter在1.x中被去掉了，所以下面的引用方式应当做响应改变</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django_filters <span class="keyword">import</span> (FilterSet, MethodFilter)  <span class="comment">#之前的引用方式</span></span><br><span class="line"><span class="keyword">from</span> django_filters <span class="keyword">import</span> (FilterSet, Filter)   <span class="comment">#现在应将MethodFilter改为Filter即可</span></span><br></pre></td></tr></table></figure>
+<p>MethodFilter的写法从：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> django_filters</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomerAccountFilter</span><span class="params">(django_filters.FilterSet)</span>:</span></span><br><span class="line">    is_staff = django_filters.MethodFilter(name=<span class="string">"is_staff"</span>, action=<span class="string">"is_staff_filter"</span>)</span><br></pre></td></tr></table></figure>
+<p>变为了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> django_filters</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomerAccountFilter</span><span class="params">(django_filters.FilterSet)</span>:</span></span><br><span class="line">    is_staff = django_filters.Filter(name=<span class="string">"is_staff"</span>, method=<span class="string">"is_staff_filter"</span>)</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<p>这几点是我在迁移的时候遇到的几个问题，可能还有其它需要注意点的点，遇到之后再做补充。</p>
 
       
     </div>
@@ -276,13 +303,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/09/10/PDF-watermask/">利用iTextSharp向pdf文件中添加图片水印</a></p>
+        <p><span>本文标题:</span><a href="/2018/03/21/Migrate-Django1-x-To-Django2-0/">从Django1.x迁移至2.0需要注意的几个点</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 11时18分</p>
-        <p><span>最后更新:</span>2017年12月04日 - 15时27分</p>
+        <p><span>发布时间:</span>2018年03月21日 - 13时54分</p>
+        <p><span>最后更新:</span>2018年03月21日 - 14时02分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/PDF-watermask/" title="利用iTextSharp向pdf文件中添加图片水印">http://blog.star-chen.com/2017/09/10/PDF-watermask/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/09/10/PDF-watermask/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/21/Migrate-Django1-x-To-Django2-0/" title="从Django1.x迁移至2.0需要注意的几个点">http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -295,18 +322,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2017/09/19/TCP-Echo-Demo/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          SOCKET编程----Echo Something
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/09/OpenWrt-HelloWorl/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OpenWrt软件开发-----软件包HelloWorld的构建</div>
+    <a href="/2018/03/14/iPXE-WinPE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iPXE启动Windows PE</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -317,7 +335,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL的匹配规则"><span class="toc-number">1.</span> <span class="toc-text"><a href="#URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;" class="headerlink" title="URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;"></a>URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIDDLEWARE的变化"><span class="toc-number">2.</span> <span class="toc-text"><a href="#MIDDLEWARE&#x7684;&#x53D8;&#x5316;" class="headerlink" title="MIDDLEWARE&#x7684;&#x53D8;&#x5316;"></a>MIDDLEWARE&#x7684;&#x53D8;&#x5316;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#User-is-authenticated-和User-is-anonymous"><span class="toc-number">3.</span> <span class="toc-text"><a href="#User-is-authenticated-&#x548C;User-is-anonymous" class="headerlink" title="User.is_authenticated &#x548C;User.is_anonymous"></a>User.is_authenticated &#x548C;User.is_anonymous</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#外键的on-delete属性"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x5916;&#x952E;&#x7684;on-delete&#x5C5E;&#x6027;" class="headerlink" title="&#x5916;&#x952E;&#x7684;on_delete&#x5C5E;&#x6027;"></a>&#x5916;&#x952E;&#x7684;on_delete&#x5C5E;&#x6027;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#django-filters的变化"><span class="toc-number">5.</span> <span class="toc-text"><a href="#django-filters&#x7684;&#x53D8;&#x5316;" class="headerlink" title="django-filters&#x7684;&#x53D8;&#x5316;"></a>django-filters&#x7684;&#x53D8;&#x5316;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -365,7 +383,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2017/09/10/PDF-watermask/" data-title="利用iTextSharp向pdf文件中添加图片水印" data-url="http://blog.star-chen.com/2017/09/10/PDF-watermask/"></div>
+    <div class="ds-thread" data-thread-key="2018/03/21/Migrate-Django1-x-To-Django2-0/" data-title="从Django1.x迁移至2.0需要注意的几个点" data-url="http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -388,13 +406,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/09/19/TCP-Echo-Demo/" title="上一篇: SOCKET编程----Echo Something">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2017/09/09/OpenWrt-HelloWorl/" title="下一篇: OpenWrt软件开发-----软件包HelloWorld的构建">
+            <a href="/2018/03/14/iPXE-WinPE/" title="下一篇: iPXE启动Windows PE">
                 <i class="fa fa-angle-right"></i>
             </a>
         
