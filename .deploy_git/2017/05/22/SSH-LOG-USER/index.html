@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>修改OpenSSH源码，记录爆破SSH端口的密码 | STAR-CHEN&#39;s BLOG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="起因自从用上了VPS,爆破ssh端口的小黑们就一刻也没挺过，虽然我仍然使用的密码登录，自认为自己设置的密码还是足够的强健，但是还是想记录一下他们爆破所用的字典。搜索了几种方式，例如可以使用蜜罐，更改openssh源码等方式来记录爆破字典。为了省事，我采用了修改源码的方式来进行记录。">
+<meta name="keywords" content="ssh,暴力破解,记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修改OpenSSH源码，记录爆破SSH端口的密码">
+<meta property="og:url" content="http://blog.star-chen.com/2017/05/22/SSH-LOG-USER/index.html">
+<meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
+<meta property="og:description" content="起因自从用上了VPS,爆破ssh端口的小黑们就一刻也没挺过，虽然我仍然使用的密码登录，自认为自己设置的密码还是足够的强健，但是还是想记录一下他们爆破所用的字典。搜索了几种方式，例如可以使用蜜罐，更改openssh源码等方式来记录爆破字典。为了省事，我采用了修改源码的方式来进行记录。">
+<meta property="og:image" content="http://blog.star-chen.com/blogimg/openssh-code.png">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.291Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="修改OpenSSH源码，记录爆破SSH端口的密码">
+<meta name="twitter:description" content="起因自从用上了VPS,爆破ssh端口的小黑们就一刻也没挺过，虽然我仍然使用的密码登录，自认为自己设置的密码还是足够的强健，但是还是想记录一下他们爆破所用的字典。搜索了几种方式，例如可以使用蜜罐，更改openssh源码等方式来记录爆破字典。为了省事，我采用了修改源码的方式来进行记录。">
+<meta name="twitter:image" content="http://blog.star-chen.com/blogimg/openssh-code.png">
+  
+    <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate">STAR-CHEN</a></h1>
+        </hgroup>
+
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/categories/CTF">安全技术&amp;&amp;CTF</a></li>
+                        
+                            <li><a href="/categories/Program">程序编码</a></li>
+                        
+                            <li><a href="/categories/Linux">各种折腾Linux</a></li>
+                        
+                            <li><a href="/about">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="/chanxing9@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/007xiaoxingxing" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="#" title="weibo">weibo</a>
+                            
+                                <a class="fl google" target="_blank" href="#" title="google">google</a>
+                            
+                                <a class="fl twitter" target="_blank" href="#" title="twitter">twitter</a>
+                            
+                                <a class="fl facebook" target="_blank" href="#" title="facebook">facebook</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/C-pdf/" style="font-size: 10px;">C# pdf</a> <a href="/tags/CTF/" style="font-size: 12px;">CTF</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Debugger/" style="font-size: 10px;">Debugger</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Django-djangorestframework/" style="font-size: 10px;">Django djangorestframework</a> <a href="/tags/Edtor/" style="font-size: 10px;">Edtor</a> <a href="/tags/GDB/" style="font-size: 10px;">GDB</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Helloworld/" style="font-size: 10px;">Helloworld</a> <a href="/tags/LNMP/" style="font-size: 10px;">LNMP</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MariaDB/" style="font-size: 12px;">MariaDB</a> <a href="/tags/New-DB/" style="font-size: 10px;">New DB</a> <a href="/tags/Nignx/" style="font-size: 10px;">Nignx</a> <a href="/tags/OpenWrt/" style="font-size: 10px;">OpenWrt</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/PIL/" style="font-size: 10px;">PIL</a> <a href="/tags/PWN/" style="font-size: 12px;">PWN</a> <a href="/tags/Remote/" style="font-size: 10px;">Remote</a> <a href="/tags/SWAP/" style="font-size: 10px;">SWAP</a> <a href="/tags/VIM/" style="font-size: 10px;">VIM</a> <a href="/tags/Webhook/" style="font-size: 10px;">Webhook</a> <a href="/tags/cmd/" style="font-size: 10px;">cmd</a> <a href="/tags/code-deploy/" style="font-size: 10px;">code deploy</a> <a href="/tags/django/" style="font-size: 12px;">django</a> <a href="/tags/djangorestframework/" style="font-size: 18px;">djangorestframework</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/enviroment/" style="font-size: 10px;">enviroment</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello-hexo/" style="font-size: 10px;">hello hexo</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/kvm/" style="font-size: 10px;">kvm</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/liux/" style="font-size: 10px;">liux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/peda/" style="font-size: 10px;">peda</a> <a href="/tags/postgres/" style="font-size: 10px;">postgres</a> <a href="/tags/pwnable/" style="font-size: 12px;">pwnable</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/python-djangorestframework/" style="font-size: 10px;">python djangorestframework</a> <a href="/tags/python-note/" style="font-size: 10px;">python note</a> <a href="/tags/python-socket/" style="font-size: 10px;">python socket</a> <a href="/tags/python-web-Django/" style="font-size: 12px;">python web Django</a> <a href="/tags/router/" style="font-size: 10px;">router</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/ssh-key/" style="font-size: 10px;">ssh key</a> <a href="/tags/tcp-program/" style="font-size: 10px;">tcp program</a> <a href="/tags/tornado/" style="font-size: 12px;">tornado</a> <a href="/tags/web/" style="font-size: 12px;">web</a> <a href="/tags/web-cookie/" style="font-size: 10px;">web cookie</a> <a href="/tags/入坑/" style="font-size: 10px;">入坑</a> <a href="/tags/冒泡排序/" style="font-size: 10px;">冒泡排序</a> <a href="/tags/学习笔记/" style="font-size: 10px;">学习笔记</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/排序/" style="font-size: 12px;">排序</a> <a href="/tags/插入排序/" style="font-size: 10px;">插入排序</a> <a href="/tags/文件权限/" style="font-size: 10px;">文件权限</a> <a href="/tags/暴力破解/" style="font-size: 10px;">暴力破解</a> <a href="/tags/算法/" style="font-size: 12px;">算法</a> <a href="/tags/自动部署/" style="font-size: 10px;">自动部署</a> <a href="/tags/装饰者模式/" style="font-size: 10px;">装饰者模式</a> <a href="/tags/观察者模式/" style="font-size: 10px;">观察者模式</a> <a href="/tags/记录/" style="font-size: 10px;">记录</a> <a href="/tags/设计模式/" style="font-size: 14px;">设计模式</a> <a href="/tags/转发/" style="font-size: 10px;">转发</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">不会做规划的黑客不是名好测量员？</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">STAR-CHEN</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">STAR-CHEN</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/categories/CTF">安全技术&amp;&amp;CTF</a></li>
+                
+                    <li><a href="/categories/Program">程序编码</a></li>
+                
+                    <li><a href="/categories/Linux">各种折腾Linux</a></li>
+                
+                    <li><a href="/about">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="/chanxing9@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/007xiaoxingxing" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+                    
+                        <a class="google" target="_blank" href="#" title="google">google</a>
+                    
+                        <a class="twitter" target="_blank" href="#" title="twitter">twitter</a>
+                    
+                        <a class="facebook" target="_blank" href="#" title="facebook">facebook</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-SSH-LOG-USER" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/22/SSH-LOG-USER/" class="article-date">
+      <time datetime="2017-05-22T06:56:04.000Z" itemprop="datePublished">2017-05-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      修改OpenSSH源码，记录爆破SSH端口的密码
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/暴力破解/">暴力破解</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/记录/">记录</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>自从用上了VPS,爆破ssh端口的小黑们就一刻也没挺过，虽然我仍然使用的密码登录，自认为自己设置的密码还是足够的强健，但是还是想记录一下他们爆破所用的字典。搜索了几种方式，例如可以使用蜜罐，更改openssh源码等方式来记录爆破字典。为了省事，我采用了修改源码的方式来进行记录。</p>
+<a id="more"></a>
+<h3 id="步骤1-搭建编译环境"><a href="#步骤1-搭建编译环境" class="headerlink" title="步骤1  搭建编译环境"></a>步骤1  搭建编译环境</h3><p>我所使用的环境是CentOS 7,需要安装openssl-devel和pam-devel</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@vultr:yum install openssl-devel pam-devel</span><br></pre></td></tr></table></figure>
+<p>卸载原有系统自带的openssh-server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看系统中安装的所有openssh有关的软件包</span></span><br><span class="line">[root@vultr]<span class="comment"># rpm -qa | grep openssh</span></span><br><span class="line">openssh-clients-6.6.1p1-33.el7_3.x86_64</span><br><span class="line">openssh-6.6.1p1-33.el7_3.x86_64</span><br><span class="line">openssh-server-6.6.1p1-33.el7_3.x86_64</span><br><span class="line"><span class="comment">#卸载openssh和openssh-server</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment"># yum remove openssh-server openssh</span></span><br><span class="line"><span class="comment">#删除原有的ssh配置文件</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment"># rm -f /etc/ssh/*</span></span><br></pre></td></tr></table></figure>
+<p>OK,执行上以上操作后，准备工作就算完成了。</p>
+<h3 id="步骤2-下载openssh的源码，并解压"><a href="#步骤2-下载openssh的源码，并解压" class="headerlink" title="步骤2 下载openssh的源码，并解压"></a>步骤2 下载openssh的源码，并解压</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@vultr<span class="comment">#wget https://mirrors.evowise.com/pub/OpenBSD/OpenSSH/portable/openssh-6.6p1.tar.gz</span></span><br><span class="line">root@vultr<span class="comment">#tar -zxvf openssh-6.6p1.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h3 id="步骤3-修改源码，使之能记录登录密码"><a href="#步骤3-修改源码，使之能记录登录密码" class="headerlink" title="步骤3 修改源码，使之能记录登录密码"></a>步骤3 修改源码，使之能记录登录密码</h3><p>需要修改的源码文件为  </p>
+<blockquote>
+<p>auth2-passwd.c<br>修改后的源码内容如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"hostfile.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"auth.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"buffer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GSSAPI</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ssh-gss.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"monitor_wrap.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"servconf.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* import */</span></span><br><span class="line"><span class="keyword">extern</span> ServerOptions options;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span></span><br><span class="line">userauth_passwd(Authctxt *authctxt)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span> *password, *newpass;</span><br><span class="line">	<span class="keyword">int</span> authenticated = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> change;</span><br><span class="line">	u_int len, newlen;</span><br><span class="line"></span><br><span class="line">	change = packet_get_char();</span><br><span class="line">	password = packet_get_string(&amp;len);</span><br><span class="line">  </span><br><span class="line">	<span class="comment">//加上这行，就可以将登录用户名，密码添加到日志中</span></span><br><span class="line">	logit(<span class="string">"user=%s,pass=%s"</span>,authctxt-&gt;user,password);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (change) &#123;</span><br><span class="line">		<span class="comment">/* discard new password from packet */</span></span><br><span class="line">		newpass = packet_get_string(&amp;newlen);</span><br><span class="line">		explicit_bzero(newpass, newlen);</span><br><span class="line">		<span class="built_in">free</span>(newpass);</span><br><span class="line">	&#125;</span><br><span class="line">	packet_check_eom();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (change)</span><br><span class="line">		logit(<span class="string">"password change not supported"</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (PRIVSEP(auth_password(authctxt, password)) == <span class="number">1</span>)</span><br><span class="line">		authenticated = <span class="number">1</span>;</span><br><span class="line">	explicit_bzero(password, len);</span><br><span class="line">	<span class="built_in">free</span>(password);</span><br><span class="line">	<span class="keyword">return</span> authenticated;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Authmethod method_passwd = &#123;</span><br><span class="line">	<span class="string">"password"</span>,</span><br><span class="line">	userauth_passwd,</span><br><span class="line">	&amp;options.password_authentication</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="步骤3-设置编译参数，并进行编译安装"><a href="#步骤3-设置编译参数，并进行编译安装" class="headerlink" title="步骤3 设置编译参数，并进行编译安装"></a>步骤3 设置编译参数，并进行编译安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#运行configure,并生成makefile</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment">#./configure --prefix=/usr --sysconfdir=/etc/ssh --with-pam --with-md5-passwords</span></span><br><span class="line"><span class="comment">#编译并安装</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+<h3 id="步骤4-添加服务，设置开机启动"><a href="#步骤4-添加服务，设置开机启动" class="headerlink" title="步骤4 添加服务，设置开机启动"></a>步骤4 添加服务，设置开机启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将启动脚本复制到/etc/init.d</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment"># cp contrib/redhat/sshd.init /etc/init.d/sshd</span></span><br><span class="line"><span class="comment">#使ssh开机启动</span></span><br><span class="line">[root@vultr openssh-6.6p1]<span class="comment"># systemctl enable sshd</span></span><br><span class="line">sshd.service is not a native service, redirecting to /sbin/chkconfig.</span><br><span class="line">Executing /sbin/chkconfig sshd on</span><br></pre></td></tr></table></figure>
+<p>之后把服务器重启一下，记录到的日志内容在：</p>
+<blockquote>
+<p>/var/log/messages</p>
+</blockquote>
+<p>中。把日志处理一下，就可以搜集一波黑客的爆破字典拉。我们来看看效果如何</p>
+<p><img src="/blogimg/openssh-code.png" alt="image"></p>
+<p>可以从日志中已经有黑客的爆破密码记录了。嗯，自己送上门来的字典，为什么不收着呢？</p>
+<p>2017.5.23  新增</p>
+<p>为了提取出日志中的用户名和密码，顺手写了个python脚本来进行处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">pattern = re.compile(<span class="string">r'user=(.*),pass=(.*) '</span>)</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"m.data"</span>)</span><br><span class="line">dic_file = open(<span class="string">"ssh_dic.txt"</span>,<span class="string">"w+"</span>)</span><br><span class="line">tmp= f.readline()</span><br><span class="line"><span class="keyword">while</span> tmp:</span><br><span class="line">    match = re.findall(pattern,tmp)</span><br><span class="line">    <span class="keyword">if</span> match:</span><br><span class="line">        user = match[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        passwd = match[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">        <span class="comment">#print user,passwd</span></span><br><span class="line">        dic_file.writelines(<span class="string">"%s %s\r\n"</span>%(user,passwd))</span><br><span class="line">        </span><br><span class="line">    tmp = f.readline()</span><br><span class="line">    </span><br><span class="line">f.close()</span><br><span class="line">dic_file.close()</span><br></pre></td></tr></table></figure>
+<p>记录了一天，获得的一小部分成果：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">root 1291</span><br><span class="line">root tomcat14</span><br><span class="line">root mamo</span><br><span class="line">root jocelyn</span><br><span class="line">root jobs123</span><br><span class="line">root joachim</span><br><span class="line">root adminka</span><br><span class="line">root d1gital</span><br><span class="line">root barramundi</span><br><span class="line">root dammit</span><br><span class="line">root lubis</span><br><span class="line">root i81b4u81</span><br><span class="line">root jmi@123</span><br><span class="line">root jira321</span><br><span class="line">root jira123</span><br><span class="line">root nokia</span><br><span class="line">root damas</span><br><span class="line">root liltunechi</span><br><span class="line">admin admin</span><br><span class="line">admin default</span><br><span class="line">admin letmein</span><br><span class="line">root hoffmann</span><br><span class="line">root technotron</span><br><span class="line">root tartaro</span><br><span class="line">root jingyun</span><br><span class="line">root jillian</span><br><span class="line">root jignesh</span><br><span class="line">root merengue</span><br><span class="line">root lucas</span><br><span class="line">root miguel</span><br><span class="line">root eurotrade</span><br><span class="line">root yudi</span><br><span class="line">root merovingian</span><br><span class="line">root bazin</span><br><span class="line">root spider</span><br><span class="line">root royal</span><br><span class="line">root jiayuan</span><br><span class="line">root jiamima</span><br><span class="line">root jhon123</span><br><span class="line">root 1597534682</span><br><span class="line">root cintakamu</span><br><span class="line">root derparol</span><br><span class="line">root all4you</span><br><span class="line">root sun126</span><br><span class="line">root lennartz</span><br><span class="line">root jhon!@#</span><br><span class="line">root jhengyu</span><br><span class="line">root jessica</span><br><span class="line">root abcd123<span class="formula">$</span></span><br><span class="line"><span class="formula">root qq2008</span></span><br><span class="line"><span class="formula">root 0003</span></span><br><span class="line"><span class="formula">root zzic</span></span><br><span class="line"><span class="formula">root surya22</span></span><br><span class="line"><span class="formula">root aze123</span></span><br><span class="line"><span class="formula">root carota</span></span><br><span class="line"><span class="formula">root millcreek</span></span><br><span class="line"><span class="formula">root mecate</span></span><br><span class="line"><span class="formula">root jenkins</span></span><br><span class="line"><span class="formula">root jenk1ns</span></span><br><span class="line"><span class="formula">root jenifer</span></span><br><span class="line"><span class="formula">root rushed</span></span><br><span class="line"><span class="formula">root laliaku</span></span><br><span class="line"><span class="formula">root moneytalk</span></span><br><span class="line"><span class="formula">root lawless</span></span><br><span class="line"><span class="formula">.</span></span><br><span class="line"><span class="formula">.</span></span><br><span class="line"><span class="formula">.</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/05/22/SSH-LOG-USER/">修改OpenSSH源码，记录爆破SSH端口的密码</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
+        <p><span>发布时间:</span>2017年05月22日 - 14时56分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/22/SSH-LOG-USER/" title="修改OpenSSH源码，记录爆破SSH端口的密码">http://blog.star-chen.com/2017/05/22/SSH-LOG-USER/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/22/SSH-LOG-USER/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2017/05/23/Linux-File-Priveleges/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Linux学习笔记之文件权限
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/17/BubbleSort/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">常见排序算法之冒泡排序</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x8D77;&#x56E0;" class="headerlink" title="&#x8D77;&#x56E0;"></a>&#x8D77;&#x56E0;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤1-搭建编译环境"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;1-&#x642D;&#x5EFA;&#x7F16;&#x8BD1;&#x73AF;&#x5883;" class="headerlink" title="&#x6B65;&#x9AA4;1  &#x642D;&#x5EFA;&#x7F16;&#x8BD1;&#x73AF;&#x5883;"></a>&#x6B65;&#x9AA4;1  &#x642D;&#x5EFA;&#x7F16;&#x8BD1;&#x73AF;&#x5883;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤2-下载openssh的源码，并解压"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;2-&#x4E0B;&#x8F7D;openssh&#x7684;&#x6E90;&#x7801;&#xFF0C;&#x5E76;&#x89E3;&#x538B;" class="headerlink" title="&#x6B65;&#x9AA4;2 &#x4E0B;&#x8F7D;openssh&#x7684;&#x6E90;&#x7801;&#xFF0C;&#x5E76;&#x89E3;&#x538B;"></a>&#x6B65;&#x9AA4;2 &#x4E0B;&#x8F7D;openssh&#x7684;&#x6E90;&#x7801;&#xFF0C;&#x5E76;&#x89E3;&#x538B;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤3-修改源码，使之能记录登录密码"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;3-&#x4FEE;&#x6539;&#x6E90;&#x7801;&#xFF0C;&#x4F7F;&#x4E4B;&#x80FD;&#x8BB0;&#x5F55;&#x767B;&#x5F55;&#x5BC6;&#x7801;" class="headerlink" title="&#x6B65;&#x9AA4;3 &#x4FEE;&#x6539;&#x6E90;&#x7801;&#xFF0C;&#x4F7F;&#x4E4B;&#x80FD;&#x8BB0;&#x5F55;&#x767B;&#x5F55;&#x5BC6;&#x7801;"></a>&#x6B65;&#x9AA4;3 &#x4FEE;&#x6539;&#x6E90;&#x7801;&#xFF0C;&#x4F7F;&#x4E4B;&#x80FD;&#x8BB0;&#x5F55;&#x767B;&#x5F55;&#x5BC6;&#x7801;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤3-设置编译参数，并进行编译安装"><span class="toc-number">5.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;3-&#x8BBE;&#x7F6E;&#x7F16;&#x8BD1;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x7F16;&#x8BD1;&#x5B89;&#x88C5;" class="headerlink" title="&#x6B65;&#x9AA4;3 &#x8BBE;&#x7F6E;&#x7F16;&#x8BD1;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x7F16;&#x8BD1;&#x5B89;&#x88C5;"></a>&#x6B65;&#x9AA4;3 &#x8BBE;&#x7F6E;&#x7F16;&#x8BD1;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x7F16;&#x8BD1;&#x5B89;&#x88C5;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤4-添加服务，设置开机启动"><span class="toc-number">6.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;4-&#x6DFB;&#x52A0;&#x670D;&#x52A1;&#xFF0C;&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;" class="headerlink" title="&#x6B65;&#x9AA4;4 &#x6DFB;&#x52A0;&#x670D;&#x52A1;&#xFF0C;&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;"></a>&#x6B65;&#x9AA4;4 &#x6DFB;&#x52A0;&#x670D;&#x52A1;&#xFF0C;&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2017/05/22/SSH-LOG-USER/" data-title="修改OpenSSH源码，记录爆破SSH端口的密码" data-url="http://blog.star-chen.com/2017/05/22/SSH-LOG-USER/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"star-chen"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/05/23/Linux-File-Priveleges/" title="上一篇: Linux学习笔记之文件权限">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2017/05/17/BubbleSort/" title="下一篇: 常见排序算法之冒泡排序">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/08/cookie-property/">Cookie各属性的作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/05/ubuntu-kvm/">Ubuntu上安装使用KVM</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/13/nginx-location-rule/">Nginx location的匹配规则</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/04/python-metaclass/">python学习笔记之------元类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/04/install-pcapy/">win10+python2.7  安装pcapy</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/python-module-atexit/">Python学习笔记之------atexit模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/28/python-utc-local/">python编程笔记之-----UTC格式时间字符串与本地时间对象相互转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/23/Python-Closure/">Python学习笔记之-----闭包</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/22/Ubuntu-17-10-Systemd-Networkd/">Ubuntu-17.10-使用Systemd-Networkd接管网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/17/DictInListSorted/">Python编程实践-----List中嵌套Dict，根据Dict的value进行排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/19/PythonSingleton/">Python中实现单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/19/PythonEpoll/">在python中使用epoll实现非阻塞io</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/19/UnixSocket-echodemo/">python中使用Unix socket通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/WindowsTasklistFilter/">Windows  tasklist筛选器的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/DjangoQuery/">Django 查询</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/DjangowithPostgres/">在Django中使用PosetgreSQL数据库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/Ubuntu-install-Postgres/">Ubuntu 17.04 安装PostgreSQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/python-kwargs/">python-**kwargs的用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/12/Django-Signal/">Django-信号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-SchemaClientLib/">DjangoRESTframework-Schema和客户端类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-ViewsetsRouters/">DjangoRESTframework-视图集合和路由</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/">DjangoRESTframework-关系与超链接API</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/DjangoRESTframework-AuthenticationPermissions/">DjangoRESTframework-认证与权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-class-based-view/">DjangoRESTframework-基于类的视图（class-based views）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-ReqAndRes/">DjangoRESTframework-请求与响应（Request Response）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-serializetion/">DjangoRESTframework-序列化（Serializetion）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/DjangoRESTframework-quickstart/">DjangoRESTframework-快速开始</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Django-helloworld/">Django快速上手笔记之HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Django-install/">Django快速上手笔记之安装Django</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/python-note-repr/">Python学习笔记之----repr()函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/19/TCP-Echo-Demo/">SOCKET编程----Echo Something</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/PDF-watermask/">利用iTextSharp向pdf文件中添加图片水印</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/OpenWrt-HelloWorl/">OpenWrt软件开发-----软件包HelloWorld的构建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/19/ChangeUbuntuPassWd/">忘记Ubuntu用户密码，怎么办?</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/DokerStudy-install/">动手学Docker系列---在操作系统上安装Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/LoginNewTP/">TPLINK系列路由器新版UI登录算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/CompileNgrok/">在自己的VPS上编译部署Ngrok</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/31/CompileOpenJDK/">深入理解java虚拟机之动手编译OpenJDK 7</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/Linux-Add-Swap/">Linux学习笔记之添加SWAP分区</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/23/Linux-File-Priveleges/">Linux学习笔记之文件权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/SSH-LOG-USER/">修改OpenSSH源码，记录爆破SSH端口的密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/BubbleSort/">常见排序算法之冒泡排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/InsertSort/">常见排序算法之插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Factory-Notes/">设计模式学习之工厂模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/Decorator-Notes/">设计模式学习之装饰者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/MariaDB-Create-Remote/">MariaDB创建新用户、新数据库并允许特定用户远程访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/11/Centos7-lnmp/">CentOS 7.2 搭建lnmp环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-requesthandler/">Tornado框架中的Requesthandler</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/tornado-hello-world/">与Tornado的第一次接触</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/Let-s-Encrypt/">Let's Encrypt && Nginx配置证书，实现https访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/15/nginx-diable-domain/">配置nginx，防止ip被恶意绑定域名</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/Github-Webhook/">利用Github的webhook和tornado实现代码自动部署</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/04/PIL-Grab/">利用Python的PIL截屏</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/Github-Add-SSHKEY/">github配置ssh key</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/Learn_VIM/">Learn VIM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/29/C-Helloworld/">Program HelloWorld</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Pwnable-collision/">pwnable练习之collision</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/OpenWRT-BuildEnvironMent/">搭建OpenWRT编译开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/27/Pwnable-fd/">pwnable练习之fd</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/GDB-peda/">在Ubuntu16.04上配置peda</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/Learn-Markdown/">Learn Markdown</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/hello-world/">Hello World</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 STAR-CHEN
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
