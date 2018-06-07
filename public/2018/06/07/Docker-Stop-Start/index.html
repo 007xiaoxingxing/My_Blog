@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问 | STAR-CHEN&#39;s BLOG</title>
+  <title>从docker stop/start出发，实现自动启动容器内应用 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议  HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
-<meta name="keywords" content="https,nginx">
+  <meta name="description" content="接上篇，sqli-labs镜像能够实现docker run的时候自动启动mysql和apache进程，但是一旦docker异常退出或者执行docker stop之后，再次执行docker start启动容器时，mysql和apache不会自动启动，而只有mysql会启动起来，于是乎有了如下的折腾过程。">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">
-<meta property="og:url" content="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/index.html">
+<meta property="og:title" content="从docker stop&#x2F;start出发，实现自动启动容器内应用">
+<meta property="og:url" content="http://blog.star-chen.com/2018/06/07/Docker-Stop-Start/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
-<meta property="og:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议  HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.144Z">
+<meta property="og:description" content="接上篇，sqli-labs镜像能够实现docker run的时候自动启动mysql和apache进程，但是一旦docker异常退出或者执行docker stop之后，再次执行docker start启动容器时，mysql和apache不会自动启动，而只有mysql会启动起来，于是乎有了如下的折腾过程。">
+<meta property="og:updated_time" content="2018-06-07T03:23:06.791Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">
-<meta name="twitter:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议  HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
+<meta name="twitter:title" content="从docker stop&#x2F;start出发，实现自动启动容器内应用">
+<meta name="twitter:description" content="接上篇，sqli-labs镜像能够实现docker run的时候自动启动mysql和apache进程，但是一旦docker异常退出或者执行docker stop之后，再次执行docker start启动容器时，mysql和apache不会自动启动，而只有mysql会启动起来，于是乎有了如下的折腾过程。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -222,11 +222,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Let-s-Encrypt" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Docker-Stop-Start" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/12/15/Let-s-Encrypt/" class="article-date">
-      <time datetime="2016-12-15T07:01:36.000Z" itemprop="datePublished">2016-12-15</time>
+      <a href="/2018/06/07/Docker-Stop-Start/" class="article-date">
+      <time datetime="2018-06-07T02:54:14.000Z" itemprop="datePublished">2018-06-07</time>
 </a>
     </div>
   
@@ -239,7 +239,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问
+      从docker stop/start出发，实现自动启动容器内应用
     </h1>
   
 
@@ -254,7 +254,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -264,69 +264,24 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="0x1-Why"><a href="#0x1-Why" class="headerlink" title="0x1:Why?"></a>0x1:Why?</h3><p>在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议</p>
-<blockquote>
-<p>HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是<em>客户机</em>和一个计算机上运行的应用托管一个网站可以是<em>服务器</em>。该客户机提交一个HTTP <em>请求</em>消息发送到服务器。服务器，它提供<em>的资源</em>如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个<em>响应</em>消息给客户端。响应包含关于请求完成状态信息，并且还可以含有在其消息主体请求的内容。</p>
-<p>网络浏览器是一个的例子<em>的用户代理</em>（UA）。其他类型的用户代理包括由搜索服务提供商（使用的索引软件网络爬虫，语音浏览器，移动应用程序和其他软件访问，消费，或显示网页内容。</p>
-<p>的HTTP被设计成允许中间网络元件，以改善或允许客户端和服务器之间的通信。高流量的网站往往受益于Web缓存的代表提供的内容服务器上游服务器以提高响应时间。Web浏览器的缓存以前访问网络资源并尽可能减少网络流量重用他们。HTTP代理服务器的专用网络边界可以方便为客户的沟通没有一个全球可路由的地址，通过与外部服务器中继消息。</p>
-<p>HTTP是一个应用层协议的框架内，设计的因特网协议套件。它的定义假定底层和可靠的传输层的协议，和传输控制协议（TCP）是常用的。然而HTTP可以适于使用不可靠的协议，如用户数据报协议（UDP），例如在HTTPU和简单服务发现协议（SSDP）。</p>
-<p>HTTP资源得到确认和位于网络通[统一资源定位器（URL）的，使用统一资源标识符（URI的）计划，<em>HTTP</em>和<em>HTTPS</em>。URI和超链接的HTML文档形成相互关联的超文本文档。</p>
-<p>HTTP / 1.1是原来的HTTP（HTTP / 1.0）的修订。在HTTP / 1.0的单独连接到同一台服务器为每个资源的要求而作出。HTTP / 1.1可以重复使用的连接多次下载图像，脚本，样式表，<em>等等</em>页面已交付之后。因此，HTTP / 1.1的通信经验少的延迟为建立TCP连接的呈现相当大的开销。</p>
-</blockquote>
-<p>——-引自wikipedia <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank" rel="noopener">维基百科.HTTP词条</a></p>
+        <p>接上篇，sqli-labs镜像能够实现docker run的时候自动启动mysql和apache进程，但是一旦docker异常退出或者执行docker stop之后，再次执行docker start启动容器时，mysql和apache不会自动启动，而只有mysql会启动起来，于是乎有了如下的折腾过程。</p>
 <a id="more"></a>
-<p>但是HTTP协议本身不具备加密功能，所有的通讯数据都是在网络上裸奔。所以HTTP链接很容易被“中间人攻击“，HTTP链接网络环节中的中间人（浏览器、路由器、ISP…..）可以对数据进行嗅探，欺骗，劫持，阻挡等等。明文传输的用户数据还容易泄露。</p>
-<p>那什么又是HTTPS呢？  </p>
+<h5 id="执行docker-stop会发生什么？"><a href="#执行docker-stop会发生什么？" class="headerlink" title="执行docker stop会发生什么？"></a>执行docker stop会发生什么？</h5><p>先来看看官方文档怎么说：</p>
 <blockquote>
-<p>HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的<a href="http://baike.baidu.com/view/9472.htm" target="_blank" rel="noopener">HTTP</a>通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。 它是一个URI scheme（抽象标识符体系），句法类同http:体系。用于安全的HTTP数据传输。https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间）。这个系统的最初研发由网景公司(Netscape)进行，并内置于其浏览器Netscape Navigator中，提供了身份验证与加密通讯方法。现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; 用法：docker stop [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line">&gt; 参数：--time , -t	10	Seconds to wait for stop before killing it</span><br><span class="line">&gt; 描述：The main process inside the container will receive SIGTERM, and after a grace period, SIGKILL.</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>——引自百度百科 <a href="http://baike.baidu.com/link?url=ZSi0Ny56ylfHKJ4PEny2ogN3HkMf8QClbf_TulpLkRcei0-Z2w4SnxLVBnJPX5qkHHZOgKgQl78yBX60xdorUa" target="_blank" rel="noopener">百度百科.HTTPS词条</a></p>
-<p>相比较于HTTP协议，HTTPS在HTTP的基础上增加了SSL（安全套接字层）。SSL的引入为连接的建立和数据的传输都进行了加密，在密钥足够健壮的情形下，是比较安全的。相较于HTTP，HTTPS提供了以下三个强大的功能：</p>
-<ol>
-<li>内容加密。浏览器到百度服务器的内容都是以加密形式传输，中间者无法直接查看原始内容。</li>
-<li>身份认证。保证用户访问的是百度服务，即使被 DNS 劫持到了第三方站点，也会提醒用户没有访问百度服务，有可能被劫持</li>
-<li>数据完整性。防止内容被第三方冒充或者篡改。</li>
-</ol>
-<h3 id="0x2-How"><a href="#0x2-How" class="headerlink" title="0x2:How?"></a>0x2:How?</h3><p>要进行HTTPS加密，我们首先需要向证书颁发机构（CA）申请加密证书。免费的证书颁发机构有Startssl <a href="https://www.startssl.com/" target="_blank" rel="noopener">Start ssl</a>、Let’s Encrypt <a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>等。我用的是Let’s Encrypt颁发的证书，它操作起来比较简单。它的官方网站上有介绍具体的申请步骤。<a href="https://letsencrypt.org/getting-started/" target="_blank" rel="noopener">申请Let’s encrypt证书</a> 下面是我参考网上一哥们一篇博文<a href="https://imququ.com/post/letsencrypt-certificate.html" target="_blank" rel="noopener">Jerry Qu 申请Let’s Encrypt</a>实际申请证书的具体过程如下：</p>
-<ol>
-<li>创建帐号</li>
-</ol>
-<p>创建一个目录，例如 <em>ssl</em>，用来存放各种临时文件和最红生成的证书文件。首先创建一个私钥文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#openssl genrsa 4096 &gt; account.key</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>创建CSR文件</li>
-</ol>
-<p>生成CSR（Certificate Signing Request，证书签名请求）文件。需要准备一个域名私钥，这里我选择RSA私钥。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#openssl genrsa 4096 &gt; domain.key</span></span><br><span class="line"><span class="comment">#openssl req -new -sha256 -key domain.key -out domain.csr //手动生成csr文件，根据提示进行操作即可</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>配置验证服务</li>
-</ol>
-<p>CA在颁发证书时，需要验证域名的所有权，证明你对该域名所在的服务器有操作的权限。Let’s Encrypt采用的是服务器上生成一个随机验证文件，再访问CSR中填写的域名，如果访问成功，则证明你对该域名有所有权。为了偷懒，我就不像那位博主一样建立单独的目录了，而是直接在我的web根目录建立一个隐藏目录，用来存放之后生成的随机验证文件。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mkdir -p /var/blog/.well-known/acme-challenge //建立验证文件存放目录</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>获取HTTPS证书</li>
-</ol>
-<p>先下载一个acme-tiny的脚本，保存在<em>ssl</em>目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py</span></span><br></pre></td></tr></table></figure>
-<p>指定账户私钥、CSR、验证目录，然后执行脚本：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/blog/ &gt; ./signed.crt</span><br></pre></td></tr></table></figure>
-<p>如果执行成功，在当前目录下会生成一个signed.crt文件，这就是申请号的证书文件。</p>
-<p>下载Let’s Encrypt的中间证书，并和网站证书合并在一起:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem &gt; intermediate.pem</span></span><br><span class="line"><span class="comment">#cat signed.crt intermediate.pem &gt; chained.pem</span></span><br></pre></td></tr></table></figure>
-<p>再把根证书和中间证书合并在一起：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/isrgrootx1.pem &gt; root.pem</span></span><br><span class="line"><span class="comment">#cat intermediate.pem root.pem &gt; full_chained.pem</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>配置Nginx，开启https</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate     ~/ssl/chained.pem;</span><br><span class="line">ssl_certificate_key ~/ssl/domain.key;</span><br></pre></td></tr></table></figure>
-<p>​</p>
-<p>因为Let’s Encrypt签发的证书的有效期只有90天，需要定时使用脚本进行更新。就是把上面的获取过程写进一个脚本，设置crontab，让其自动执行更新即可。我也不确定这台服务器我会续费到多久，暂时先用着吧。  </p>
-<p>—-后续，续期证书的脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">openssl genrsa 4096 &gt; account.key</span><br><span class="line">openssl genrsa 4096 &gt; domain,key</span><br><span class="line">openssl req -new -sha256 -key domain.key -out domain.csr</span><br><span class="line">python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/www/blog/.well-known/acme-challenge/ &gt; ./signed.crt</span><br><span class="line">wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem &gt; intermediate.pem</span><br><span class="line">cat signed.crt intermediate.pem &gt; chained.pem</span><br><span class="line">wget -O - https://letsencrypt.org/certs/isrgrootx1.pem &gt; root.pem</span><br><span class="line">cat intermediate.pem root.pem &gt; full_chained.pem</span><br></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ol>
-<h3 id="0x3-That’s-All"><a href="#0x3-That’s-All" class="headerlink" title="0x3 That’s All"></a>0x3 That’s All</h3><p>经过一番折腾，在我的域名前，终于看到了浏览器地址栏我的域名前有了一把绿色的小锁，<em>It’s Encrypt!</em>  </p>
-<p>最后还是感谢一下Jerry Qu撰写的博客文章， <a href="https://imququ.com/" target="_blank" rel="noopener">Jerry Qu</a></p>
+<p>讲得明白一点就是执行docker stop命令之后，会给容器内pid=1的进程发送SIGTERM信号，然后等待-t时间，如果在-t指定的时间内，进程没有正常结束，会发送SIGKILL信号强制结束pid=1这个进程，然后退出容器。这里的-t指定的时间可以预留给容器内的程序做一些善后工作，比如继续处理接收的请求，保存数据，做一些清理工作等。</p>
+<p>于是我进入容器，查看一下pid=1的进程是什么，没错，就是在Dockerfile中CMD指令指定的那个脚本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@bd79479d225d /]# ps -aux</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.0  11680   152 pts/0    Ss   Jun06   0:00 /bin/bash /etc/init.d/sqli_lab.sh</span><br></pre></td></tr></table></figure>
+<h5 id="为什么docker-stop后，再docker-start之后，apache没有启动呢？"><a href="#为什么docker-stop后，再docker-start之后，apache没有启动呢？" class="headerlink" title="为什么docker stop后，再docker start之后，apache没有启动呢？"></a>为什么docker stop后，再docker start之后，apache没有启动呢？</h5><p>首先docker stop sqlilab，再docker start sqlilab,查看容器内进程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@bd79479d225d /]# ps -aux</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">root         1  0.0  0.1  11680  1332 pts/0    Ss   03:13   0:00 /bin/bash /etc/init.d/sqli_lab.sh</span><br><span class="line">root         6  0.0  0.0  11680   584 pts/0    S    03:13   0:00 /bin/bash /etc/init.d/sqli_lab.sh</span><br><span class="line">root         7  0.0  0.1  11820  1680 pts/0    S+   03:13   0:00 /bin/bash</span><br><span class="line">root        48  0.0  0.1  11816  1624 pts/0    S    03:13   0:00 /bin/sh /usr/bin/mysqld_safe --basedir=/usr</span><br><span class="line">mysql      193  0.4  8.1 775012 82832 pts/0    Sl   03:13   0:00 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/pl</span><br><span class="line">root       216  0.0  0.1  11820  1884 pts/1    Ss   03:13   0:00 /bin/bash</span><br><span class="line">root       231  0.0  0.1  51708  1720 pts/1    R+   03:14   0:00 ps -aux</span><br></pre></td></tr></table></figure>
+<p>这里可以发现sqli_lab.sh被执行了两次，其中一个pid=1另外一个pid=6。并且mysql进程是存在的，那为什么apache进程没有启动起来呢？</p>
+<p>继续来查看一下/etc/init.d/sqli_lab.sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">/usr/sbin/httpd -DFOREGROUND &amp;</span><br><span class="line">/usr/libexec/mariadb-prepare-db-dir %n &amp;&amp; /usr/bin/mysqld_safe --basedir=/usr &amp;</span><br><span class="line">/bin/bash</span><br></pre></td></tr></table></figure>
+<p>也许发现一些端倪了，应该是进程前后台设置混乱导致的。这里具体的细节原因限于我目前的知识水平无法解释。</p>
+<h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><p>要保持docker在后台运行不要退出，一定要保留一个前台进程，这里我是使用的/bin/bash，其实上边的apache以前台模式运行就可以替代/bin/bash了。然后我尝试了一下/usr/bin/mysqld_safe –basedir=/usr，发现这条命令也会保持在前台不退出，那么久先把mysql给放到后台去，然后令apache在前台保持就好了。更改后的脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">/usr/libexec/mariadb-prepare-db-dir %n</span><br><span class="line">/usr/bin/mysqld_safe --basedir=/usr &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">/usr/sbin/httpd -DFOREGROUND</span><br></pre></td></tr></table></figure>
+<p>保存后，重新stop/start，mysql和apache均能正常启动。问题解决。</p>
 
       
     </div>
@@ -335,13 +290,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问</a></p>
+        <p><span>本文标题:</span><a href="/2018/06/07/Docker-Stop-Start/">从docker stop/start出发，实现自动启动容器内应用</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2016年12月15日 - 15时01分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>发布时间:</span>2018年06月07日 - 10时54分</p>
+        <p><span>最后更新:</span>2018年06月07日 - 11时23分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/07/Docker-Stop-Start/" title="从docker stop/start出发，实现自动启动容器内应用">http://blog.star-chen.com/2018/06/07/Docker-Stop-Start/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2018/06/07/Docker-Stop-Start/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -354,18 +309,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/12/15/tornado-hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          与Tornado的第一次接触
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/15/nginx-diable-domain/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">配置nginx，防止ip被恶意绑定域名</div>
+    <a href="/2018/06/06/Postgres-Proper-Sql/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Postgres的特色语法</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -376,7 +322,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-Why"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x1-Why" class="headerlink" title="0x1:Why?"></a>0x1:Why?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-How"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x2-How" class="headerlink" title="0x2:How?"></a>0x2:How?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-That’s-All"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x3-That&#x2019;s-All" class="headerlink" title="0x3 That&#x2019;s All"></a>0x3 That&#x2019;s All</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#执行docker-stop会发生什么？"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x6267;&#x884C;docker-stop&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;" class="headerlink" title="&#x6267;&#x884C;docker stop&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;"></a>&#x6267;&#x884C;docker stop&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#xFF1F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么docker-stop后，再docker-start之后，apache没有启动呢？"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;docker-stop&#x540E;&#xFF0C;&#x518D;docker-start&#x4E4B;&#x540E;&#xFF0C;apache&#x6CA1;&#x6709;&#x542F;&#x52A8;&#x5462;&#xFF1F;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;docker stop&#x540E;&#xFF0C;&#x518D;docker start&#x4E4B;&#x540E;&#xFF0C;apache&#x6CA1;&#x6709;&#x542F;&#x52A8;&#x5462;&#xFF1F;"></a>&#x4E3A;&#x4EC0;&#x4E48;docker stop&#x540E;&#xFF0C;&#x518D;docker start&#x4E4B;&#x540E;&#xFF0C;apache&#x6CA1;&#x6709;&#x542F;&#x52A8;&#x5462;&#xFF1F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解决办法"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x89E3;&#x51B3;&#x529E;&#x6CD5;" class="headerlink" title="&#x89E3;&#x51B3;&#x529E;&#x6CD5;"></a>&#x89E3;&#x51B3;&#x529E;&#x6CD5;</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -424,7 +370,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/12/15/Let-s-Encrypt/" data-title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问" data-url="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/"></div>
+    <div class="ds-thread" data-thread-key="2018/06/07/Docker-Stop-Start/" data-title="从docker stop/start出发，实现自动启动容器内应用" data-url="http://blog.star-chen.com/2018/06/07/Docker-Stop-Start/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -447,13 +393,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/12/15/tornado-hello-world/" title="上一篇: 与Tornado的第一次接触">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/12/15/nginx-diable-domain/" title="下一篇: 配置nginx，防止ip被恶意绑定域名">
+            <a href="/2018/06/06/Postgres-Proper-Sql/" title="下一篇: Postgres的特色语法">
                 <i class="fa fa-angle-right"></i>
             </a>
         
