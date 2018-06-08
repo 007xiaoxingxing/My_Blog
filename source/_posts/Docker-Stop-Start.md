@@ -72,4 +72,48 @@ root       231  0.0  0.1  51708  1720 pts/1    R+   03:14   0:00 ps -aux
 /usr/sbin/httpd -DFOREGROUND
 ```
 
-保存后，重新stop/start，mysql和apache均能正常启动。问题解决。
+保存后，重新stop/start，mysql和apache均能正常启动。问题暂时解决。
+
+
+
+2018.6.8 更新
+
+​	由于晚上我将服务器关机了，今天再次启动容器的时候发现问题依然存在，真是捉急。于是乎只有换个方法了，还是需要使用supervisor来管理mysql和httpd进程。
+
+于是更改Dockerfile，增加安装supervisor
+
+```shell
+RUN yum -y install epel-release && yum install supervisor -y
+```
+
+编写分别用于控制httpd和mysqld的配置文件：
+
+```ini
+[program:mysql]
+command=/bin/bash -c "/usr/libexec/mariadb-prepare-db-dir && /usr/bin/mysqld_safe --basedir=/usr"
+autostart=true
+autorestart=true
+user=root
+numprocs=1
+stdout_logfile=/tmp/supervisor-mysql.log
+```
+
+```ini
+[program:httpd]
+command=/usr/sbin/httpd -DFORGROUND
+autostart=true
+autorestart=true
+user=root
+numprocs=1
+stdout_logfile=/tmp/supervisor-httpd.log
+```
+
+将配置文件加入到镜像中：
+
+```shell
+ADD ./mysql.ini /etc/supervisord.d/mysql.ini
+ADD ./httpd.ini /etc/supervisord.d/httpd.ini
+CMD ["/usr/bin/supervisord", "-n"]
+```
+
+这次问题终于得到解决了。
