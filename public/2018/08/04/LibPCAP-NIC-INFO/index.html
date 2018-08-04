@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>动手学Docker系列---在操作系统上安装Docker | STAR-CHEN&#39;s BLOG</title>
+  <title>libpcap折腾系列之获取系统网卡信息 | STAR-CHEN&#39;s BLOG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="What is Docker?  Docker是当前相当流行的一种应用容器引擎，通过Docker容器，可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。Docker容器完全使用沙箱机制，相互之间不会有任何的接口，可以让应用得到高等级的隔离，相比于虚拟机，Docker容器更加轻量级，性能开销更低。 Docker的一些应用场景 w">
-<meta name="keywords" content="docker">
+  <meta name="description" content="libpcap是是unix/linux平台下的网络数据包捕获库，大多数的网络监控软件都是以它为基础的，例如Tcpdump。 最近想在我的Openwrt路由器上开发一个数据包分析工具，需要学习一下libpcap的功能，于是乎写篇博文记录一下经过。">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="动手学Docker系列---在操作系统上安装Docker">
-<meta property="og:url" content="http://blog.star-chen.com/2017/06/02/DokerStudy-install/index.html">
+<meta property="og:title" content="libpcap折腾系列之获取系统网卡信息">
+<meta property="og:url" content="http://blog.star-chen.com/2018/08/04/LibPCAP-NIC-INFO/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
-<meta property="og:description" content="What is Docker?  Docker是当前相当流行的一种应用容器引擎，通过Docker容器，可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。Docker容器完全使用沙箱机制，相互之间不会有任何的接口，可以让应用得到高等级的隔离，相比于虚拟机，Docker容器更加轻量级，性能开销更低。 Docker的一些应用场景 w">
+<meta property="og:description" content="libpcap是是unix/linux平台下的网络数据包捕获库，大多数的网络监控软件都是以它为基础的，例如Tcpdump。 最近想在我的Openwrt路由器上开发一个数据包分析工具，需要学习一下libpcap的功能，于是乎写篇博文记录一下经过。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-05T13:27:34.283Z">
+<meta property="og:updated_time" content="2018-08-04T06:03:56.497Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="动手学Docker系列---在操作系统上安装Docker">
-<meta name="twitter:description" content="What is Docker?  Docker是当前相当流行的一种应用容器引擎，通过Docker容器，可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。Docker容器完全使用沙箱机制，相互之间不会有任何的接口，可以让应用得到高等级的隔离，相比于虚拟机，Docker容器更加轻量级，性能开销更低。 Docker的一些应用场景 w">
+<meta name="twitter:title" content="libpcap折腾系列之获取系统网卡信息">
+<meta name="twitter:description" content="libpcap是是unix/linux平台下的网络数据包捕获库，大多数的网络监控软件都是以它为基础的，例如Tcpdump。 最近想在我的Openwrt路由器上开发一个数据包分析工具，需要学习一下libpcap的功能，于是乎写篇博文记录一下经过。">
   
     <link rel="alternative" href="/atom.xml" title="STAR-CHEN&#39;s BLOG" type="application/atom+xml">
   
@@ -223,11 +223,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-DokerStudy-install" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-LibPCAP-NIC-INFO" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/06/02/DokerStudy-install/" class="article-date">
-      <time datetime="2017-06-02T10:48:13.000Z" itemprop="datePublished">2017-06-02</time>
+      <a href="/2018/08/04/LibPCAP-NIC-INFO/" class="article-date">
+      <time datetime="2018-08-04T05:50:39.000Z" itemprop="datePublished">2018-08-04</time>
 </a>
     </div>
   
@@ -240,7 +240,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      动手学Docker系列---在操作系统上安装Docker
+      libpcap折腾系列之获取系统网卡信息
     </h1>
   
 
@@ -249,13 +249,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/Program/">Program</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -265,58 +265,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="What-is-Docker"><a href="#What-is-Docker" class="headerlink" title="What is Docker?"></a>What is Docker?</h3><p>  Docker是当前相当流行的一种应用容器引擎，通过Docker容器，可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。Docker容器完全使用沙箱机制，相互之间不会有任何的接口，可以让应用得到高等级的隔离，相比于虚拟机，Docker容器更加轻量级，性能开销更低。</p>
-<h3 id="Docker的一些应用场景"><a href="#Docker的一些应用场景" class="headerlink" title="Docker的一些应用场景"></a>Docker的一些应用场景</h3><ul>
-<li>web应用的自动化打包和发布；</li>
-<li>自动化测试和持续集成、发布；</li>
-<li>在服务性环境中部署和调整数据库或其他的后台应用；</li>
-<li>从头编译或者扩展现有的OpenShift或cloud Foundry平台来搭建自己的PaaS环境；</li>
-</ul>
-<h3 id="Docker所解决的问题"><a href="#Docker所解决的问题" class="headerlink" title="Docker所解决的问题"></a>Docker所解决的问题</h3><ul>
-<li>更有序的组织</li>
-<li>更高的可移植性</li>
-<li>保护你的机器，提高安全性</li>
-</ul>
-<p>既然Docker容器有这么多的优点，那怎么才能使用上它呢？这篇文章就来记录一下怎么去安装Docker。</p>
+        <p>libpcap是是unix/linux平台下的网络数据包捕获库，大多数的网络监控软件都是以它为基础的，例如Tcpdump。</p>
+<p>最近想在我的Openwrt路由器上开发一个数据包分析工具，需要学习一下libpcap的功能，于是乎写篇博文记录一下经过。</p>
 <a id="more"></a>
-<h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><p>我所使用的操作系统是Ubuntu 14.04 LTS</p>
-<p>Docker官方的安装说明地址： <a href="https://docs.docker.com/engine/installation/linux/ubuntu/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/linux/ubuntu/</a>  先仔细阅读一下官方的安装说明。</p>
-<blockquote>
-<p>Recommended extra packages for Trusty 14.04<br> Unless you have a strong reason not to, install the <code>linux-image-extra-*</code> packages, which allow Docker to use the <code>aufs</code> storage drivers.</p>
-</blockquote>
-<p>看起来我使用的14.04还需要安装一下内核扩展，那安装一下先</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual</span><br><span class="line">正在读取软件包列表... 完成</span><br><span class="line">正在分析软件包的依赖关系树       </span><br><span class="line">正在读取状态信息... 完成       </span><br><span class="line">linux-image-extra-3.19.0-33-generic 已经是最新的版本了。</span><br><span class="line">linux-image-extra-3.19.0-33-generic 被设置为手动安装。</span><br><span class="line">下列软件包是自动安装的并且现在不需要了：</span><br><span class="line">  linux-headers-3.19.0-25 linux-headers-3.19.0-25-generic</span><br><span class="line">  linux-image-3.19.0-25-generic linux-image-extra-3.19.0-25-generic</span><br><span class="line">Use <span class="string">'apt-get autoremove'</span> to remove them.</span><br><span class="line">将会安装下列额外的软件包：</span><br><span class="line">  linux-image-3.13.0-119-generic linux-image-extra-3.13.0-119-generic</span><br><span class="line">  linux-image-generic</span><br><span class="line">建议安装的软件包：</span><br><span class="line">  fdutils linux-doc-3.13.0 linux-source-3.13.0 linux-tools</span><br><span class="line">  linux-headers-3.13.0-119-generic</span><br><span class="line">下列【新】软件包将被安装：</span><br><span class="line">  linux-image-3.13.0-119-generic linux-image-extra-3.13.0-119-generic</span><br><span class="line">  linux-image-extra-virtual linux-image-generic</span><br><span class="line">升级了 0 个软件包，新安装了 4 个软件包，要卸载 0 个软件包，有 89 个软件包未被升级。</span><br><span class="line">需要下载 52.0 MB 的软件包。</span><br><span class="line">解压缩后会消耗掉 195 MB 的额外空间。</span><br><span class="line">您希望继续执行吗？ [Y/n]</span><br></pre></td></tr></table></figure>
-<p>官方网站上介绍了两种安装方式，一是从软件仓库安装，而是下载deb安装包，手动安装。</p>
-<ul>
-<li>从软件仓库安装</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line">pub   4096R/0EBFCD88 2017-02-22</span><br><span class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   4096R/F273FCD8 2017-02-22</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
-<ul>
-<li>下载deb包，手动安装</li>
-</ul>
-<p>浏览器打开  <a href="https://download.docker.com/linux/ubuntu/dists/" target="_blank" rel="noopener">https://download.docker.com/linux/ubuntu/dists/</a>  选择适合系统版本的deb包下载。</p>
-<p>我选择手动下载deb包进行安装。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ wget https://download.docker.com/linux/ubuntu/dists/trusty/pool/stable/amd64/docker-ce_17.03.1~ce-0~ubuntu-trusty_amd64.deb</span><br></pre></td></tr></table></figure>
-<p>吐槽一句，下载的速度这是太慢了————终于下载好了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ sudo dpkg -i docker-ce_17.03.1~ce-0~ubuntu-trusty_amd64.deb </span><br><span class="line">[sudo] password <span class="keyword">for</span> xing: </span><br><span class="line">正在选中未选择的软件包 docker-ce。</span><br><span class="line">(正在读取数据库 ... 系统当前共安装有 144928 个文件和目录。)</span><br><span class="line">正准备解包 docker-ce_17.03.1~ce-0~ubuntu-trusty_amd64.deb  ...</span><br><span class="line">正在解包 docker-ce (17.03.1~ce-0~ubuntu-trusty) ...</span><br><span class="line">dpkg: 依赖关系问题使得 docker-ce 的配置工作不能继续：</span><br><span class="line"> docker-ce 依赖于 libltdl7 (&gt;= 2.4.2)；然而：</span><br><span class="line">  未安装软件包 libltdl7。</span><br><span class="line"> docker-ce 依赖于 libsystemd-journal0 (&gt;= 201)；然而：</span><br><span class="line">  未安装软件包 libsystemd-journal0。</span><br><span class="line"></span><br><span class="line">dpkg: 处理软件包 docker-ce (--install)时出错：</span><br><span class="line"> 依赖关系问题 - 仍未被配置</span><br><span class="line">正在处理用于 man-db (2.6.7.1-1ubuntu1) 的触发器 ...</span><br><span class="line">正在处理用于 ureadahead (0.100.0-16) 的触发器 ...</span><br><span class="line">在处理时有错误发生：</span><br><span class="line"> docker-ce</span><br></pre></td></tr></table></figure>
-<p>好像出了点问题，需要依赖，那么安装一下依赖吧。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ sudo apt-get -f install</span><br><span class="line">xing@ubuntu-compile:~$ sudo dpkg -i docker-ce_17.03.1~ce-0~ubuntu-trusty_amd64.deb </span><br><span class="line">(正在读取数据库 ... 系统当前共安装有 145148 个文件和目录。)</span><br><span class="line">正准备解包 docker-ce_17.03.1~ce-0~ubuntu-trusty_amd64.deb  ...</span><br><span class="line">docker stop/waiting</span><br><span class="line">正在将 docker-ce (17.03.1~ce-0~ubuntu-trusty) 解包到 (17.03.1~ce-0~ubuntu-trusty) 上 ...</span><br><span class="line">正在设置 docker-ce (17.03.1~ce-0~ubuntu-trusty) ...</span><br><span class="line">docker start/running, process 2629</span><br><span class="line">正在处理用于 man-db (2.6.7.1-1ubuntu1) 的触发器 ...</span><br><span class="line">正在处理用于 ureadahead (0.100.0-16) 的触发器 ...</span><br></pre></td></tr></table></figure>
-<p>这些安装好了！！加载一个Hello World镜像尝试一下</p>
-<h3 id="Docker-Hello-World"><a href="#Docker-Hello-World" class="headerlink" title="Docker Hello World"></a>Docker Hello World</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ sudo docker run dockerinaction/hello_world</span><br><span class="line">Unable to find image <span class="string">'dockerinaction/hello_world:latest'</span> locally</span><br><span class="line">latest: Pulling from dockerinaction/hello_world</span><br><span class="line">a3ed95caeb02: Pull complete </span><br><span class="line">1db09adb5ddd: Pull complete </span><br><span class="line">Digest: sha256:cfebf86139a3b21797765a3960e13dee000bcf332be0be529858fca840c00d7f</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> dockerinaction/hello_world:latest</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
-<p>可以看到，docker是先检查本地是否有hello_world镜像，发现不存在，再去镜像市场拉取到本地，再进行运行的。最后已经打印出了hello world，说明我们的docker已经安装成功了！</p>
-<p>再来运行hello_world看看有什么不一样</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xing@ubuntu-compile:~$ sudo docker run dockerinaction/hello_world</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
-<p>直接打印出了hello world ，说明镜像已经存在，docker直接是运行的本地的镜像。</p>
-<p>———–安装篇完</p>
-<p>参考资料：</p>
-<p> <a href="https://docs.docker.com/engine/installation/linux" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/linux</a></p>
-<p>《Docker实战》</p>
-<p><a href="http://www.runoob.com/docker/ubuntu-docker-install.html" target="_blank" rel="noopener">http://www.runoob.com/docker/ubuntu-docker-install.html</a></p>
-<p><a href="http://www.docker.org.cn/book/docker/what-is-docker-16.html" target="_blank" rel="noopener">http://www.docker.org.cn/book/docker/what-is-docker-16.html</a></p>
+<p>首先接触到的是获取系统中所有的网卡的函数<code>pcap_findalldevs</code>,该函数可以获取所有网卡设备，获取到的设备是一个<code>pcap_if_t</code>类型的结构体，里边有该设备的具体信息，包括网卡IP。下边是一个示例程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pcap.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pcap_if_t</span> *alldevs;</span><br><span class="line">    <span class="keyword">pcap_if_t</span> *device;</span><br><span class="line">    <span class="keyword">pcap_addr_t</span> *a;</span><br><span class="line">    <span class="keyword">char</span> *net;</span><br><span class="line">    <span class="keyword">char</span> *mask;</span><br><span class="line">    <span class="keyword">char</span> errbuf[PCAP_ERRBUF_SIZE];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">addr</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> *<span class="title">eth_addr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(pcap_findalldevs(&amp;alldevs, errbuf) == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Error in pcap_findalldevs: %s\n"</span>, errbuf);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    device = alldevs;</span><br><span class="line">    <span class="keyword">for</span>(; device != <span class="literal">NULL</span>; device = device-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Device name: %s\n"</span>, device-&gt;name);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Description: %s\n"</span>, device-&gt;description);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\tLoopback: %s\n"</span>, (device-&gt;flags &amp; PCAP_IF_LOOPBACK)?<span class="string">"yes"</span>:<span class="string">"no"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(a = device-&gt;addresses; a; a = a-&gt;next)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\tAddress Family Name: #%d\n"</span>, a-&gt;addr-&gt;sa_family);</span><br><span class="line">            <span class="keyword">switch</span>(a-&gt;addr-&gt;sa_family)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> AF_INET:</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"\tAddress Family Name: AF_INET\n"</span>);</span><br><span class="line">                    <span class="keyword">if</span>(a-&gt;addr)</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\tAddress: %s\n"</span>, inet_ntoa(((struct sockaddr_in*)a-&gt;addr)-&gt;sin_addr));</span><br><span class="line">                    <span class="keyword">if</span>(a-&gt;netmask)</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\tNetmask: %s\n"</span>, inet_ntoa(((struct sockaddr_in*)a-&gt;netmask)-&gt;sin_addr));</span><br><span class="line">                    <span class="keyword">if</span>(a-&gt;broadaddr)</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\tBroadcast Address: %s\n"</span>, inet_ntoa(((struct sockaddr_in*)a-&gt;broadaddr)-&gt;sin_addr));</span><br><span class="line">                    <span class="keyword">if</span>(a-&gt;dstaddr)</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\tDestination Address: %s\n"</span>, inet_ntoa(((struct sockaddr_in*)a-&gt;dstaddr)-&gt;sin_addr));</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> AF_INET6:</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"\tAddress Family Name: AF_INET6\n"</span>);</span><br><span class="line">                    <span class="keyword">if</span>(a-&gt;addr)</span><br><span class="line">                        <span class="comment">//printf("\tAddress: %s\n", inet_ntoa(((struct sockaddr_in6*)a-&gt;addr)-&gt;sin6_addr));</span></span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\tAddress %s\n"</span>, <span class="string">"ipv6"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"\tAddress Family Name: Unknown\n"</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进行编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">gcc pcap_eth_info.c -o eth_info -lpcap</span></span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ./eth_info</span></span><br><span class="line">Device name: enp0s3</span><br><span class="line">Description: (null)</span><br><span class="line">        Loopback: no</span><br><span class="line">        Address Family Name: #17</span><br><span class="line">        Address Family Name: Unknown</span><br><span class="line">        Address Family Name: #2</span><br><span class="line">        Address Family Name: AF_INET</span><br><span class="line">        Address: 192.168.10.214</span><br><span class="line">        Netmask: 255.255.255.0</span><br><span class="line">        Broadcask Address: 192.168.10.255</span><br><span class="line">        Address Family Name: #10</span><br><span class="line">        Address Family Name: AF_INET6</span><br><span class="line">        Address ipv6</span><br><span class="line"></span><br><span class="line">Device name: any</span><br><span class="line">Description: Pseudo-device that captures on all interfaces</span><br><span class="line">        Loopback: no</span><br><span class="line"></span><br><span class="line">Device name: lo</span><br><span class="line">Description: (null)</span><br><span class="line">        Loopback: yes</span><br><span class="line">        Address Family Name: #17</span><br><span class="line">        Address Family Name: Unknown</span><br><span class="line">        Address Family Name: #2</span><br><span class="line">        Address Family Name: AF_INET</span><br><span class="line">        Address: 127.0.0.1</span><br><span class="line">        Netmask: 255.0.0.0</span><br><span class="line">        Address Family Name: #10</span><br><span class="line">        Address Family Name: AF_INET6</span><br><span class="line">        Address ipv6</span><br><span class="line"></span><br><span class="line">Device name: nflog</span><br><span class="line">Description: Linux netfilter log (NFLOG) interface</span><br><span class="line">        Loopback: no</span><br><span class="line"></span><br><span class="line">Device name: nfqueue</span><br><span class="line">Description: Linux netfilter queue (NFQUEUE) interface</span><br><span class="line">        Loopback: no</span><br><span class="line"></span><br><span class="line">Device name: usbmon1</span><br><span class="line">Description: USB bus number 1</span><br><span class="line">        Loopback: no</span><br></pre></td></tr></table></figure>
+<p>接下来会涉及到如何在网卡上捕获数据包，解开数据包。</p>
 
       
     </div>
@@ -325,13 +283,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/06/02/DokerStudy-install/">动手学Docker系列---在操作系统上安装Docker</a></p>
+        <p><span>本文标题:</span><a href="/2018/08/04/LibPCAP-NIC-INFO/">libpcap折腾系列之获取系统网卡信息</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
-        <p><span>发布时间:</span>2017年06月02日 - 18时48分</p>
-        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
+        <p><span>发布时间:</span>2018年08月04日 - 13时50分</p>
+        <p><span>最后更新:</span>2018年08月04日 - 14时03分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/06/02/DokerStudy-install/" title="动手学Docker系列---在操作系统上安装Docker">http://blog.star-chen.com/2017/06/02/DokerStudy-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/06/02/DokerStudy-install/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/08/04/LibPCAP-NIC-INFO/" title="libpcap折腾系列之获取系统网卡信息">http://blog.star-chen.com/2018/08/04/LibPCAP-NIC-INFO/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2018/08/04/LibPCAP-NIC-INFO/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -344,18 +302,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2017/06/19/ChangeUbuntuPassWd/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          忘记Ubuntu用户密码，怎么办?
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/06/02/LoginNewTP/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">TPLINK系列路由器新版UI登录算法</div>
+    <a href="/2018/08/03/Django-ORM-GROUP-BY/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Django ORM进行group by 操作</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -366,7 +315,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-Docker"><span class="toc-number">1.</span> <span class="toc-text">What is Docker?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker的一些应用场景"><span class="toc-number">2.</span> <span class="toc-text">Docker的一些应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker所解决的问题"><span class="toc-number">3.</span> <span class="toc-text">Docker所解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Docker"><span class="toc-number">4.</span> <span class="toc-text">安装Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Hello-World"><span class="toc-number">5.</span> <span class="toc-text">Docker Hello World</span></a></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
@@ -414,7 +363,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2017/06/02/DokerStudy-install/" data-title="动手学Docker系列---在操作系统上安装Docker" data-url="http://blog.star-chen.com/2017/06/02/DokerStudy-install/"></div>
+    <div class="ds-thread" data-thread-key="2018/08/04/LibPCAP-NIC-INFO/" data-title="libpcap折腾系列之获取系统网卡信息" data-url="http://blog.star-chen.com/2018/08/04/LibPCAP-NIC-INFO/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -437,13 +386,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/06/19/ChangeUbuntuPassWd/" title="上一篇: 忘记Ubuntu用户密码，怎么办?">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2017/06/02/LoginNewTP/" title="下一篇: TPLINK系列路由器新版UI登录算法">
+            <a href="/2018/08/03/Django-ORM-GROUP-BY/" title="下一篇: Django ORM进行group by 操作">
                 <i class="fa fa-angle-right"></i>
             </a>
         
