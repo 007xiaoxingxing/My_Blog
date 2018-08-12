@@ -64,9 +64,11 @@ int main(int argc, char *argv[])
                     break;
                 case AF_INET6:
                     printf("\tAddress Family Name: AF_INET6\n");
-                    if(a->addr)
-                        //printf("\tAddress: %s\n", inet_ntoa(((struct sockaddr_in6*)a->addr)->sin6_addr));
+                     if(a->addr){
+                        char addr_str[46];
+                        printf("\tAddress: %s\n", inet_ntop(AF_INET6, &((struct sockaddr_in6*)a->addr)->sin6_addr, addr_str, sizeof(addr_str)));
                         printf("\tAddress %s\n", "ipv6");
+                    }
                     break;
                 default:
                     printf("\tAddress Family Name: Unknown\n");

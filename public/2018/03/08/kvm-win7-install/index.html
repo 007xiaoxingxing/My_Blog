@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://blog.star-chen.com/2018/03/08/kvm-win7-install/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="书接上回，上次我们在Ubuntu上安装好了KVM软件，并且使用图形化的virt-manager来创建了一台windows虚拟机，这次我们使用KVM的命令行工具来安装一台windows虚拟机。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/win7_iso.png">
 <meta property="og:updated_time" content="2018-03-10T04:36:31.961Z">
 <meta name="twitter:card" content="summary">
@@ -337,7 +338,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤1：准备操作系统镜像"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;1&#xFF1A;&#x51C6;&#x5907;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x955C;&#x50CF;" class="headerlink" title="&#x6B65;&#x9AA4;1&#xFF1A;&#x51C6;&#x5907;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x955C;&#x50CF;"></a>&#x6B65;&#x9AA4;1&#xFF1A;&#x51C6;&#x5907;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x955C;&#x50CF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤2：在宿主机上创建响应目录"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;2&#xFF1A;&#x5728;&#x5BBF;&#x4E3B;&#x673A;&#x4E0A;&#x521B;&#x5EFA;&#x54CD;&#x5E94;&#x76EE;&#x5F55;" class="headerlink" title="&#x6B65;&#x9AA4;2&#xFF1A;&#x5728;&#x5BBF;&#x4E3B;&#x673A;&#x4E0A;&#x521B;&#x5EFA;&#x54CD;&#x5E94;&#x76EE;&#x5F55;"></a>&#x6B65;&#x9AA4;2&#xFF1A;&#x5728;&#x5BBF;&#x4E3B;&#x673A;&#x4E0A;&#x521B;&#x5EFA;&#x54CD;&#x5E94;&#x76EE;&#x5F55;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤3：命令行安装"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x6B65;&#x9AA4;3&#xFF1A;&#x547D;&#x4EE4;&#x884C;&#x5B89;&#x88C5;" class="headerlink" title="&#x6B65;&#x9AA4;3&#xFF1A;&#x547D;&#x4EE4;&#x884C;&#x5B89;&#x88C5;"></a>&#x6B65;&#x9AA4;3&#xFF1A;&#x547D;&#x4EE4;&#x884C;&#x5B89;&#x88C5;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤1：准备操作系统镜像"><span class="toc-number">1.</span> <span class="toc-text">步骤1：准备操作系统镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤2：在宿主机上创建响应目录"><span class="toc-number">2.</span> <span class="toc-text">步骤2：在宿主机上创建响应目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤3：命令行安装"><span class="toc-number">3.</span> <span class="toc-text">步骤3：命令行安装</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

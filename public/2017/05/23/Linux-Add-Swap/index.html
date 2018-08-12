@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/05/23/Linux-Add-Swap/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="这台博客所在的服务器只有740M内存，云服务器默认也是没有给SWAP分区的。刚刚我想更新一下服务器的软件包，但是报了这么一个错： 123456789101112131415161718Error downloading packages:  php70w-xml-7.0.19-1.w7.x86_64: [Errno 5] [Errno 12] Cannot allocate memory  lib">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.144Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux学习笔记之添加SWAP分区">
 <meta name="twitter:description" content="这台博客所在的服务器只有740M内存，云服务器默认也是没有给SWAP分区的。刚刚我想更新一下服务器的软件包，但是报了这么一个错： 123456789101112131415161718Error downloading packages:  php70w-xml-7.0.19-1.w7.x86_64: [Errno 5] [Errno 12] Cannot allocate memory  lib">
@@ -293,7 +294,7 @@
         <p><span>本文标题:</span><a href="/2017/05/23/Linux-Add-Swap/">Linux学习笔记之添加SWAP分区</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年05月23日 - 22时53分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/23/Linux-Add-Swap/" title="Linux学习笔记之添加SWAP分区">http://blog.star-chen.com/2017/05/23/Linux-Add-Swap/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/05/23/Linux-Add-Swap/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -331,7 +332,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#dd分配出一块空间"><span class="toc-number">1.</span> <span class="toc-text"><a href="#dd&#x5206;&#x914D;&#x51FA;&#x4E00;&#x5757;&#x7A7A;&#x95F4;" class="headerlink" title="dd&#x5206;&#x914D;&#x51FA;&#x4E00;&#x5757;&#x7A7A;&#x95F4;"></a>dd&#x5206;&#x914D;&#x51FA;&#x4E00;&#x5757;&#x7A7A;&#x95F4;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将分配的空间格式化为SWAP格式"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x5C06;&#x5206;&#x914D;&#x7684;&#x7A7A;&#x95F4;&#x683C;&#x5F0F;&#x5316;&#x4E3A;SWAP&#x683C;&#x5F0F;" class="headerlink" title="&#x5C06;&#x5206;&#x914D;&#x7684;&#x7A7A;&#x95F4;&#x683C;&#x5F0F;&#x5316;&#x4E3A;SWAP&#x683C;&#x5F0F;"></a>&#x5C06;&#x5206;&#x914D;&#x7684;&#x7A7A;&#x95F4;&#x683C;&#x5F0F;&#x5316;&#x4E3A;SWAP&#x683C;&#x5F0F;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将格式化好的空间挂载上"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x5C06;&#x683C;&#x5F0F;&#x5316;&#x597D;&#x7684;&#x7A7A;&#x95F4;&#x6302;&#x8F7D;&#x4E0A;" class="headerlink" title="&#x5C06;&#x683C;&#x5F0F;&#x5316;&#x597D;&#x7684;&#x7A7A;&#x95F4;&#x6302;&#x8F7D;&#x4E0A;"></a>&#x5C06;&#x683C;&#x5F0F;&#x5316;&#x597D;&#x7684;&#x7A7A;&#x95F4;&#x6302;&#x8F7D;&#x4E0A;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开机自动挂载SWAP分区"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x6302;&#x8F7D;SWAP&#x5206;&#x533A;" class="headerlink" title="&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x6302;&#x8F7D;SWAP&#x5206;&#x533A;"></a>&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x6302;&#x8F7D;SWAP&#x5206;&#x533A;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#dd分配出一块空间"><span class="toc-number">1.</span> <span class="toc-text">dd分配出一块空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将分配的空间格式化为SWAP格式"><span class="toc-number">2.</span> <span class="toc-text">将分配的空间格式化为SWAP格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将格式化好的空间挂载上"><span class="toc-number">3.</span> <span class="toc-text">将格式化好的空间挂载上</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开机自动挂载SWAP分区"><span class="toc-number">4.</span> <span class="toc-text">开机自动挂载SWAP分区</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

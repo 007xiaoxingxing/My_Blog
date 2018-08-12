@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/03/11/Centos7-lnmp/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="Centos7 安装php7由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式. 首先rpm安装php7.0的yum源1[root@vultr ~]# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-rel">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.138Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS 7.2 搭建lnmp环境">
 <meta name="twitter:description" content="Centos7 安装php7由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式. 首先rpm安装php7.0的yum源1[root@vultr ~]# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-rel">
@@ -291,7 +292,7 @@
         <p><span>本文标题:</span><a href="/2017/03/11/Centos7-lnmp/">CentOS 7.2 搭建lnmp环境</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年03月11日 - 11时08分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/03/11/Centos7-lnmp/" title="CentOS 7.2 搭建lnmp环境">http://blog.star-chen.com/2017/03/11/Centos7-lnmp/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/03/11/Centos7-lnmp/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -329,7 +330,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos7-安装php7"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Centos7-&#x5B89;&#x88C5;php7" class="headerlink" title="Centos7 &#x5B89;&#x88C5;php7"></a>Centos7 &#x5B89;&#x88C5;php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先rpm安装php7-0的yum源"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x9996;&#x5148;rpm&#x5B89;&#x88C5;php7-0&#x7684;yum&#x6E90;" class="headerlink" title="&#x9996;&#x5148;rpm&#x5B89;&#x88C5;php7.0&#x7684;yum&#x6E90;"></a>&#x9996;&#x5148;rpm&#x5B89;&#x88C5;php7.0&#x7684;yum&#x6E90;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yum安装php7"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#yum&#x5B89;&#x88C5;php7" class="headerlink" title="yum&#x5B89;&#x88C5;php7"></a>yum&#x5B89;&#x88C5;php7</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装php-fpm"><span class="toc-number">2.</span> <span class="toc-text"><a href="#yum&#x5B89;&#x88C5;php-fpm" class="headerlink" title="yum&#x5B89;&#x88C5;php-fpm"></a>yum&#x5B89;&#x88C5;php-fpm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看php版本"><span class="toc-number">2.1.</span> <span class="toc-text"><a href="#&#x67E5;&#x770B;php&#x7248;&#x672C;" class="headerlink" title="&#x67E5;&#x770B;php&#x7248;&#x672C;"></a>&#x67E5;&#x770B;php&#x7248;&#x672C;</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装MariaDB"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x5B89;&#x88C5;MariaDB" class="headerlink" title="&#x5B89;&#x88C5;MariaDB"></a>&#x5B89;&#x88C5;MariaDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-php-fpm，让Nginx能够解析php请求"><span class="toc-number">4.</span> <span class="toc-text"><a href="#Nginx-php-fpm&#xFF0C;&#x8BA9;Nginx&#x80FD;&#x591F;&#x89E3;&#x6790;php&#x8BF7;&#x6C42;" class="headerlink" title="Nginx+php-fpm&#xFF0C;&#x8BA9;Nginx&#x80FD;&#x591F;&#x89E3;&#x6790;php&#x8BF7;&#x6C42;"></a>Nginx+php-fpm&#xFF0C;&#x8BA9;Nginx&#x80FD;&#x591F;&#x89E3;&#x6790;php&#x8BF7;&#x6C42;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos7-安装php7"><span class="toc-number">1.</span> <span class="toc-text">Centos7 安装php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#首先rpm安装php7-0的yum源"><span class="toc-number">1.1.</span> <span class="toc-text">首先rpm安装php7.0的yum源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yum安装php7"><span class="toc-number">1.2.</span> <span class="toc-text">yum安装php7</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装php-fpm"><span class="toc-number">2.</span> <span class="toc-text">yum安装php-fpm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看php版本"><span class="toc-number">2.1.</span> <span class="toc-text">查看php版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装MariaDB"><span class="toc-number">3.</span> <span class="toc-text">安装MariaDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-php-fpm，让Nginx能够解析php请求"><span class="toc-number">4.</span> <span class="toc-text">Nginx+php-fpm，让Nginx能够解析php请求</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

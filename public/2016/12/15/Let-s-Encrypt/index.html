@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议  HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.144Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">
 <meta name="twitter:description" content="0x1:Why?在聊HTTPS之前，先来了解一下被广泛使用的HTTP协议  HTTP函数作为请求-响应于协议的客户端-服务器计算模型。一个网络浏览器，例如，可以是客户机和一个计算机上运行的应用托管一个网站可以是服务器。该客户机提交一个HTTP 请求消息发送到服务器。服务器，它提供的资源如HTML文件和其他内容，或代表客户机的执行其它功能，返回一个响应消息给客户端。响应包含关于请求完成状态信息，并且">
@@ -293,17 +294,17 @@
 </ol>
 <p>创建一个目录，例如 <em>ssl</em>，用来存放各种临时文件和最红生成的证书文件。首先创建一个私钥文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#openssl genrsa 4096 &gt; account.key</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="2">
 <li>创建CSR文件</li>
 </ol>
 <p>生成CSR（Certificate Signing Request，证书签名请求）文件。需要准备一个域名私钥，这里我选择RSA私钥。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#openssl genrsa 4096 &gt; domain.key</span></span><br><span class="line"><span class="comment">#openssl req -new -sha256 -key domain.key -out domain.csr //手动生成csr文件，根据提示进行操作即可</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="3">
 <li>配置验证服务</li>
 </ol>
 <p>CA在颁发证书时，需要验证域名的所有权，证明你对该域名所在的服务器有操作的权限。Let’s Encrypt采用的是服务器上生成一个随机验证文件，再访问CSR中填写的域名，如果访问成功，则证明你对该域名有所有权。为了偷懒，我就不像那位博主一样建立单独的目录了，而是直接在我的web根目录建立一个隐藏目录，用来存放之后生成的随机验证文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mkdir -p /var/blog/.well-known/acme-challenge //建立验证文件存放目录</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="4">
 <li>获取HTTPS证书</li>
 </ol>
 <p>先下载一个acme-tiny的脚本，保存在<em>ssl</em>目录：</p>
@@ -315,7 +316,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem &gt; intermediate.pem</span></span><br><span class="line"><span class="comment">#cat signed.crt intermediate.pem &gt; chained.pem</span></span><br></pre></td></tr></table></figure>
 <p>再把根证书和中间证书合并在一起：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#wget -O - https://letsencrypt.org/certs/isrgrootx1.pem &gt; root.pem</span></span><br><span class="line"><span class="comment">#cat intermediate.pem root.pem &gt; full_chained.pem</span></span><br></pre></td></tr></table></figure>
-<ol>
+<ol start="5">
 <li><p>配置Nginx，开启https</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate     ~/ssl/chained.pem;</span><br><span class="line">ssl_certificate_key ~/ssl/domain.key;</span><br></pre></td></tr></table></figure>
 <p>​</p>
@@ -338,7 +339,7 @@
         <p><span>本文标题:</span><a href="/2016/12/15/Let-s-Encrypt/">Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月15日 - 15时01分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/15/Let-s-Encrypt/" title="Let&#39;s Encrypt &amp;&amp; Nginx配置证书，实现https访问">http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/15/Let-s-Encrypt/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -376,7 +377,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-Why"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x1-Why" class="headerlink" title="0x1:Why?"></a>0x1:Why?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-How"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x2-How" class="headerlink" title="0x2:How?"></a>0x2:How?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-That’s-All"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x3-That&#x2019;s-All" class="headerlink" title="0x3 That&#x2019;s All"></a>0x3 That&#x2019;s All</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-Why"><span class="toc-number">1.</span> <span class="toc-text">0x1:Why?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-How"><span class="toc-number">2.</span> <span class="toc-text">0x2:How?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-That’s-All"><span class="toc-number">3.</span> <span class="toc-text">0x3 That’s All</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

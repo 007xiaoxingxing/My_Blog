@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/19/PythonEpoll/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="0x1 啥是epoll？epoll - I/O event notification facility—事件驱动的io。 ​    在传统的网络编程中，listen，send，recv函数都是阻塞的。在一个过程中你只能乖乖的等着数据的到来才能进行下一步操作，这就非常影响效率了。为了解决阻塞的问题，先后有了select和poll方式来轮询io事件，这两种方式虽然已经提高了效率，但是他们是无差别轮询，">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.146Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在python中使用epoll实现非阻塞io">
 <meta name="twitter:description" content="0x1 啥是epoll？epoll - I/O event notification facility—事件驱动的io。 ​    在传统的网络编程中，listen，send，recv函数都是阻塞的。在一个过程中你只能乖乖的等着数据的到来才能进行下一步操作，这就非常影响效率了。为了解决阻塞的问题，先后有了select和poll方式来轮询io事件，这两种方式虽然已经提高了效率，但是他们是无差别轮询，">
@@ -304,7 +305,7 @@
         <p><span>本文标题:</span><a href="/2017/10/19/PythonEpoll/">在python中使用epoll实现非阻塞io</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月19日 - 15时08分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/19/PythonEpoll/" title="在python中使用epoll实现非阻塞io">http://blog.star-chen.com/2017/10/19/PythonEpoll/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/19/PythonEpoll/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -342,7 +343,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x1-啥是epoll？"><span class="toc-number">1.</span> <span class="toc-text"><a href="#0x1-&#x5565;&#x662F;epoll&#xFF1F;" class="headerlink" title="0x1 &#x5565;&#x662F;epoll&#xFF1F;"></a>0x1 &#x5565;&#x662F;epoll&#xFF1F;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x2-在python中咋用"><span class="toc-number">2.</span> <span class="toc-text"><a href="#0x2-&#x5728;python&#x4E2D;&#x548B;&#x7528;" class="headerlink" title="0x2 &#x5728;python&#x4E2D;&#x548B;&#x7528;"></a>0x2 &#x5728;python&#x4E2D;&#x548B;&#x7528;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x3-总结"><span class="toc-number">3.</span> <span class="toc-text"><a href="#0x3-&#x603B;&#x7ED3;" class="headerlink" title="0x3 &#x603B;&#x7ED3;"></a>0x3 &#x603B;&#x7ED3;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x1-啥是epoll？"><span class="toc-number">1.</span> <span class="toc-text">0x1 啥是epoll？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x2-在python中咋用"><span class="toc-number">2.</span> <span class="toc-text">0x2 在python中咋用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x3-总结"><span class="toc-number">3.</span> <span class="toc-text">0x3 总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

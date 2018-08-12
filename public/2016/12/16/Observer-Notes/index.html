@@ -12,8 +12,9 @@
 <meta property="og:url" content="http://blog.star-chen.com/2016/12/16/Observer-Notes/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="之前在学习java的过程中，总提到总会遇到“设计模式”，诸如工厂模式了，观察者模式了，单例模式了….看起来云里雾里的。趁最近空闲时间多了些，来把这些设计模式都熟悉一下。我看的书的《Head First 设计模式 》，这个系列的书看起来还蛮有意思的。不闲扯了，这篇博文是我学习“观察者模式”的笔记。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/ObserverUML.bmp">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.145Z">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式学习之观察者模式">
 <meta name="twitter:description" content="之前在学习java的过程中，总提到总会遇到“设计模式”，诸如工厂模式了，观察者模式了，单例模式了….看起来云里雾里的。趁最近空闲时间多了些，来把这些设计模式都熟悉一下。我看的书的《Head First 设计模式 》，这个系列的书看起来还蛮有意思的。不闲扯了，这篇博文是我学习“观察者模式”的笔记。">
@@ -278,8 +279,14 @@
 <p><img src="/blogimg/ObserverUML.bmp" alt="image"></p>
 <blockquote>
 <p>Subject接口：定义的主题接口，对象使用此接口注册为观察者，或者把自己从观察者之中删除</p>
+</blockquote>
+<blockquote>
 <p>Observer接口：所有潜在的观察者必须实现观察者接口，这个接口只有update方法，当主题状态改变时调用</p>
+</blockquote>
+<blockquote>
 <p>ConcreteSubject类：一个具体的主题，实现了Subject接口，除了注册和撤销方法，该主题还实现了notifyObserver()方法，用来在状态改变时，通知所有的观察者</p>
+</blockquote>
+<blockquote>
 <p>ConcreteObserver类：具体的观察者，它实现了Observer接口，观察者必须注册具体的Subject，才能够就收到更新事件的通知</p>
 </blockquote>
 <p>  接着来具体实现一下书上提供的气象站的例子：</p>
@@ -309,7 +316,7 @@
         <p><span>本文标题:</span><a href="/2016/12/16/Observer-Notes/">设计模式学习之观察者模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年12月16日 - 15时57分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/16/Observer-Notes/" title="设计模式学习之观察者模式">http://blog.star-chen.com/2016/12/16/Observer-Notes/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/12/16/Observer-Notes/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

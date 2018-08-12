@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/10/DjangoRESTframework-class-based-view/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="DjangoRESTframework    基于类的视图（Class-based Views）我们也能够使用基于类的视图来替代基于方法的视图。让我们来看看这个强大的模式，让我们重用许多基本方法，帮助我们保持代码的DRY(Don’t Repeat Yourself)。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.141Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DjangoRESTframework-基于类的视图（class-based views）">
 <meta name="twitter:description" content="DjangoRESTframework    基于类的视图（Class-based Views）我们也能够使用基于类的视图来替代基于方法的视图。让我们来看看这个强大的模式，让我们重用许多基本方法，帮助我们保持代码的DRY(Don’t Repeat Yourself)。">
@@ -295,7 +296,7 @@
         <p><span>本文标题:</span><a href="/2017/10/10/DjangoRESTframework-class-based-view/">DjangoRESTframework-基于类的视图（class-based views）</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月10日 - 17时13分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/10/DjangoRESTframework-class-based-view/" title="DjangoRESTframework-基于类的视图（class-based views）">http://blog.star-chen.com/2017/10/10/DjangoRESTframework-class-based-view/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/10/DjangoRESTframework-class-based-view/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -333,7 +334,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-基于类的视图（Class-based-Views）"><span class="toc-number">1.</span> <span class="toc-text"><a href="#DjangoRESTframework-&#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#xFF08;Class-based-Views&#xFF09;" class="headerlink" title="DjangoRESTframework    &#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#xFF08;Class-based Views&#xFF09;"></a>DjangoRESTframework    &#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#xFF08;Class-based Views&#xFF09;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#利用基于类的视图重写我们的API"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#&#x5229;&#x7528;&#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#x91CD;&#x5199;&#x6211;&#x4EEC;&#x7684;API" class="headerlink" title="&#x5229;&#x7528;&#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#x91CD;&#x5199;&#x6211;&#x4EEC;&#x7684;API"></a>&#x5229;&#x7528;&#x57FA;&#x4E8E;&#x7C7B;&#x7684;&#x89C6;&#x56FE;&#x91CD;&#x5199;&#x6211;&#x4EEC;&#x7684;API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用mixins（Use-mixins）"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;mixins&#xFF08;Use-mixins&#xFF09;" class="headerlink" title="&#x4F7F;&#x7528;mixins&#xFF08;Use mixins&#xFF09;"></a>&#x4F7F;&#x7528;mixins&#xFF08;Use mixins&#xFF09;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用基于generic-class的视图"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x57FA;&#x4E8E;generic-class&#x7684;&#x89C6;&#x56FE;" class="headerlink" title="&#x4F7F;&#x7528;&#x57FA;&#x4E8E;generic class&#x7684;&#x89C6;&#x56FE;"></a>&#x4F7F;&#x7528;&#x57FA;&#x4E8E;generic class&#x7684;&#x89C6;&#x56FE;</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-基于类的视图（Class-based-Views）"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework    基于类的视图（Class-based Views）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#利用基于类的视图重写我们的API"><span class="toc-number">1.1.</span> <span class="toc-text">利用基于类的视图重写我们的API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用mixins（Use-mixins）"><span class="toc-number">1.2.</span> <span class="toc-text">使用mixins（Use mixins）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用基于generic-class的视图"><span class="toc-number">1.3.</span> <span class="toc-text">使用基于generic class的视图</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

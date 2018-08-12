@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/12/python-kwargs/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="Python中的**kwargs的用法*kwargs 允许你将不定长度的键值对作为参数传递给一个函数。如果你想要在一个函数里处理带名字的参数，使用\*kwargs是一个好选择。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.147Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.294Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python-**kwargs的用法">
 <meta name="twitter:description" content="Python中的**kwargs的用法*kwargs 允许你将不定长度的键值对作为参数传递给一个函数。如果你想要在一个函数里处理带名字的参数，使用\*kwargs是一个好选择。">
@@ -264,7 +265,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="Python中的-kwargs的用法"><a href="#Python中的-kwargs的用法" class="headerlink" title="Python中的**kwargs的用法"></a>Python中的**kwargs的用法</h3><p><em>*kwargs 允许你将不定长度的键值对作为参数传递给一个函数。如果你想要在一个函数里处理带名字的参数，使用\</em>*kwargs是一个好选择。</p>
+        <h3 id="Python中的-kwargs的用法"><a href="#Python中的-kwargs的用法" class="headerlink" title="Python中的**kwargs的用法"></a>Python中的**kwargs的用法</h3><p>*<em>kwargs 允许你将不定长度的键值对作为参数传递给一个函数。如果你想要在一个函数里处理带名字的参数，使用\</em>*kwargs是一个好选择。</p>
 <a id="more"></a>
 <p>来看个例子感受一下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'args = '</span>, args</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'kwargs = '</span>, kwargs</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'---------------------------------------'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    foo(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line">    foo(a=<span class="number">1</span>,b=<span class="number">2</span>,c=<span class="number">3</span>)</span><br><span class="line">    foo(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>, a=<span class="number">1</span>,b=<span class="number">2</span>,c=<span class="number">3</span>)</span><br><span class="line">    foo(<span class="string">'a'</span>, <span class="number">1</span>, <span class="keyword">None</span>, a=<span class="number">1</span>, b=<span class="string">'2'</span>, c=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
@@ -287,7 +288,7 @@
         <p><span>本文标题:</span><a href="/2017/10/12/python-kwargs/">python-**kwargs的用法</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月12日 - 12时55分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/12/python-kwargs/" title="python-**kwargs的用法">http://blog.star-chen.com/2017/10/12/python-kwargs/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/12/python-kwargs/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -325,7 +326,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中的-kwargs的用法"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Python&#x4E2D;&#x7684;-kwargs&#x7684;&#x7528;&#x6CD5;" class="headerlink" title="Python&#x4E2D;&#x7684;**kwargs&#x7684;&#x7528;&#x6CD5;"></a>Python&#x4E2D;&#x7684;**kwargs&#x7684;&#x7528;&#x6CD5;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python中的-kwargs的用法"><span class="toc-number">1.</span> <span class="toc-text">Python中的**kwargs的用法</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

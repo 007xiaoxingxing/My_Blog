@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
-<meta property="og:updated_time" content="2018-03-21T12:37:47.371Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-26T12:20:03.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从Django1.x迁移至2.0需要注意的几个点">
 <meta name="twitter:description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
@@ -306,7 +307,7 @@
         <p><span>本文标题:</span><a href="/2018/03/21/Migrate-Django1-x-To-Django2-0/">从Django1.x迁移至2.0需要注意的几个点</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2018年03月21日 - 13时54分</p>
-        <p><span>最后更新:</span>2018年03月21日 - 20时37分</p>
+        <p><span>最后更新:</span>2018年03月26日 - 20时20分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/03/21/Migrate-Django1-x-To-Django2-0/" title="从Django1.x迁移至2.0需要注意的几个点">http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2018/03/21/Migrate-Django1-x-To-Django2-0/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -344,7 +345,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL的匹配规则"><span class="toc-number">1.</span> <span class="toc-text"><a href="#URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;" class="headerlink" title="URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;"></a>URL&#x7684;&#x5339;&#x914D;&#x89C4;&#x5219;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIDDLEWARE的变化"><span class="toc-number">2.</span> <span class="toc-text"><a href="#MIDDLEWARE&#x7684;&#x53D8;&#x5316;" class="headerlink" title="MIDDLEWARE&#x7684;&#x53D8;&#x5316;"></a>MIDDLEWARE&#x7684;&#x53D8;&#x5316;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#User-is-authenticated-和User-is-anonymous"><span class="toc-number">3.</span> <span class="toc-text"><a href="#User-is-authenticated-&#x548C;User-is-anonymous" class="headerlink" title="User.is_authenticated &#x548C;User.is_anonymous"></a>User.is_authenticated &#x548C;User.is_anonymous</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#外键的on-delete属性"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x5916;&#x952E;&#x7684;on-delete&#x5C5E;&#x6027;" class="headerlink" title="&#x5916;&#x952E;&#x7684;on_delete&#x5C5E;&#x6027;"></a>&#x5916;&#x952E;&#x7684;on_delete&#x5C5E;&#x6027;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#django-filters的变化"><span class="toc-number">5.</span> <span class="toc-text"><a href="#django-filters&#x7684;&#x53D8;&#x5316;" class="headerlink" title="django-filters&#x7684;&#x53D8;&#x5316;"></a>django-filters&#x7684;&#x53D8;&#x5316;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL的匹配规则"><span class="toc-number">1.</span> <span class="toc-text">URL的匹配规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIDDLEWARE的变化"><span class="toc-number">2.</span> <span class="toc-text">MIDDLEWARE的变化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#User-is-authenticated-和User-is-anonymous"><span class="toc-number">3.</span> <span class="toc-text">User.is_authenticated 和User.is_anonymous</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#外键的on-delete属性"><span class="toc-number">4.</span> <span class="toc-text">外键的on_delete属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#django-filters的变化"><span class="toc-number">5.</span> <span class="toc-text">django-filters的变化</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

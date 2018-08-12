@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2018/08/07/Docker-KMS-Windows-Activate/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="今天一位同事在激活自己的windows 10专业版系统的时候遇到点问题，于是乎有了下文。本来可以使用https://hub.docker.com/r/luodaoyi/kms-server/提供的kms.luodaoyi.info这台kms服务器进行激活操作，但是telnet尝试了一下，发现目标服务器的1688端口没有开放，那只好自己拉一下镜像到自己的服务器上跑一个kms了。">
-<meta property="og:updated_time" content="2018-08-07T05:44:32.040Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-12T11:03:26.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建用于激活Windows系统和Office的Docker">
 <meta name="twitter:description" content="今天一位同事在激活自己的windows 10专业版系统的时候遇到点问题，于是乎有了下文。本来可以使用https://hub.docker.com/r/luodaoyi/kms-server/提供的kms.luodaoyi.info这台kms服务器进行激活操作，但是telnet尝试了一下，发现目标服务器的1688端口没有开放，那只好自己拉一下镜像到自己的服务器上跑一个kms了。">
@@ -285,7 +286,7 @@
         <p><span>本文标题:</span><a href="/2018/08/07/Docker-KMS-Windows-Activate/">搭建用于激活Windows系统和Office的Docker</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2018年08月07日 - 13时31分</p>
-        <p><span>最后更新:</span>2018年08月07日 - 13时44分</p>
+        <p><span>最后更新:</span>2018年08月12日 - 19时03分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/08/07/Docker-KMS-Windows-Activate/" title="搭建用于激活Windows系统和Office的Docker">http://blog.star-chen.com/2018/08/07/Docker-KMS-Windows-Activate/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2018/08/07/Docker-KMS-Windows-Activate/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -314,7 +315,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#拉取镜像"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x62C9;&#x53D6;&#x955C;&#x50CF;" class="headerlink" title="&#x62C9;&#x53D6;&#x955C;&#x50CF;"></a>&#x62C9;&#x53D6;&#x955C;&#x50CF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RUN镜像"><span class="toc-number">2.</span> <span class="toc-text"><a href="#RUN&#x955C;&#x50CF;" class="headerlink" title="RUN&#x955C;&#x50CF;"></a>RUN&#x955C;&#x50CF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#激活系统"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x6FC0;&#x6D3B;&#x7CFB;&#x7EDF;" class="headerlink" title="&#x6FC0;&#x6D3B;&#x7CFB;&#x7EDF;"></a>&#x6FC0;&#x6D3B;&#x7CFB;&#x7EDF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#激活Office"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x6FC0;&#x6D3B;Office" class="headerlink" title="&#x6FC0;&#x6D3B;Office"></a>&#x6FC0;&#x6D3B;Office</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#拉取镜像"><span class="toc-number">1.</span> <span class="toc-text">拉取镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RUN镜像"><span class="toc-number">2.</span> <span class="toc-text">RUN镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#激活系统"><span class="toc-number">3.</span> <span class="toc-text">激活系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#激活Office"><span class="toc-number">4.</span> <span class="toc-text">激活Office</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

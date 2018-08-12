@@ -12,7 +12,8 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="DjangoRESTframework    Schemas &amp;amp; client librariesshema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。 shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.140Z">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DjangoRESTframework-Schema和客户端类库">
 <meta name="twitter:description" content="DjangoRESTframework    Schemas &amp;amp; client librariesshema是一种机器可读的文档，描述了可用的API端点、它们的url以及它们支持的操作。 shema可以成为自动生成文档的有用工具，还可以用于驱动与API交互的动态客户端库。">
@@ -319,7 +320,7 @@
         <p><span>本文标题:</span><a href="/2017/10/11/DjangoRESTframework-SchemaClientLib/">DjangoRESTframework-Schema和客户端类库</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年10月11日 - 12时28分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/11/DjangoRESTframework-SchemaClientLib/" title="DjangoRESTframework-Schema和客户端类库">http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/10/11/DjangoRESTframework-SchemaClientLib/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -357,7 +358,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-Schemas-amp-client-libraries"><span class="toc-number">1.</span> <span class="toc-text"><a href="#DjangoRESTframework-Schemas-amp-client-libraries" class="headerlink" title="DjangoRESTframework    Schemas &amp; client libraries"></a>DjangoRESTframework    Schemas &amp; client libraries</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Core-API"><span class="toc-number">1.1.</span> <span class="toc-text"><a href="#Core-API" class="headerlink" title="Core API"></a>Core API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加schema"><span class="toc-number">1.2.</span> <span class="toc-text"><a href="#&#x6DFB;&#x52A0;schema" class="headerlink" title="&#x6DFB;&#x52A0;schema"></a>&#x6DFB;&#x52A0;schema</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用命令行的客户端"><span class="toc-number">1.3.</span> <span class="toc-text"><a href="#&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x5BA2;&#x6237;&#x7AEF;" class="headerlink" title="&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x5BA2;&#x6237;&#x7AEF;"></a>&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x5BA2;&#x6237;&#x7AEF;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端登录认证"><span class="toc-number">1.4.</span> <span class="toc-text"><a href="#&#x5BA2;&#x6237;&#x7AEF;&#x767B;&#x5F55;&#x8BA4;&#x8BC1;" class="headerlink" title="&#x5BA2;&#x6237;&#x7AEF;&#x767B;&#x5F55;&#x8BA4;&#x8BC1;"></a>&#x5BA2;&#x6237;&#x7AEF;&#x767B;&#x5F55;&#x8BA4;&#x8BC1;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回顾一下我们的工作"><span class="toc-number">1.5.</span> <span class="toc-text"><a href="#&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;" class="headerlink" title="&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;"></a>&#x56DE;&#x987E;&#x4E00;&#x4E0B;&#x6211;&#x4EEC;&#x7684;&#x5DE5;&#x4F5C;</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-Schemas-amp-client-libraries"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework    Schemas &amp; client libraries</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Core-API"><span class="toc-number">1.1.</span> <span class="toc-text">Core API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#添加schema"><span class="toc-number">1.2.</span> <span class="toc-text">添加schema</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用命令行的客户端"><span class="toc-number">1.3.</span> <span class="toc-text">使用命令行的客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端登录认证"><span class="toc-number">1.4.</span> <span class="toc-text">客户端登录认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#回顾一下我们的工作"><span class="toc-number">1.5.</span> <span class="toc-text">回顾一下我们的工作</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

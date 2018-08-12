@@ -12,8 +12,9 @@
 <meta property="og:url" content="http://blog.star-chen.com/2017/06/02/CompileNgrok/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/fan.png">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.138Z">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在自己的VPS上编译部署Ngrok">
 <meta name="twitter:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
@@ -321,7 +322,7 @@
         <p><span>本文标题:</span><a href="/2017/06/02/CompileNgrok/">在自己的VPS上编译部署Ngrok</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2017年06月02日 - 11时12分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/06/02/CompileNgrok/" title="在自己的VPS上编译部署Ngrok">http://blog.star-chen.com/2017/06/02/CompileNgrok/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2017/06/02/CompileNgrok/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -359,7 +360,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ngrok是个啥？"><span class="toc-number">1.</span> <span class="toc-text"><a href="#Ngrok&#x662F;&#x4E2A;&#x5565;&#xFF1F;" class="headerlink" title="Ngrok&#x662F;&#x4E2A;&#x5565;&#xFF1F;"></a>Ngrok&#x662F;&#x4E2A;&#x5565;&#xFF1F;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text"><a href="#&#x51C6;&#x5907;&#x5DE5;&#x4F5C;" class="headerlink" title="&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"></a>&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始编译"><span class="toc-number">3.</span> <span class="toc-text"><a href="#&#x5F00;&#x59CB;&#x7F16;&#x8BD1;" class="headerlink" title="&#x5F00;&#x59CB;&#x7F16;&#x8BD1;"></a>&#x5F00;&#x59CB;&#x7F16;&#x8BD1;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行测试"><span class="toc-number">4.</span> <span class="toc-text"><a href="#&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;" class="headerlink" title="&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;"></a>&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ngrok是个啥？"><span class="toc-number">1.</span> <span class="toc-text">Ngrok是个啥？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始编译"><span class="toc-number">3.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行测试"><span class="toc-number">4.</span> <span class="toc-text">运行测试</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 

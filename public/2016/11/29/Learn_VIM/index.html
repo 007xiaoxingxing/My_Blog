@@ -12,8 +12,9 @@
 <meta property="og:url" content="http://blog.star-chen.com/2016/11/29/Learn_VIM/index.html">
 <meta property="og:site_name" content="STAR-CHEN&#39;s BLOG">
 <meta property="og:description" content="动手学VIM编辑器0x1:What is VIM editor?  vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://blog.star-chen.com/blogimg/vim-help.png">
-<meta property="og:updated_time" content="2017-11-30T16:47:43.144Z">
+<meta property="og:updated_time" content="2018-03-05T13:27:34.285Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Learn VIM">
 <meta name="twitter:description" content="动手学VIM编辑器0x1:What is VIM editor?  vi编辑器通常被简称为vi，而vi又是visual editor的简称  。它在Linux上的地位就像Edit程序在DOS上一样。它可以执行输出、删除、查找、替换、块操作等众多文本操作，而且用户可以根据自己的需要对其进行定制，这是其他编辑程序所没有的。vi 编辑器并不是一个排版程序，它不像Word或WPS那样可以对字体、格式、段落">
@@ -332,36 +333,72 @@
 <p>0x4 移动光标<br>在进行编辑的时候，可能需要移动光标位置，进行修改或者输入新的内容，除了使用方向键之外，在命令模式下，使用hmjkl也能够快速的移动光标。</p>
 <blockquote>
 <p>k:向上移动光标  </p>
+</blockquote>
+<blockquote>
 <p>j:向下移动光标  </p>
+</blockquote>
+<blockquote>
 <p>h:向前移动光标  </p>
+</blockquote>
+<blockquote>
 <p>l:向右移动光标  </p>
 </blockquote>
 <p>这种感觉有点像玩FPS游戏的wasd方式，不过是把操作放在了右手上而已。用起来感觉还蛮不错的。</p>
 <p>0x5 删除文本<br>使用退格键或者delete键可以删除当前光标前或所在处的字符，然而在VIM中还可以使用命令来删除我们想删除的内容哦。  </p>
 <blockquote>
 <p>x :删除当前光标所在处的字符，如果想删除多个字符，连续着按。 </p>
+</blockquote>
+<blockquote>
 <p>dd  :删除当前光标所在行，如果想删除多行，可以用ndd的方式，n为你想删除的行数。  </p>
+</blockquote>
+<blockquote>
 <p>dw :删除光标处的单词，包括词尾的空格。  </p>
+</blockquote>
+<blockquote>
 <p>de :删除当前光标所在处的单词，和dw的区别在于保留了单词词尾的空格。  </p>
+</blockquote>
+<blockquote>
 <p>d^ :删除当前光标所在位置到行首的所有字符。  </p>
+</blockquote>
+<blockquote>
 <p>d$ :删除当前光标到行尾的所有字符。  </p>
+</blockquote>
+<blockquote>
 <p>J :将当前光标所在行和下一行合并（删除行尾的换行符）</p>
 </blockquote>
 <p>0x6 撤销和恢复  </p>
 <blockquote>
 <p>u :撤销上一步操作，可多次使用。  </p>
+</blockquote>
+<blockquote>
 <p>Ctrl+r :放弃上一次撤销操作，可使用多次。</p>
 </blockquote>
 <p>0x7 快速移动光标  </p>
 <blockquote>
 <p>b :将光标移动到当前光标所在单词的前一个单词的首字母，可以使nb，即移动n个单词的位置。  </p>
+</blockquote>
+<blockquote>
 <p>w :将光标移动到当前光标的后一个单词的首字母，可以使nw，即移动到n个单词后的首字母。  </p>
+</blockquote>
+<blockquote>
 <p>e :移动到后一个单词的尾字母，可以使ne，效果与之前的效果类似。  </p>
+</blockquote>
+<blockquote>
 <p>ge :与e的作用相反，移动光标至前一个单词的尾字母，也可是是nge，n表示需要跨过的单词数目。  </p>
+</blockquote>
+<blockquote>
 <p>^ :快速移动光标到行首，Home键，0键也可以移动光标的行首。  </p>
+</blockquote>
+<blockquote>
 <p>$ :快速移动光标到行尾，End键也可以移动光标到行尾。n$,可以将光标移动到当前行之后n-1行的末尾。  </p>
+</blockquote>
+<blockquote>
 <p>g :跳到当前文本的第一行，也可以使用1G。  </p>
+</blockquote>
+<blockquote>
 <p>G :跳到当前文本的最后一行。  </p>
+</blockquote>
+<blockquote>
 <p>nG :跳转到第n行，其中n为一个正整数。</p>
 </blockquote>
 <p>当然，咱们的鼠标也是可以定位光标的，哪里需要点哪里！</p>
@@ -404,7 +441,7 @@
         <p><span>本文标题:</span><a href="/2016/11/29/Learn_VIM/">Learn VIM</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 STAR-CHEN 的个人博客">STAR-CHEN</a></p>
         <p><span>发布时间:</span>2016年11月29日 - 19时25分</p>
-        <p><span>最后更新:</span>2017年12月01日 - 00时47分</p>
+        <p><span>最后更新:</span>2018年03月05日 - 21时27分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/29/Learn_VIM/" title="Learn VIM">http://blog.star-chen.com/2016/11/29/Learn_VIM/</a>
             <span class="copy-path" data-clipboard-text="原文: http://blog.star-chen.com/2016/11/29/Learn_VIM/　　作者: STAR-CHEN" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -442,7 +479,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动手学VIM编辑器"><span class="toc-number">1.</span> <span class="toc-text"><a href="#&#x52A8;&#x624B;&#x5B66;VIM&#x7F16;&#x8F91;&#x5668;" class="headerlink" title="&#x52A8;&#x624B;&#x5B66;VIM&#x7F16;&#x8F91;&#x5668;"></a>&#x52A8;&#x624B;&#x5B66;VIM&#x7F16;&#x8F91;&#x5668;</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#动手学VIM编辑器"><span class="toc-number">1.</span> <span class="toc-text">动手学VIM编辑器</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
