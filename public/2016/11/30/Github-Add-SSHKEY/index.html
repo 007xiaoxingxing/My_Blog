@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥   12345678910111213141516171819202122232425user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~&#x2F;.ssh&#x2F;PCWI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github配置ssh key">
+<meta property="og:url" content="http://example.com/2016/11/30/Github-Add-SSHKEY/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="配置ssh key，免密码提交代码至github0x01:在本机生成ssh所需的公钥和私钥   12345678910111213141516171819202122232425user@user MINGW64 ~$ cd ~user@user MINGW64 ~$ ssh-keygen -t rsa -C &quot;hahaha9@gmail.com&quot; -f ~&#x2F;.ssh&#x2F;PCWI">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/gitsshkey.png">
+<meta property="article:published_time" content="2016-11-30T02:43:18.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.157Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="ssh key">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/gitsshkey.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>github配置ssh key</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2016/12/04/PIL-Grab/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2016/11/29/Learn_VIM/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/11/30/Github-Add-SSHKEY/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&text=github配置ssh key"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&is_video=false&description=github配置ssh key"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=github配置ssh key&body=Check out this article: http://example.com/2016/11/30/Github-Add-SSHKEY/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&name=github配置ssh key&description=&lt;h3 id=&#34;配置ssh-key，免密码提交代码至github&#34;&gt;&lt;a href=&#34;#配置ssh-key，免密码提交代码至github&#34; class=&#34;headerlink&#34; title=&#34;配置ssh key，免密码提交代码至github&#34;&gt;&lt;/a&gt;配置ssh key，免密码提交代码至github&lt;/h3&gt;&lt;p&gt;0x01:在本机生成ssh所需的公钥和私钥  &lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;user@user MINGW64 ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ &lt;span class=&#34;built_in&#34;&gt;cd&lt;/span&gt; ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;user@user MINGW64 ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ ssh-keygen -t rsa -C &lt;span class=&#34;string&#34;&gt;&amp;quot;hahaha9@gmail.com&amp;quot;&lt;/span&gt; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥名称，也可以不指定，默认为id_rsa）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Generating public/private rsa key pair.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Enter passphrase (empty &lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Enter same passphrase again:（重复刚刚的密码）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Your identification has been saved &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; PCWIN10.（生成的私钥）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Your public key has been saved &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;The key fingerprint is:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;The key&lt;span class=&#34;string&#34;&gt;&amp;#x27;s randomart image is:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;+---[RSA 2048]----+&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| .+ooBo*+        |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| o.+= O.*.       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|. o..=.X..       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| .  o.=..        |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|     + +So       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|    . E o o      |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|       + . +.    |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|      o + oooo   |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|       + o..o..  |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;+----[SHA256]-----+&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/11/30/Github-Add-SSHKEY/&t=github配置ssh key"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEssh-key%EF%BC%8C%E5%85%8D%E5%AF%86%E7%A0%81%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81%E8%87%B3github"><span class="toc-number">1.</span> <span class="toc-text">配置ssh key，免密码提交代码至github</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        github配置ssh key
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-11-30T02:43:18.000Z" itemprop="datePublished">2016-11-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/github/" rel="tag">github</a>, <a class="tag-link-link" href="/tags/ssh-key/" rel="tag">ssh key</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="配置ssh-key，免密码提交代码至github"><a href="#配置ssh-key，免密码提交代码至github" class="headerlink" title="配置ssh key，免密码提交代码至github"></a>配置ssh key，免密码提交代码至github</h3><p>0x01:在本机生成ssh所需的公钥和私钥  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">user@user MINGW64 ~</span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line"></span><br><span class="line">user@user MINGW64 ~</span><br><span class="line">$ ssh-keygen -t rsa -C <span class="string">&quot;hahaha9@gmail.com&quot;</span> -f ~/.ssh/PCWIN10（-f参数指定生成的密钥名称，也可以不指定，默认为id_rsa）</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)</span><br><span class="line">Enter same passphrase again:（重复刚刚的密码）</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> PCWIN10.（生成的私钥）</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com</span><br><span class="line">The key<span class="string">&#x27;s randomart image is:</span></span><br><span class="line"><span class="string">+---[RSA 2048]----+</span></span><br><span class="line"><span class="string">| .+ooBo*+        |</span></span><br><span class="line"><span class="string">| o.+= O.*.       |</span></span><br><span class="line"><span class="string">|. o..=.X..       |</span></span><br><span class="line"><span class="string">| .  o.=..        |</span></span><br><span class="line"><span class="string">|     + +So       |</span></span><br><span class="line"><span class="string">|    . E o o      |</span></span><br><span class="line"><span class="string">|       + . +.    |</span></span><br><span class="line"><span class="string">|      o + oooo   |</span></span><br><span class="line"><span class="string">|       + o..o..  |</span></span><br><span class="line"><span class="string">+----[SHA256]-----+</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>0x2:添加ssh key至github网站<br><img src="/blogimg/gitsshkey.png" alt="image"></p>
+<p>0x3:将私钥添加到本地gitbash  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-agent bash --login -i</span><br><span class="line">$ ssh-add ~/.ssh/PCWIN10(你自己的私钥的路径)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>0x4:本地测试是否已经正常</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi xxxx! You<span class="string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<p>已经认证成功。</p>
+<p>0x4:将https提交类型的remote设置为ssh类型<br>查看当前本地仓库的远程仓库链接，发现是https类型的，提交代码的时候会要求输入github的帐号和密码，比较麻烦，我们将它改成ssh类型的，加上之前设置的ssh key，就可以实现免密码提交代码了。Let’s do it！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  https://github.com/yourname/My_Blog.git (fetch)</span><br><span class="line">origin  https://github.com/yourname/My_Blog.git (push)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>0x5:更改远程仓库链接为ssh类型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote set-url origin git@github.com:你的github用户名/你的远程仓库名.git</span><br></pre></td></tr></table></figure>
+<p>再次查看远程仓库链接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  git@github.com:yourname/xxx.git (fetch)</span><br><span class="line">origin  git@github.com:xxxx/xxx.git (push)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>0x6:在”~&#x2F;.ssh”下新建一个名为config的配置文件，内容如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> ~/.ssh/config</span><br><span class="line">Host github.com</span><br><span class="line">        HostName github.com</span><br><span class="line">        PreferredAuthentications publickey</span><br><span class="line">        IdentityFile ~/.ssh/PCWIN10</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>0x7: 使用密钥来登录github进行操作，免除输入帐号，密码的麻烦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi xxxx! You<span class="string">&#x27;ve successfully authenticated, but GitHub does not provide shell access.(测试通过，说明咱们已经成功利用ssh密钥登录了)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$ git push（提交一下本地的代码）</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<p>ps: ssh-agent</p>
+<blockquote>
+<p>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序，ssh-agent其实就是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEssh-key%EF%BC%8C%E5%85%8D%E5%AF%86%E7%A0%81%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81%E8%87%B3github"><span class="toc-number">1.</span> <span class="toc-text">配置ssh key，免密码提交代码至github</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/11/30/Github-Add-SSHKEY/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&text=github配置ssh key"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&is_video=false&description=github配置ssh key"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=github配置ssh key&body=Check out this article: http://example.com/2016/11/30/Github-Add-SSHKEY/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&title=github配置ssh key"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/11/30/Github-Add-SSHKEY/&name=github配置ssh key&description=&lt;h3 id=&#34;配置ssh-key，免密码提交代码至github&#34;&gt;&lt;a href=&#34;#配置ssh-key，免密码提交代码至github&#34; class=&#34;headerlink&#34; title=&#34;配置ssh key，免密码提交代码至github&#34;&gt;&lt;/a&gt;配置ssh key，免密码提交代码至github&lt;/h3&gt;&lt;p&gt;0x01:在本机生成ssh所需的公钥和私钥  &lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;user@user MINGW64 ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ &lt;span class=&#34;built_in&#34;&gt;cd&lt;/span&gt; ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;user@user MINGW64 ~&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ ssh-keygen -t rsa -C &lt;span class=&#34;string&#34;&gt;&amp;quot;hahaha9@gmail.com&amp;quot;&lt;/span&gt; -f ~/.ssh/PCWIN10（-f参数指定生成的密钥名称，也可以不指定，默认为id_rsa）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Generating public/private rsa key pair.&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Enter passphrase (empty &lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; no passphrase):(这里需要输入密码，如果为空，提交的时候就不需要输入密码)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Enter same passphrase again:（重复刚刚的密码）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Your identification has been saved &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; PCWIN10.（生成的私钥）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Your public key has been saved &lt;span class=&#34;keyword&#34;&gt;in&lt;/span&gt; PCWIN10.pub.（生成的公钥，需要把这个文件中的内容提交到github上）&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;The key fingerprint is:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;SHA256:IIhHNNc8fLREgPg1N+YEuQyUudsTHrtzY7f1yMMYjCM hahaha9@gmail.com&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;The key&lt;span class=&#34;string&#34;&gt;&amp;#x27;s randomart image is:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;+---[RSA 2048]----+&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| .+ooBo*+        |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| o.+= O.*.       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|. o..=.X..       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;| .  o.=..        |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|     + +So       |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|    . E o o      |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|       + . +.    |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|      o + oooo   |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;|       + o..o..  |&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;+----[SHA256]-----+&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;string&#34;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/11/30/Github-Add-SSHKEY/&t=github配置ssh key"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

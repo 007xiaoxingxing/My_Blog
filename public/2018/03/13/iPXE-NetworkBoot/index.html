@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最近我对网络启动产生了浓厚的兴趣，很想亲自搭建一个环境来尝试一下，于是就有了一系列的折腾过程。本篇记录的是使用iPXE来网络启动，自动安装CentOS系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派搭建iPXE服务并实现无人职守安装CentOS 7">
+<meta property="og:url" content="http://example.com/2018/03/13/iPXE-NetworkBoot/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="最近我对网络启动产生了浓厚的兴趣，很想亲自搭建一个环境来尝试一下，于是就有了一系列的折腾过程。本篇记录的是使用iPXE来网络启动，自动安装CentOS系统。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/vmware_ipxe.gif">
+<meta property="og:image" content="http://example.com/blogimg/vbox_ipxe.gif">
+<meta property="article:published_time" content="2018-03-13T03:39:55.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.183Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="iPXE netboot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/vmware_ipxe.gif">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>树莓派搭建iPXE服务并实现无人职守安装CentOS 7</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2018/03/14/iPXE-WinPE/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2018/03/08/web-vnc/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/13/iPXE-NetworkBoot/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&text=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&is_video=false&description=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=树莓派搭建iPXE服务并实现无人职守安装CentOS 7&body=Check out this article: http://example.com/2018/03/13/iPXE-NetworkBoot/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&name=树莓派搭建iPXE服务并实现无人职守安装CentOS 7&description=&lt;p&gt;最近我对网络启动产生了浓厚的兴趣，很想亲自搭建一个环境来尝试一下，于是就有了一系列的折腾过程。本篇记录的是使用iPXE来网络启动，自动安装CentOS系统。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/13/iPXE-NetworkBoot/&t=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">基本技术介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AF%E7%A1%AC%E4%BB%B6%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">软硬件环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%89%80%E9%9C%80%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F%E5%92%8Cpxe%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">准备所需的系统镜像和pxe文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">服务测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CentOS%E6%97%A0%E4%BA%BA%E8%81%8C%E5%AE%88%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">CentOS无人职守自动安装</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        树莓派搭建iPXE服务并实现无人职守安装CentOS 7
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-03-13T03:39:55.000Z" itemprop="datePublished">2018-03-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/iPXE-netboot/" rel="tag">iPXE netboot</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近我对网络启动产生了浓厚的兴趣，很想亲自搭建一个环境来尝试一下，于是就有了一系列的折腾过程。本篇记录的是使用iPXE来网络启动，自动安装CentOS系统。</p>
+<span id="more"></span>
+
+<h4 id="基本技术介绍"><a href="#基本技术介绍" class="headerlink" title="基本技术介绍"></a>基本技术介绍</h4><p>PXE:</p>
+<p>​    PXE(preboot execute environment，预启动执行环境)是由Intel公司开发的最新技术，工作于Client&#x2F;Server的网络模式，支持工作站通过网络从远端服务器下载映像，并由此支持通过网络启动操作系统，在启动过程中，终端要求服务器分配IP地址，再用TFTP（trivial file transfer protocol）或MTFTP(multicast trivial file transfer protocol)协议下载一个启动软件包到本机内存中执行，由这个启动软件包完成终端（客户端）基本软件设置，从而引导预先安装在服务器中的终端操作系统。PXE可以引导多种操作系统，如:Windows95&#x2F;98&#x2F;2000&#x2F;windows2003&#x2F;windows2008&#x2F;winXP&#x2F;win7&#x2F;win8,linux系列系统等。</p>
+<p>iPXE:</p>
+<p>​    iPXE is the leading open source network boot firmware. It provides a full PXE implementation enhanced with additional features such as:</p>
+<p>boot from a web server via HTTP<br>boot from an iSCSI SAN<br>boot from a Fibre Channel SAN via FCoE<br>boot from an AoE SAN<br>boot from a wireless network<br>boot from a wide-area network<br>boot from an Infiniband network<br>control the boot process with a script<br>You can use iPXE to replace the existing PXE ROM on your network card, or you can chainload into iPXE to obtain the features of iPXE without the hassle of reflashing.</p>
+<p>iPXE is free, open-source software licensed under the GNU GPL (with some portions under GPL-compatible licences), and is included in products from several network card manufacturers and OEMs.</p>
+<p>iPXE是一个开源的网络启动固件，它使用了诸如http,ftp等协议来传输，相较于普通的PXE固件使用TFTP来进行文件传输速度更快，而且还支持烧录到网卡芯片，CD-ROM，U盘上，有了它，只要有网络的地方就可以启动机器进行系统维护或者系统安装了。</p>
+<p>iPXE官网地址：<a target="_blank" rel="noopener" href="http://ipxe.org/">http://ipxe.org</a>   该项目开源，可以自己克隆代码进行编译。</p>
+<h4 id="软硬件环境准备"><a href="#软硬件环境准备" class="headerlink" title="软硬件环境准备"></a>软硬件环境准备</h4><p>硬件：树莓派3，提供系统支持，用作启动服务器。当然，如果有其它Linux系统的电脑也是可以的。</p>
+<p>软件：nginx，作为web服务器，提供系统镜像，本地软件源。dnsmasq，dnsmasq自身带有tftp服务器，支持pxe，支持dhcpPROXY模式，有了它就不用再去安装单独的dhcp服务器和tftp服务器了。</p>
+<p>安装软件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~ $ sudo apt-get instal nginx</span><br><span class="line">pi@raspberrypi:~ $ sudo apt-get instal dnsmasq</span><br></pre></td></tr></table></figure>
+
+<h4 id="准备所需的系统镜像和pxe文件"><a href="#准备所需的系统镜像和pxe文件" class="headerlink" title="准备所需的系统镜像和pxe文件"></a>准备所需的系统镜像和pxe文件</h4><p>下载CentOS7系统镜像，并复制相应文件到web目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~ $ wget https://mirrors.aliyun.com/centos/7.4.1708/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso</span><br><span class="line">pi@raspberrypi:~ $ mount CentOS-7-x86_64-Minimal-1708.iso /mnt</span><br><span class="line">pi@raspberrypi:~ $ sudo mkdir -p /var/www/html/centos/7/x86_64/</span><br><span class="line">pi@raspberrypi:~ $ sudo cp -r /mnt/* /var/www/html/centos/7/x86_64/</span><br></pre></td></tr></table></figure>
+
+<p>下载iPXE相关的启动文件到web目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:/var/www/html $ sudo wget http://boot.ipxe.org/undionly.kpxe</span><br></pre></td></tr></table></figure>
+
+<p>现在我的web根目录的文件内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:/var/www/html $ ls -la</span><br><span class="line">总用量 811112</span><br><span class="line">drwxr-xr-x 3 root root      4096 3月  12 21:53 .</span><br><span class="line">drwxr-xr-x 3 root root      4096 10月 21 09:31 ..</span><br><span class="line">-rw-r--r-- 1 root root        43 3月  12 21:52 boot.txt</span><br><span class="line">drwxr-xr-x 3 pi   pi        4096 3月  12 15:23 centos</span><br><span class="line">-rw-r--r-- 1 pi   pi   830472192 9月   5  2017 CentOS-7-x86_64-Minimal-1708.iso</span><br><span class="line">-rw-r--r-- 1 root root      1191 3月  12 20:13 ks.cfg</span><br><span class="line">-rw-r--r-- 1 pi   pi         705 3月  12 19:56 menu.conf</span><br><span class="line">-rw-r--r-- 1 root root     67369 3月  12 21:00 undionly.kpxe</span><br></pre></td></tr></table></figure>
+
+
+
+<p>编写启动菜单menu.conf，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!ipxe</span><br><span class="line">    set menu-timeout 20000</span><br><span class="line">    set munu-default winpe</span><br><span class="line">    set protocal:string http</span><br><span class="line">    isset $&#123;ip&#125; || dhcp</span><br><span class="line">:start</span><br><span class="line">    menu iPXE Boot Menu --$&#123;ip&#125;</span><br><span class="line">    item  winpe         Boot WindowsPE</span><br><span class="line">    item centos7        Boot CentOS</span><br><span class="line">    item shell          Boot iPXE Shell</span><br><span class="line">    choose --timeout $&#123;menu-timeout&#125; --default $&#123;menu-default&#125; selected</span><br><span class="line">    goto $&#123;selected&#125;</span><br><span class="line">:centos7</span><br><span class="line">    #set base http://mirrors.aliyun.com/centos/7.4.1708/os/x86_64</span><br><span class="line">    set base http://192.168.2.189/centos/7/x86_64</span><br><span class="line">    kernel $&#123;base&#125;/images/pxeboot/vmlinuz initrd=initrd.img ks=http://192.168.2.189/ks.cfg repo=$&#123;base&#125;</span><br><span class="line">    initrd $&#123;base&#125;/images/pxeboot/initrd.img</span><br><span class="line">    boot</span><br><span class="line">:winpe</span><br><span class="line">    kernel $&#123;protocal&#125;://$&#123;next-server&#125;/boot/wimboot</span><br></pre></td></tr></table></figure>
+
+<p>编辑dnsmasq配置文件，使其支持pxe，让它能够根据网卡不同的请求发送不同的boot file。由于我的电脑和树莓派都接在一台openwrt路由器下边，路由器已经开启了DHCP功能，为了不对路由器本身的DHCP功能造成影响，我的pxe服务器上的dnsmasq配置为proxy模式，只对pxe请求作出响应，普通的DHCP请求分配IP地址不作响应。话说为了这个配置文件我真是搜索了好多资料，也经过了无数次的尝试，总是在iPXE固件的第二次DHCP请求时无法发送菜单内容过去，卡住了很久，最终在谷歌的帮助下，搜索到一篇文章，用他的配置终于成功了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">no-daemon  #不作为守护进程，保持在前台，便于调试，正常使用时可去掉</span><br><span class="line">dhcp-range=192.168.2.0,proxy #自己所在的需要代理的网段，我的是192.168.2.0</span><br><span class="line">dhcp-boot=tag:!ipxe,undionly.kpxe,192.168.2.189 #如果不是ipxe固件发起的，则发送undionly.kpxe</span><br><span class="line">dhcp-match=set:ipxe,175 # gPXE/iPXE sends a 175 option.</span><br><span class="line">dhcp-boot=tag:!ipxe,undionly.kpxe </span><br><span class="line">dhcp-boot=http://192.168.2.189/menu.conf,192.168.2.189,192.168.2.189 #如果是ipxe发起的请求，则发送菜单链接，后边两个ip为pxe服务器ip</span><br><span class="line">pxe-service=tag:!ipxe,x86PC,&quot;splash&quot;,undionly.kpxe #对所有的pxe请求做出响应，发送undionly.kcpxe</span><br><span class="line">enable-tftp #开启tftp</span><br><span class="line">tftp-root=/var/www/html/  #设置tftp的根目录</span><br><span class="line">log-queries  #打印所有dhcp请求，用于调试</span><br><span class="line">conf-dir=/etc/dnsmasq.d  #包含的其他配置</span><br></pre></td></tr></table></figure>
+
+<h4 id="服务测试"><a href="#服务测试" class="headerlink" title="服务测试"></a>服务测试</h4><p>开启dnsmasq服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~/pxe_start $ sudo dnsmasq -C proxy_dhcp </span><br><span class="line">dnsmasq: started, version 2.76 cachesize 150</span><br><span class="line">dnsmasq: compile time options: IPv6 GNU-getopt DBus i18n IDN DHCP DHCPv6 no-Lua TFTP conntrack ipset auth DNSSEC loop-detect inotify</span><br><span class="line">dnsmasq-dhcp: DHCP, proxy on subnet 192.168.2.0</span><br><span class="line">dnsmasq-tftp: TFTP root is /var/www/html/ </span><br><span class="line">dnsmasq: reading /etc/resolv.conf</span><br><span class="line">dnsmasq: using nameserver 192.168.2.1#53</span><br><span class="line">dnsmasq: read /etc/hosts - 5 addresses</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>开启nginx服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:~/pxe_start $ sudo nginx</span><br></pre></td></tr></table></figure>
+
+<p>建立虚拟机，设置网络模式为桥接。</p>
+<p>vmare的启动效果：</p>
+<p><img src="/blogimg/vmware_ipxe.gif" alt="image"></p>
+<p>vbox启动效果图：</p>
+<p><img src="/blogimg/vbox_ipxe.gif" alt="imange"></p>
+<h4 id="CentOS无人职守自动安装"><a href="#CentOS无人职守自动安装" class="headerlink" title="CentOS无人职守自动安装"></a>CentOS无人职守自动安装</h4><p>在一台有图形界面的机器上安装kickstart，然后按照提示生成ks.cfg文件。我的ks.cfg是从一台已经安装好的centos上提取的，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#platform=86, AMD64, or Intel EM64T</span><br><span class="line"></span><br><span class="line">#version=DEVEL</span><br><span class="line"># System authorization information</span><br><span class="line">auth --useshadow  --passalgo=sha512</span><br><span class="line"># Install OS instead of upgrade</span><br><span class="line">install</span><br><span class="line"># Use network installation</span><br><span class="line">url --url=&quot;http://192.168.2.189/centos/7/x86_64/&quot;</span><br><span class="line"># Use text mode install</span><br><span class="line">text</span><br><span class="line"># Firewall configuration</span><br><span class="line">firewall --disabled</span><br><span class="line">firstboot --disable</span><br><span class="line">ignoredisk --only-use=sda</span><br><span class="line"># Keyboard layouts</span><br><span class="line"># old format: keyboard us</span><br><span class="line"># new format:</span><br><span class="line">keyboard --vckeymap=us --xlayouts=&#x27;&#x27;</span><br><span class="line"># System language</span><br><span class="line">lang en_US.UTF-8</span><br><span class="line"></span><br><span class="line"># Network information</span><br><span class="line">network  --bootproto=dhcp --device=eth0 --activate</span><br><span class="line">network  --hostname=localhost.localdomain</span><br><span class="line"># Reboot after installation</span><br><span class="line">reboot</span><br><span class="line"># Root password</span><br><span class="line">rootpw --iscrypted $1$.iNc/OT7$5cYmijQ4G5pBjxC8sgAIJ/</span><br><span class="line"># SELinux configuration</span><br><span class="line">selinux --enforcing</span><br><span class="line"># System services</span><br><span class="line">services --enabled=&quot;chronyd&quot;</span><br><span class="line"># Do not configure the X Window System</span><br><span class="line">skipx</span><br><span class="line"># System timezone</span><br><span class="line">timezone Asia/Shanghai</span><br><span class="line"># System bootloader configuration</span><br><span class="line">bootloader --append=&quot; crashkernel=auto&quot; --location=mbr --boot-drive=sda</span><br><span class="line">autopart --type=lvm</span><br><span class="line"># Partition clearing information</span><br><span class="line">clearpart --all --initlabel --drives=sda</span><br><span class="line"></span><br><span class="line">%packages</span><br><span class="line">@core</span><br><span class="line">chrony</span><br><span class="line">kexec-tools</span><br><span class="line"></span><br><span class="line">%end</span><br><span class="line"></span><br><span class="line">%addon com_redhat_kdump --enable --reserve-mb=&#x27;auto&#x27;</span><br><span class="line"></span><br><span class="line">%end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>要实现自动安装，在启动菜单中给个内核参数即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kernel $&#123;base&#125;/images/pxeboot/vmlinuz initrd=initrd.img ks=http://192.168.2.189/ks.cfg </span><br></pre></td></tr></table></figure>
+
+<p>自此，pxe启动自动安装centos搭建完成，接下来再尝试启动其它系统和winpe。</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://dev.to/arachan/ipxe-chainloading-to-use-dnsmasq-and-proxydhcp-4he">https://dev.to/arachan/ipxe-chainloading-to-use-dnsmasq-and-proxydhcp-4he</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">基本技术介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AF%E7%A1%AC%E4%BB%B6%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">软硬件环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%89%80%E9%9C%80%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F%E5%92%8Cpxe%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">准备所需的系统镜像和pxe文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">服务测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CentOS%E6%97%A0%E4%BA%BA%E8%81%8C%E5%AE%88%E8%87%AA%E5%8A%A8%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">CentOS无人职守自动安装</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/13/iPXE-NetworkBoot/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&text=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&is_video=false&description=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=树莓派搭建iPXE服务并实现无人职守安装CentOS 7&body=Check out this article: http://example.com/2018/03/13/iPXE-NetworkBoot/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&title=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/13/iPXE-NetworkBoot/&name=树莓派搭建iPXE服务并实现无人职守安装CentOS 7&description=&lt;p&gt;最近我对网络启动产生了浓厚的兴趣，很想亲自搭建一个环境来尝试一下，于是就有了一系列的折腾过程。本篇记录的是使用iPXE来网络启动，自动安装CentOS系统。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/13/iPXE-NetworkBoot/&t=树莓派搭建iPXE服务并实现无人职守安装CentOS 7"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

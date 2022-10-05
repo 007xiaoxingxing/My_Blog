@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="接上回，上次我们已经实现了iPXE服务的搭建和自动安装centos 7。那这次来尝试启动一下Windows PE。iPXE官网上的启动boot.wim的方式可以作为参考，但是默认的纯粹的PE只有个cmd窗口，显然不堪大用，最好是使用一个支持网络的PE,那么从网络启动之后，还可以上上网，多么舒服。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iPXE启动Windows PE">
+<meta property="og:url" content="http://example.com/2018/03/14/iPXE-WinPE/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="接上回，上次我们已经实现了iPXE服务的搭建和自动安装centos 7。那这次来尝试启动一下Windows PE。iPXE官网上的启动boot.wim的方式可以作为参考，但是默认的纯粹的PE只有个cmd窗口，显然不堪大用，最好是使用一个支持网络的PE,那么从网络启动之后，还可以上上网，多么舒服。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/ipxe_winpe.gif">
+<meta property="article:published_time" content="2018-03-14T02:16:54.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.184Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="iPXE winpe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/ipxe_winpe.gif">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>iPXE启动Windows PE</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2018/03/21/Migrate-Django1-x-To-Django2-0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2018/03/13/iPXE-NetworkBoot/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/14/iPXE-WinPE/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/14/iPXE-WinPE/&text=iPXE启动Windows PE"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/14/iPXE-WinPE/&is_video=false&description=iPXE启动Windows PE"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iPXE启动Windows PE&body=Check out this article: http://example.com/2018/03/14/iPXE-WinPE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/14/iPXE-WinPE/&name=iPXE启动Windows PE&description=&lt;p&gt;接上回，上次我们已经实现了iPXE服务的搭建和自动安装centos 7。那这次来尝试启动一下Windows PE。iPXE官网上的启动boot.wim的方式可以作为参考，但是默认的纯粹的PE只有个cmd窗口，显然不堪大用，最好是使用一个支持网络的PE,那么从网络启动之后，还可以上上网，多么舒服。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/14/iPXE-WinPE/&t=iPXE启动Windows PE"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iPXE启动Windows PE
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-03-14T02:16:54.000Z" itemprop="datePublished">2018-03-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/iPXE-winpe/" rel="tag">iPXE winpe</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>接上回，上次我们已经实现了iPXE服务的搭建和自动安装centos 7。那这次来尝试启动一下Windows PE。iPXE官网上的启动boot.wim的方式可以作为参考，但是默认的纯粹的PE只有个cmd窗口，显然不堪大用，最好是使用一个支持网络的PE,那么从网络启动之后，还可以上上网，多么舒服。</p>
+<span id="more"></span>
+
+<p>于是我找到了无忧论坛上一位大佬制作的win10 pe，自带网络功能和网络启动功能，我仔细一看，他用的还是TinyPXE server，正好这个网络启动软件也支持iPXE，于是乎就可以直接拿来用了嘛。</p>
+<p><a target="_blank" rel="noopener" href="http://bbs.wuyou.net/forum.php?mod=viewthread&amp;tid=378234">http://bbs.wuyou.net/forum.php?mod=viewthread&amp;tid=378234</a>  ，于是乎我花了一晚上从百度网盘将该PE的iso下载回来，然后把该iso内的全部文件都弄到树莓派的&#x2F;var&#x2F;www&#x2F;winpe目录下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pi@raspberrypi:/var/www/html/winpe $ ls -la</span><br><span class="line">总用量 1484</span><br><span class="line">drwxr-xr-x 5 root root   4096 3月  14 09:55 .</span><br><span class="line">drwxr-xr-x 5 root root   4096 3月  14 09:51 ..</span><br><span class="line">dr-xr-xr-x 4 root root   4096 3月  14 09:58 boot</span><br><span class="line">-r--r--r-- 1 root root 397858 10月  7 17:34 bootmgr</span><br><span class="line">-r--r--r-- 1 root root 648088 10月  7 17:09 bootmgr.exe</span><br><span class="line">-r--r--r-- 1 root root    490 2月  18  2016 config.ini</span><br><span class="line">dr-xr-xr-x 4 root root   4096 3月  14 09:32 efi</span><br><span class="line">-r--r--r-- 1 root root 332583 10月  7 17:28 ipxe.pxe</span><br><span class="line">-r--r--r-- 1 root root    555 9月  13  2015 pxeautorun.txt</span><br><span class="line">-r--r--r-- 1 root root  25358 9月  29 21:37 pxeboot.n12</span><br><span class="line">-r--r--r-- 1 root root  67227 10月  7 17:28 undionly.kpxe</span><br><span class="line">dr-xr-xr-x 2 root root   4096 3月  14 09:32 wifidriver</span><br><span class="line">-r--r--r-- 1 root root   1903 3月  22  2017 网启说明.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接下来照猫画虎，更改一下咱们自己的menu菜单</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#!ipxe</span><br><span class="line">    set menu-timeout 20000</span><br><span class="line">    set munu-default winpe</span><br><span class="line">    set protocal:string http</span><br><span class="line">    isset $&#123;ip&#125; || dhcp</span><br><span class="line">:start</span><br><span class="line">    menu iPXE Boot Menu --$&#123;ip&#125;</span><br><span class="line">    item  winpe         Boot WindowsPE</span><br><span class="line">    item centos7        Boot CentOS 7.4</span><br><span class="line">    item ubuntu         Boot Ubuntu 17.10</span><br><span class="line">    item shell          Boot iPXE Shell</span><br><span class="line">    choose --timeout $&#123;menu-timeout&#125; --default $&#123;menu-default&#125; selected</span><br><span class="line">    goto $&#123;selected&#125;</span><br><span class="line">:centos7</span><br><span class="line">    #set base http://mirrors.aliyun.com/centos/7.4.1708/os/x86_64</span><br><span class="line">    set base http://192.168.2.189/centos/7/x86_64</span><br><span class="line">    kernel $&#123;base&#125;/images/pxeboot/vmlinuz initrd=initrd.img ks=http://192.168.2.189/ks.cfg repo=$&#123;base&#125;</span><br><span class="line">    initrd $&#123;base&#125;/images/pxeboot/initrd.img</span><br><span class="line">    boot</span><br><span class="line">:winpe</span><br><span class="line">    set base http://192.168.2.189/winpe</span><br><span class="line">    kernel $&#123;base&#125;/boot/wimboot gui || goto retry</span><br><span class="line">    initrd $&#123;base&#125;/pxeautorun.txt $&#123;next-server&#125;.cmd || goto nextg</span><br><span class="line">    :nextg</span><br><span class="line">    initrd $&#123;base&#125;/boot/boot.sdi   boot.sdi  || goto retry</span><br><span class="line">    iseq $&#123;platform&#125; pcbios || goto winefi</span><br><span class="line">    initrd $&#123;base&#125;/bootmgr.exe bootmgr.exe || goto retry</span><br><span class="line">    initrd $&#123;base&#125;/boot/bxe bxd || goto retry</span><br><span class="line">    initrd $&#123;base&#125;/boot/PE64.WIM  boot.WIM  || goto retry</span><br><span class="line">    boot || goto retry</span><br><span class="line">    goto start</span><br><span class="line">:winefi</span><br><span class="line">    set base http://192.168.2.189/winpe</span><br><span class="line">    initrd $&#123;base&#125;/EFI/Boot/bootx64.efi || goto retry</span><br><span class="line">    initrd $&#123;base&#125;/boot/bcd  || goto retry</span><br><span class="line">    initrd $&#123;base&#125;/boot/PE64.WIM || goto retry</span><br><span class="line">    boot || goto retry</span><br><span class="line">    goto start</span><br><span class="line">:ubuntu</span><br><span class="line">    set base http://192.168.2.189/ubuntu/</span><br><span class="line">    kernel $&#123;base&#125;/install/netboot/ubuntu-installer/amd64/linux ks=http://192.168.2.189/ks_ubuntu.cfg</span><br><span class="line">    initrd $&#123;base&#125;/install/netboot/ubuntu-installer/amd64/initrd.gz</span><br><span class="line">    boot</span><br></pre></td></tr></table></figure>
+
+<p>嗯，就这样了，再创建一台虚拟机来启动一下试试看效果。</p>
+<p><img src="/blogimg/ipxe_winpe.gif" alt="image"></p>
+<p>由于我的网络环境是百兆，加载500多M的wim需要一段时间，如果是千兆环境就更快了。启动成功，看起来效果不错。难道说我还要去学习一下如果制作PE么，这又要入坑了。</p>
+<p>最后还是要感谢制作该PE镜像的大佬，你的PE还是蛮好使的。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/14/iPXE-WinPE/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/14/iPXE-WinPE/&text=iPXE启动Windows PE"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/14/iPXE-WinPE/&is_video=false&description=iPXE启动Windows PE"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iPXE启动Windows PE&body=Check out this article: http://example.com/2018/03/14/iPXE-WinPE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/14/iPXE-WinPE/&title=iPXE启动Windows PE"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/14/iPXE-WinPE/&name=iPXE启动Windows PE&description=&lt;p&gt;接上回，上次我们已经实现了iPXE服务的搭建和自动安装centos 7。那这次来尝试启动一下Windows PE。iPXE官网上的启动boot.wim的方式可以作为参考，但是默认的纯粹的PE只有个cmd窗口，显然不堪大用，最好是使用一个支持网络的PE,那么从网络启动之后，还可以上上网，多么舒服。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/14/iPXE-WinPE/&t=iPXE启动Windows PE"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

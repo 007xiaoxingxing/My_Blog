@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Windows  tasklist筛选器的使用在windows中，除了有图形化的任务管理器，还有个命令行版的tasklist.exe。命令行的功能也是非常丰富的，今天碰巧遇到了需要使用筛选器的需求，记录一下，以防忘记。 先看一下tasklist的帮助信息：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows  tasklist筛选器的使用">
+<meta property="og:url" content="http://example.com/2017/10/18/WindowsTasklistFilter/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="Windows  tasklist筛选器的使用在windows中，除了有图形化的任务管理器，还有个命令行版的tasklist.exe。命令行的功能也是非常丰富的，今天碰巧遇到了需要使用筛选器的需求，记录一下，以防忘记。 先看一下tasklist的帮助信息：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-18T06:02:58.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.181Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="cmd">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Windows  tasklist筛选器的使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/10/19/UnixSocket-echodemo/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/10/12/DjangoQuery/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/18/WindowsTasklistFilter/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/18/WindowsTasklistFilter/&text=Windows  tasklist筛选器的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/18/WindowsTasklistFilter/&is_video=false&description=Windows  tasklist筛选器的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows  tasklist筛选器的使用&body=Check out this article: http://example.com/2017/10/18/WindowsTasklistFilter/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/18/WindowsTasklistFilter/&name=Windows  tasklist筛选器的使用&description=&lt;h3 id=&#34;Windows-tasklist筛选器的使用&#34;&gt;&lt;a href=&#34;#Windows-tasklist筛选器的使用&#34; class=&#34;headerlink&#34; title=&#34;Windows  tasklist筛选器的使用&#34;&gt;&lt;/a&gt;Windows  tasklist筛选器的使用&lt;/h3&gt;&lt;p&gt;在windows中，除了有图形化的任务管理器，还有个命令行版的tasklist.exe。命令行的功能也是非常丰富的，今天碰巧遇到了需要使用筛选器的需求，记录一下，以防忘记。&lt;/p&gt;
+&lt;p&gt;先看一下tasklist的帮助信息：&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/18/WindowsTasklistFilter/&t=Windows  tasklist筛选器的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-tasklist%E7%AD%9B%E9%80%89%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">Windows  tasklist筛选器的使用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Windows  tasklist筛选器的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-18T06:02:58.000Z" itemprop="datePublished">2017-10-18</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Windows/">Windows</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/cmd/" rel="tag">cmd</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Windows-tasklist筛选器的使用"><a href="#Windows-tasklist筛选器的使用" class="headerlink" title="Windows  tasklist筛选器的使用"></a>Windows  tasklist筛选器的使用</h3><p>在windows中，除了有图形化的任务管理器，还有个命令行版的tasklist.exe。命令行的功能也是非常丰富的，今天碰巧遇到了需要使用筛选器的需求，记录一下，以防忘记。</p>
+<p>先看一下tasklist的帮助信息：</p>
+<span id="more"></span>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\STAR_CHEN&gt;tasklist /?</span><br><span class="line"></span><br><span class="line">TASKLIST [/S system [/U username [/P [password]]]]</span><br><span class="line">         [/M [module] | /SVC | /V] [/FI filter] [/FO format] [/NH]</span><br><span class="line"></span><br><span class="line">描述:</span><br><span class="line">    该工具显示在本地或远程机器上当前运行的进程列表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数列表:</span><br><span class="line">   /S     system           指定连接到的远程系统。</span><br><span class="line"></span><br><span class="line">   /U     [domain\]user    指定应该在哪个用户上下文执行这个命令。</span><br><span class="line"></span><br><span class="line">   /P     [password]       为提供的用户上下文指定密码。如果省略，则</span><br><span class="line">                           提示输入。</span><br><span class="line"></span><br><span class="line">   /M     [module]         列出当前使用所给 exe/dll 名称的所有任务。</span><br><span class="line">                           如果没有指定模块名称，显示所有加载的模块。</span><br><span class="line"></span><br><span class="line">   /SVC                    显示每个进程中主持的服务。</span><br><span class="line"></span><br><span class="line">   /APPS 显示应用商店应用及其关联的进程。</span><br><span class="line"></span><br><span class="line">   /V                      显示详细任务信息。</span><br><span class="line"></span><br><span class="line">   /FI    filter           显示一系列符合筛选器</span><br><span class="line">                           指定条件的任务。</span><br><span class="line"></span><br><span class="line">   /FO    format           指定输出格式。</span><br><span class="line">                           有效值: &quot;TABLE&quot;、&quot;LIST&quot;、&quot;CSV&quot;。</span><br><span class="line"></span><br><span class="line">   /NH                     指定列标题不应该</span><br><span class="line">                           在输出中显示。</span><br><span class="line">                           只对 &quot;TABLE&quot; 和 &quot;CSV&quot; 格式有效。</span><br><span class="line"></span><br><span class="line">   /?                      显示此帮助消息。</span><br><span class="line"></span><br><span class="line">筛选器:</span><br><span class="line">    筛选器名称     有效运算符           有效值</span><br><span class="line">    -----------     ---------------           --------------------------</span><br><span class="line">    STATUS          eq, ne                    RUNNING | SUSPENDED</span><br><span class="line">                                              NOT RESPONDING | UNKNOWN</span><br><span class="line">    IMAGENAME       eq, ne                    映像名称</span><br><span class="line">    PID             eq, ne, gt, lt, ge, le    PID 值</span><br><span class="line">    SESSION         eq, ne, gt, lt, ge, le    会话编号</span><br><span class="line">    SESSIONNAME     eq, ne                    会话名称</span><br><span class="line">    CPUTIME         eq, ne, gt, lt, ge, le    CPU 时间，格式为</span><br><span class="line">                                              hh:mm:ss。</span><br><span class="line">                                              hh - 小时，</span><br><span class="line">                                              mm - 分钟，ss - 秒</span><br><span class="line">    MEMUSAGE        eq, ne, gt, lt, ge, le    内存使用(以 KB 为单位)</span><br><span class="line">    USERNAME        eq, ne                    用户名，格式为</span><br><span class="line">                                              [域\]用户</span><br><span class="line">    SERVICES        eq, ne                    服务名称</span><br><span class="line">    WINDOWTITLE     eq, ne                    窗口标题</span><br><span class="line">    模块         eq, ne                    DLL 名称</span><br><span class="line"></span><br><span class="line">注意: 当查询远程计算机时，不支持 &quot;WINDOWTITLE&quot; 和 &quot;STATUS&quot;</span><br><span class="line">      筛选器。</span><br><span class="line"></span><br><span class="line">Examples:</span><br><span class="line">    TASKLIST</span><br><span class="line">    TASKLIST /M</span><br><span class="line">    TASKLIST /V /FO CSV</span><br><span class="line">    TASKLIST /SVC /FO LIST</span><br><span class="line">    TASKLIST /APPS /FI &quot;STATUS eq RUNNING&quot;</span><br><span class="line">    TASKLIST /M wbem*</span><br><span class="line">    TASKLIST /S system /FO LIST</span><br><span class="line">    TASKLIST /S system /U 域\用户名 /FO CSV /NH</span><br><span class="line">    TASKLIST /S system /U username /P password /FO TABLE /NH</span><br><span class="line">    TASKLIST /FI &quot;USERNAME ne NT AUTHORITY\SYSTEM&quot; /FI &quot;STATUS eq running&quot;</span><br></pre></td></tr></table></figure>
+
+<p>给出一个使用筛选器的例子，*&#x2F;FI 之后接的筛选器为字符串*：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\STAR_CHEN&gt;tasklist /FI &quot;PID eq 10100&quot;</span><br><span class="line"></span><br><span class="line">映像名称                       PID 会话名              会话#       内存使用</span><br><span class="line">========================= ======== ================ =========== ============</span><br><span class="line">python.exe                   10100 Console                    1     11,136 K</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-tasklist%E7%AD%9B%E9%80%89%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">Windows  tasklist筛选器的使用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/18/WindowsTasklistFilter/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/18/WindowsTasklistFilter/&text=Windows  tasklist筛选器的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/18/WindowsTasklistFilter/&is_video=false&description=Windows  tasklist筛选器的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows  tasklist筛选器的使用&body=Check out this article: http://example.com/2017/10/18/WindowsTasklistFilter/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/18/WindowsTasklistFilter/&title=Windows  tasklist筛选器的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/18/WindowsTasklistFilter/&name=Windows  tasklist筛选器的使用&description=&lt;h3 id=&#34;Windows-tasklist筛选器的使用&#34;&gt;&lt;a href=&#34;#Windows-tasklist筛选器的使用&#34; class=&#34;headerlink&#34; title=&#34;Windows  tasklist筛选器的使用&#34;&gt;&lt;/a&gt;Windows  tasklist筛选器的使用&lt;/h3&gt;&lt;p&gt;在windows中，除了有图形化的任务管理器，还有个命令行版的tasklist.exe。命令行的功能也是非常丰富的，今天碰巧遇到了需要使用筛选器的需求，记录一下，以防忘记。&lt;/p&gt;
+&lt;p&gt;先看一下tasklist的帮助信息：&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/18/WindowsTasklistFilter/&t=Windows  tasklist筛选器的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

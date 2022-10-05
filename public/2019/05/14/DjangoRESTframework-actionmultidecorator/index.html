@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="事件起因源于在某个需求中，我需要在drf的viewset中使用了@action装饰器的视图函数上再装载一个装饰器用于参数校验。代码类似这个样子：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在DRF中@action使用多个装饰器">
+<meta property="og:url" content="http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="事件起因源于在某个需求中，我需要在drf的viewset中使用了@action装饰器的视图函数上再装载一个装饰器用于参数校验。代码类似这个样子：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-05-14T02:42:44.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.147Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="djangorestframework">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>在DRF中@action使用多个装饰器</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2019/02/13/Nginx-fcgiwrap/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&text=在DRF中@action使用多个装饰器"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&is_video=false&description=在DRF中@action使用多个装饰器"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在DRF中@action使用多个装饰器&body=Check out this article: http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&name=在DRF中@action使用多个装饰器&description=&lt;p&gt;事件起因源于在某个需求中，我需要在drf的viewset中使用了@action装饰器的视图函数上再装载一个装饰器用于参数校验。代码类似这个样子：&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&t=在DRF中@action使用多个装饰器"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        在DRF中@action使用多个装饰器
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-14T02:42:44.000Z" itemprop="datePublished">2019-05-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/djangorestframework/" rel="tag">djangorestframework</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>事件起因源于在某个需求中，我需要在drf的viewset中使用了@action装饰器的视图函数上再装载一个装饰器用于参数校验。代码类似这个样子：</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">token_check</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">obj, request, *args, **kwargs</span>):</span><br><span class="line">        query_params = request.GET</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> query_params.get(<span class="string">&quot;token&quot;</span>, <span class="literal">None</span>):</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;No Token Given.&quot;</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            token, info = query_params.get(<span class="string">&quot;token&quot;</span>).split(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(token) != <span class="number">40</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">&quot;Token Length Error.&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Token Error.&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> func(request, *args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestView</span>(viewsets.ReadOnlyModelViewSet):</span><br><span class="line">    ......</span><br><span class="line"><span class="meta">    @action(<span class="params">methods=[<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;GET&#x27;</span>], detail=<span class="literal">False</span></span>)</span></span><br><span class="line"><span class="meta">    @token_check</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ridecontrol</span>(<span class="params">self, request</span>):</span><br><span class="line">        action = request.data.get(<span class="string">&quot;action&quot;</span>, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> action == <span class="string">&quot;stop&quot;</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;restart&quot;</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Unknown Action.&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在写完之后，我欢欢喜喜的去访问原本的url，结果竟然是”404 Not Found“。于是乎，我打上断点调试了一把。</p>
+<p>下面是action装饰器的源码，可以看出此装饰器给视图函数加了一些额外的属性和做了个请求方法的map，这里还是一切正常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">action</span>(<span class="params">methods=<span class="literal">None</span>, detail=<span class="literal">None</span>, url_path=<span class="literal">None</span>, url_name=<span class="literal">None</span>, **kwargs</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Mark a ViewSet method as a routable action.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Set the `detail` boolean to determine if this action should apply to</span></span><br><span class="line"><span class="string">    instance/detail requests or collection/list requests.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    methods = [<span class="string">&#x27;get&#x27;</span>] <span class="keyword">if</span> (methods <span class="keyword">is</span> <span class="literal">None</span>) <span class="keyword">else</span> methods</span><br><span class="line">    methods = [method.lower() <span class="keyword">for</span> method <span class="keyword">in</span> methods]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assert</span> detail <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>, (</span><br><span class="line">        <span class="string">&quot;@action() missing required argument: &#x27;detail&#x27;&quot;</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># name and suffix are mutually exclusive</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;name&#x27;</span> <span class="keyword">in</span> kwargs <span class="keyword">and</span> <span class="string">&#x27;suffix&#x27;</span> <span class="keyword">in</span> kwargs:</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">&quot;`name` and `suffix` are mutually exclusive arguments.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line">        func.mapping = MethodMapper(func, methods)</span><br><span class="line"></span><br><span class="line">        func.detail = detail</span><br><span class="line">        func.url_path = url_path <span class="keyword">if</span> url_path <span class="keyword">else</span> func.__name__</span><br><span class="line">        func.url_name = url_name <span class="keyword">if</span> url_name <span class="keyword">else</span> func.__name__.replace(<span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">        func.kwargs = kwargs</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Set descriptive arguments for viewsets</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;name&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> kwargs <span class="keyword">and</span> <span class="string">&#x27;suffix&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> kwargs:</span><br><span class="line">            func.kwargs[<span class="string">&#x27;name&#x27;</span>] = pretty_name(func.__name__)</span><br><span class="line">        func.kwargs[<span class="string">&#x27;description&#x27;</span>] = func.__doc__ <span class="keyword">or</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> func</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br></pre></td></tr></table></figure>
+
+<p>偶然看到跟踪到viewset.py中看到有这么一个方法。显然，这里检查了上面action装饰器设置的mapping属性的方法，将它加到了extra_action中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_is_extra_action</span>(<span class="params">attr</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hasattr</span>(attr, <span class="string">&#x27;mapping&#x27;</span>)</span><br><span class="line"><span class="meta">@classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_extra_actions</span>(<span class="params">cls</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Get the methods that are marked as an extra ViewSet `@action`.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> [method <span class="keyword">for</span> _, method <span class="keyword">in</span> getmembers(cls, _is_extra_action)]</span><br></pre></td></tr></table></figure>
+
+<p>接下来是routers.py中，将获取的action装饰的方法注册到url路由中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_routes</span>(<span class="params">self, viewset</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Augment `self.routes` with any dynamically generated routes.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns a list of the Route namedtuple.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># converting to list as iterables are good for one pass, known host needs to be checked again and again for</span></span><br><span class="line">    <span class="comment"># different functions.</span></span><br><span class="line">    known_actions = <span class="built_in">list</span>(flatten([route.mapping.values() <span class="keyword">for</span> route <span class="keyword">in</span> self.routes <span class="keyword">if</span> <span class="built_in">isinstance</span>(route, Route)]))</span><br><span class="line">    extra_actions = viewset.get_extra_actions()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># checking action names against the known actions list</span></span><br><span class="line">    not_allowed = [</span><br><span class="line">        action.__name__ <span class="keyword">for</span> action <span class="keyword">in</span> extra_actions</span><br><span class="line">        <span class="keyword">if</span> action.__name__ <span class="keyword">in</span> known_actions</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">if</span> not_allowed:</span><br><span class="line">        msg = (<span class="string">&#x27;Cannot use the @action decorator on the following &#x27;</span></span><br><span class="line">               <span class="string">&#x27;methods, as they are existing routes: %s&#x27;</span>)</span><br><span class="line">        <span class="keyword">raise</span> ImproperlyConfigured(msg % <span class="string">&#x27;, &#x27;</span>.join(not_allowed))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># partition detail and list actions</span></span><br><span class="line">    detail_actions = [action <span class="keyword">for</span> action <span class="keyword">in</span> extra_actions <span class="keyword">if</span> action.detail]</span><br><span class="line">    list_actions = [action <span class="keyword">for</span> action <span class="keyword">in</span> extra_actions <span class="keyword">if</span> <span class="keyword">not</span> action.detail]</span><br><span class="line"></span><br><span class="line">    routes = []</span><br><span class="line">    <span class="keyword">for</span> route <span class="keyword">in</span> self.routes:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(route, DynamicRoute) <span class="keyword">and</span> route.detail:</span><br><span class="line">            routes += [self._get_dynamic_route(route, action) <span class="keyword">for</span> action <span class="keyword">in</span> detail_actions]</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">isinstance</span>(route, DynamicRoute) <span class="keyword">and</span> <span class="keyword">not</span> route.detail:</span><br><span class="line">            routes += [self._get_dynamic_route(route, action) <span class="keyword">for</span> action <span class="keyword">in</span> list_actions]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            routes.append(route)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> routes</span><br></pre></td></tr></table></figure>
+
+<p>于是我在return routes前打了一个断点，惊奇的看到了以下的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Route(url=<span class="string">&#x27;^&#123;prefix&#125;/inner&#123;trailing_slash&#125;$&#x27;</span>, mapping=&#123;<span class="string">&#x27;post&#x27;</span>: <span class="string">&#x27;inner&#x27;</span>, <span class="string">&#x27;get&#x27;</span>: <span class="string">&#x27;inner&#x27;</span>&#125;, name=<span class="string">&#x27;&#123;basename&#125;-inner&#x27;</span>, detail=<span class="literal">False</span>, initkwargs=&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Inner&#x27;</span>, <span class="string">&#x27;description&#x27;</span>: <span class="literal">None</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>原来token_check装饰器将原本的函数信息覆盖成了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;function token_check.&lt;<span class="built_in">locals</span>&gt;.inner at <span class="number">0x7fb68ef77620</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>所以注册进router之后，url也相应的发生了变化，还是用之前的url访问就会出现404 Not Found。</p>
+<p>搞清楚了问题发生的缘由，当然需要想办法进行解决了，首先来了解一下python中装饰器的基本写法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">deco</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">*args</span>):</span><br><span class="line">        <span class="built_in">print</span>(args)</span><br><span class="line">        <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DecoTest</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">    @deco</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">func_A</span>():</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">A = DecoTest()</span><br><span class="line">names = <span class="built_in">dir</span>(A)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;names:&quot;</span>, names)</span><br><span class="line"><span class="built_in">print</span>(A.func_A())</span><br><span class="line">func_a = <span class="built_in">getattr</span>(A, <span class="string">&quot;func_A&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(func_a)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line">======================= RESTART: I:\github_files\t.py =======================</span><br><span class="line">names: [<span class="string">&#x27;__class__&#x27;</span>, <span class="string">&#x27;__delattr__&#x27;</span>, <span class="string">&#x27;__dict__&#x27;</span>, <span class="string">&#x27;__dir__&#x27;</span>, <span class="string">&#x27;__doc__&#x27;</span>, <span class="string">&#x27;__eq__&#x27;</span>, <span class="string">&#x27;__format__&#x27;</span>, <span class="string">&#x27;__ge__&#x27;</span>, <span class="string">&#x27;__getattribute__&#x27;</span>, <span class="string">&#x27;__gt__&#x27;</span>, <span class="string">&#x27;__hash__&#x27;</span>, <span class="string">&#x27;__init__&#x27;</span>, <span class="string">&#x27;__init_subclass__&#x27;</span>, <span class="string">&#x27;__le__&#x27;</span>, <span class="string">&#x27;__lt__&#x27;</span>, <span class="string">&#x27;__module__&#x27;</span>, <span class="string">&#x27;__ne__&#x27;</span>, <span class="string">&#x27;__new__&#x27;</span>, <span class="string">&#x27;__reduce__&#x27;</span>, <span class="string">&#x27;__reduce_ex__&#x27;</span>, <span class="string">&#x27;__repr__&#x27;</span>, <span class="string">&#x27;__setattr__&#x27;</span>, <span class="string">&#x27;__sizeof__&#x27;</span>, <span class="string">&#x27;__str__&#x27;</span>, <span class="string">&#x27;__subclasshook__&#x27;</span>, <span class="string">&#x27;__weakref__&#x27;</span>, <span class="string">&#x27;func_A&#x27;</span>]</span><br><span class="line">(&lt;__main__.DecoTest <span class="built_in">object</span> at <span class="number">0x03FD48F0</span>&gt;,)</span><br><span class="line"><span class="number">1</span></span><br><span class="line">&lt;bound method deco.&lt;<span class="built_in">locals</span>&gt;.inner of &lt;__main__.DecoTest <span class="built_in">object</span> at <span class="number">0x03FD48F0</span>&gt;&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，被装饰函数的元信息的确被覆盖了。那么怎么把原函数的元信息给拷贝到被装饰后的函数呢？functools.wraps就可以办到。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deco</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">*args</span>):</span><br><span class="line">        <span class="built_in">print</span>(args)</span><br><span class="line">        <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DecoTest</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">    @deco</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">func_A</span>():</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">A = DecoTest()</span><br><span class="line">names = <span class="built_in">dir</span>(A)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;names:&quot;</span>, names)</span><br><span class="line"><span class="built_in">print</span>(A.func_A())</span><br><span class="line">func_a = <span class="built_in">getattr</span>(A, <span class="string">&quot;func_A&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(func_a)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line">======================= RESTART: I:\github_files\t.py =======================</span><br><span class="line">names: [<span class="string">&#x27;__class__&#x27;</span>, <span class="string">&#x27;__delattr__&#x27;</span>, <span class="string">&#x27;__dict__&#x27;</span>, <span class="string">&#x27;__dir__&#x27;</span>, <span class="string">&#x27;__doc__&#x27;</span>, <span class="string">&#x27;__eq__&#x27;</span>, <span class="string">&#x27;__format__&#x27;</span>, <span class="string">&#x27;__ge__&#x27;</span>, <span class="string">&#x27;__getattribute__&#x27;</span>, <span class="string">&#x27;__gt__&#x27;</span>, <span class="string">&#x27;__hash__&#x27;</span>, <span class="string">&#x27;__init__&#x27;</span>, <span class="string">&#x27;__init_subclass__&#x27;</span>, <span class="string">&#x27;__le__&#x27;</span>, <span class="string">&#x27;__lt__&#x27;</span>, <span class="string">&#x27;__module__&#x27;</span>, <span class="string">&#x27;__ne__&#x27;</span>, <span class="string">&#x27;__new__&#x27;</span>, <span class="string">&#x27;__reduce__&#x27;</span>, <span class="string">&#x27;__reduce_ex__&#x27;</span>, <span class="string">&#x27;__repr__&#x27;</span>, <span class="string">&#x27;__setattr__&#x27;</span>, <span class="string">&#x27;__sizeof__&#x27;</span>, <span class="string">&#x27;__str__&#x27;</span>, <span class="string">&#x27;__subclasshook__&#x27;</span>, <span class="string">&#x27;__weakref__&#x27;</span>, <span class="string">&#x27;func_A&#x27;</span>]</span><br><span class="line">(&lt;__main__.DecoTest <span class="built_in">object</span> at <span class="number">0x036F4910</span>&gt;,)</span><br><span class="line"><span class="number">1</span></span><br><span class="line">&lt;bound method DecoTest.func_A of &lt;__main__.DecoTest <span class="built_in">object</span> at <span class="number">0x036F4910</span>&gt;&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br></pre></td></tr></table></figure>
+
+<p>这样子就可以保留原函数的元信息了。照此方法给token_check函数也加上@wraps(func),问题解决。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">token_check</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>(<span class="params">obj, request, *args, **kwargs</span>):</span><br><span class="line">        query_params = request.GET</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> query_params.get(<span class="string">&quot;token&quot;</span>, <span class="literal">None</span>):</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;No Token Given.&quot;</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            token, info = query_params.get(<span class="string">&quot;token&quot;</span>).split(<span class="string">&quot;:&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(token) != <span class="number">40</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError(<span class="string">&quot;Token Length Error.&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="keyword">return</span> HttpResponse(<span class="string">&quot;Token Error.&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> func(request, *args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&text=在DRF中@action使用多个装饰器"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&is_video=false&description=在DRF中@action使用多个装饰器"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在DRF中@action使用多个装饰器&body=Check out this article: http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&title=在DRF中@action使用多个装饰器"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&name=在DRF中@action使用多个装饰器&description=&lt;p&gt;事件起因源于在某个需求中，我需要在drf的viewset中使用了@action装饰器的视图函数上再装载一个装饰器用于参数校验。代码类似这个样子：&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2019/05/14/DjangoRESTframework-actionmultidecorator/&t=在DRF中@action使用多个装饰器"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)目前，我们的API内部的关系是通过使用主键来表示的。在本教程的这一部分中，我们将通过使用超链接关系来改善我们的API的内聚性和可发现性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DjangoRESTframework-关系与超链接API">
+<meta property="og:url" content="http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)目前，我们的API内部的关系是通过使用主键来表示的。在本教程的这一部分中，我们将通过使用超链接关系来改善我们的API的内聚性和可发现性。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/api_root.png">
+<meta property="og:image" content="http://example.com/blogimg/highlight.png">
+<meta property="article:published_time" content="2017-10-11T04:24:04.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.144Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="djangorestframework">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/api_root.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>DjangoRESTframework-关系与超链接API</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/10/11/DjangoRESTframework-ViewsetsRouters/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/10/11/DjangoRESTframework-AuthenticationPermissions/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&text=DjangoRESTframework-关系与超链接API"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&is_video=false&description=DjangoRESTframework-关系与超链接API"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DjangoRESTframework-关系与超链接API&body=Check out this article: http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&name=DjangoRESTframework-关系与超链接API&description=&lt;h3 id=&#34;DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs&#34;&gt;&lt;a href=&#34;#DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs&#34; class=&#34;headerlink&#34; title=&#34;DjangoRESTframework 关系和超链接API(Relationships &amp;amp; Hyperlinked APIs)&#34;&gt;&lt;/a&gt;DjangoRESTframework 关系和超链接API(Relationships &amp;amp; Hyperlinked APIs)&lt;/h3&gt;&lt;p&gt;目前，我们的API内部的关系是通过使用主键来表示的。在本教程的这一部分中，我们将通过使用超链接关系来改善我们的API的内聚性和可发现性。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&t=DjangoRESTframework-关系与超链接API"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-%E5%85%B3%E7%B3%BB%E5%92%8C%E8%B6%85%E9%93%BE%E6%8E%A5API-Relationships-amp-Hyperlinked-APIs"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E6%88%91%E4%BB%AC%E7%9A%84API%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%85%A5%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text">为我们的API创建一个入口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.</span> <span class="toc-text">创建一个代码高亮的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84API%E5%8F%98%E5%BE%97%E8%B6%85%E9%93%BE%E6%8E%A5%E4%B8%80%E7%82%B9%EF%BC%88Hyperlinking-our-API%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">让我们的API变得超链接一点（Hyperlinking our API）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84URL%E9%85%8D%E7%BD%AE%E5%B7%B2%E8%A2%AB%E5%91%BD%E5%90%8D%EF%BC%88Make-sure-our-URL-patterns-are-named%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">让我们的URL配置已被命名（Make sure our URL patterns are named）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E9%A1%B5%E5%8A%9F%E8%83%BD"><span class="toc-number">1.5.</span> <span class="toc-text">添加分页功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E6%9B%B4%E6%94%B9%E4%B9%8B%E5%90%8E%E7%9A%84API"><span class="toc-number">1.6.</span> <span class="toc-text">浏览更改之后的API</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DjangoRESTframework-关系与超链接API
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-11T04:24:04.000Z" itemprop="datePublished">2017-10-11</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/djangorestframework/" rel="tag">djangorestframework</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs"><a href="#DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs" class="headerlink" title="DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)"></a>DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)</h3><p>目前，我们的API内部的关系是通过使用主键来表示的。在本教程的这一部分中，我们将通过使用超链接关系来改善我们的API的内聚性和可发现性。</p>
+<span id="more"></span>
+
+<h4 id="为我们的API创建一个入口"><a href="#为我们的API创建一个入口" class="headerlink" title="为我们的API创建一个入口"></a>为我们的API创建一个入口</h4><p>目前为止我们已经有了snippets和users两个接口，但是我们没有一个单独的API的入口点。我们使用基于方法的视图来创建一个视图，并用上之前介绍过的@api_view装饰器。需要编辑的文件是snippets&#x2F;views.py,添加上如下的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.decorators <span class="keyword">import</span> api_view</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> rest_framework.reverse <span class="keyword">import</span> reverse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@api_view(<span class="params">[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">api_root</span>(<span class="params">request, <span class="built_in">format</span>=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="keyword">return</span> Response(&#123;</span><br><span class="line">        <span class="string">&#x27;users&#x27;</span>: reverse(<span class="string">&#x27;user-list&#x27;</span>, request=request, <span class="built_in">format</span>=<span class="built_in">format</span>),</span><br><span class="line">        <span class="string">&#x27;snippets&#x27;</span>: reverse(<span class="string">&#x27;snippet-list&#x27;</span>, request=request, <span class="built_in">format</span>=<span class="built_in">format</span>)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意两点。第一，我们使用了REST framework框架的reverse方法来返回完整限定(fully-qualified)的URLs.第二,URL规则使用名称来方便辨识的，这在之后编辑snippets&#x2F;urls.py的时候将被提到。</p>
+<h4 id="创建一个代码高亮的接口"><a href="#创建一个代码高亮的接口" class="headerlink" title="创建一个代码高亮的接口"></a>创建一个代码高亮的接口</h4><p>我们的api还缺少一个关键点–代码高亮接口。</p>
+<p>不像其他的API接口，我们不希望使用JSON,我们更愿意使用HTML来作为渲染输出。REST framework提供了两种风格的HTML渲染器，第一种先使用模版来处理预渲染HTMl(pre-rendered HTML)，第二种渲染器就像之前我们所用到的。</p>
+<p>另外一件事情我们需要考虑的是创建代码高亮视图的时候不能使用现有的generic view，我们并没有返回一个对象实例，而是对象实例中的某个属性。</p>
+<p>除了使用内建的generic view，我们将使用一个base class来展示实例，创建爱你我们自己的.get()方法。需要编辑的文件是snippets&#x2F;views.py。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> renderers</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SnippetHighlight</span>(generics.GenericAPIView):</span><br><span class="line">    queryset = Snippet.objects.<span class="built_in">all</span>()</span><br><span class="line">    renderer_classes = (renderers.StaticHTMLRenderer,)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self, request, *args, **kwargs</span>):</span><br><span class="line">        snippet = self.get_object()</span><br><span class="line">        <span class="keyword">return</span> Response(snippet.highlighted)</span><br></pre></td></tr></table></figure>
+
+<p>通常我们需要把新添加的视图增添到url配置中，编辑snippets&#x2F;urls.py文件，添加我们的API:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(<span class="string">r&#x27;^$&#x27;</span>, views.api_root),</span><br></pre></td></tr></table></figure>
+
+<p>添加代码高亮接口的url：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(<span class="string">r&#x27;^snippets/(?P&lt;pk&gt;[0-9]+)/highlight/$&#x27;</span>, views.SnippetHighlight.as_view()),</span><br></pre></td></tr></table></figure>
+
+<h4 id="让我们的API变得超链接一点（Hyperlinking-our-API）"><a href="#让我们的API变得超链接一点（Hyperlinking-our-API）" class="headerlink" title="让我们的API变得超链接一点（Hyperlinking our API）"></a>让我们的API变得超链接一点（Hyperlinking our API）</h4><p>处理实体之间的关系是Web API设计中更具挑战性的方面之一。我们有很多不同的方式来表示一段关系:</p>
+<p>1.使用主键</p>
+<p>2.在不同的实体之间使用超链接（hyperlinking）</p>
+<p>3.使用唯一标识</p>
+<p>4.使用相关实体的默认字符串</p>
+<p>5.在父表中嵌套相关的实体</p>
+<p>6.一些其他的自定义的实现</p>
+<p>REST framework支持以上全部的策略，可以将它们应用于转发或反向关系，或者将它们应用到通用的管理器，例如通用的外键。</p>
+<p>在本例中，我们希望在实体之间使用超链接风格。为了这样做,我们会修改我们的序列化器来扩展HyperlinkedModelSerializer代替现有ModelSerializer。</p>
+<p>ModelSerializer HyperlinkedModelSerializer有以下区别:</p>
+<p>1.它默认不包含id字段</p>
+<p>2.它使用HyperlinkedIdentityField,包含url字段。</p>
+<p>3.使用HyperlinkedRelatedField来替代PrimaryKeyRelatedField表示关系</p>
+<p>编辑snippets&#x2F;serializers.py文件，使用超链接来改写序列化器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SnippetSerializer</span>(serializers.HyperlinkedModelSerializer):</span><br><span class="line">    owner = serializers.ReadOnlyField(source=<span class="string">&#x27;owner.username&#x27;</span>)</span><br><span class="line">    highlight = serializers.HyperlinkedIdentityField(view_name=<span class="string">&#x27;snippet-highlight&#x27;</span>, <span class="built_in">format</span>=<span class="string">&#x27;html&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">        model = Snippet</span><br><span class="line">        fields = (<span class="string">&#x27;url&#x27;</span>, <span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;highlight&#x27;</span>, <span class="string">&#x27;owner&#x27;</span>,</span><br><span class="line">                  <span class="string">&#x27;title&#x27;</span>, <span class="string">&#x27;code&#x27;</span>, <span class="string">&#x27;linenos&#x27;</span>, <span class="string">&#x27;language&#x27;</span>, <span class="string">&#x27;style&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UserSerializer</span>(serializers.HyperlinkedModelSerializer):</span><br><span class="line">    snippets = serializers.HyperlinkedRelatedField(many=<span class="literal">True</span>, view_name=<span class="string">&#x27;snippet-detail&#x27;</span>, read_only=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">        model = User</span><br><span class="line">        fields = (<span class="string">&#x27;url&#x27;</span>, <span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;snippets&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>需要注意，我们已经添加了新的hightlight字段。这个字段和url字段是相同的类型。它指向的是snippet-hightlight这个url配置，而不是snippet-detail这个url配置。</p>
+<p>因为我们包含了format suffixed URLs,支持类似于.json这个url，我们还需要在hightlight字段中指出，任何格式的后缀超链接都应该使用“。”html的后缀。</p>
+<h4 id="让我们的URL配置已被命名（Make-sure-our-URL-patterns-are-named）"><a href="#让我们的URL配置已被命名（Make-sure-our-URL-patterns-are-named）" class="headerlink" title="让我们的URL配置已被命名（Make sure our URL patterns are named）"></a>让我们的URL配置已被命名（Make sure our URL patterns are named）</h4><p>如果我们要有一个超链接的API，我们需要确定我们的URL路由。让我们看一下需要命名的UR路由。</p>
+<p>1.我们的API的根路由，比如user-list和snippet-list。</p>
+<p>2.我们的snippet序列化器包含的snippet-hightlight字段。</p>
+<p>3.我们的序列化器包含的snippet-detail字段。</p>
+<p>4.我们的snippet和user序列化器包含的url字段，它们默认指向{model_name}-detail，达到这样的效果snippet-detail和user-detail。</p>
+<p>当我们把以上这些名称都添加到了URL配置中后，snippets&#x2F;urls.py这个文件看起来应该是这个样子的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url, include</span><br><span class="line"><span class="keyword">from</span> rest_framework.urlpatterns <span class="keyword">import</span> format_suffix_patterns</span><br><span class="line"><span class="keyword">from</span> snippets <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line"><span class="comment"># API endpoints</span></span><br><span class="line">urlpatterns = format_suffix_patterns([</span><br><span class="line">    url(<span class="string">r&#x27;^$&#x27;</span>, views.api_root),</span><br><span class="line">    url(<span class="string">r&#x27;^snippets/$&#x27;</span>,</span><br><span class="line">        views.SnippetList.as_view(),</span><br><span class="line">        name=<span class="string">&#x27;snippet-list&#x27;</span>),</span><br><span class="line">    url(<span class="string">r&#x27;^snippets/(?P&lt;pk&gt;[0-9]+)/$&#x27;</span>,</span><br><span class="line">        views.SnippetDetail.as_view(),</span><br><span class="line">        name=<span class="string">&#x27;snippet-detail&#x27;</span>),</span><br><span class="line">    url(<span class="string">r&#x27;^snippets/(?P&lt;pk&gt;[0-9]+)/highlight/$&#x27;</span>,</span><br><span class="line">        views.SnippetHighlight.as_view(),</span><br><span class="line">        name=<span class="string">&#x27;snippet-highlight&#x27;</span>),</span><br><span class="line">    url(<span class="string">r&#x27;^users/$&#x27;</span>,</span><br><span class="line">        views.UserList.as_view(),</span><br><span class="line">        name=<span class="string">&#x27;user-list&#x27;</span>),</span><br><span class="line">    url(<span class="string">r&#x27;^users/(?P&lt;pk&gt;[0-9]+)/$&#x27;</span>,</span><br><span class="line">        views.UserDetail.as_view(),</span><br><span class="line">        name=<span class="string">&#x27;user-detail&#x27;</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Login and logout views for the browsable API</span></span><br><span class="line">urlpatterns += [</span><br><span class="line">    url(<span class="string">r&#x27;^api-auth/&#x27;</span>, include(<span class="string">&#x27;rest_framework.urls&#x27;</span>,</span><br><span class="line">                               namespace=<span class="string">&#x27;rest_framework&#x27;</span>)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="添加分页功能"><a href="#添加分页功能" class="headerlink" title="添加分页功能"></a>添加分页功能</h4><p>我们的user或者code snippet可能会返回大量的实例，所以我们最好能够让它们分页展示，也许API客户端能够获取到独立的页面。</p>
+<p>我们可以使用分页来更改默认的列表风格，需要更改tutorial&#x2F;settings.py文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REST_FRAMEWORK = &#123;</span><br><span class="line">    <span class="string">&#x27;PAGE_SIZE&#x27;</span>: <span class="number">10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：REST framework中的设置都被命名为一个名为“REST_FRAMEWORK”的单一字典，这有助于使它们与其他项目设置保持良好的分离。</p>
+<p>如果需要的话，我们也可以自定义分页样式，但在本例中，我们只使用缺省值。</p>
+<h4 id="浏览更改之后的API"><a href="#浏览更改之后的API" class="headerlink" title="浏览更改之后的API"></a>浏览更改之后的API</h4><p>如果我们打开一个浏览器打开API链接，您会发现现在可以通过跟踪超链接来使用这个API。</p>
+<p>您还可以看到snippet上的“hightlight”链接，点击浏览能够看到代码高亮的HTML表示。</p>
+<p><img src="/blogimg/api_root.png" alt="image"></p>
+<p><img src="/blogimg/highlight.png" alt="image"></p>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.django-rest-framework.org/tutorial/5-relationships-and-hyperlinked-apis/">http://www.django-rest-framework.org/tutorial/5-relationships-and-hyperlinked-apis/</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DjangoRESTframework-%E5%85%B3%E7%B3%BB%E5%92%8C%E8%B6%85%E9%93%BE%E6%8E%A5API-Relationships-amp-Hyperlinked-APIs"><span class="toc-number">1.</span> <span class="toc-text">DjangoRESTframework 关系和超链接API(Relationships &amp; Hyperlinked APIs)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E6%88%91%E4%BB%AC%E7%9A%84API%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%85%A5%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text">为我们的API创建一个入口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.</span> <span class="toc-text">创建一个代码高亮的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84API%E5%8F%98%E5%BE%97%E8%B6%85%E9%93%BE%E6%8E%A5%E4%B8%80%E7%82%B9%EF%BC%88Hyperlinking-our-API%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">让我们的API变得超链接一点（Hyperlinking our API）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84URL%E9%85%8D%E7%BD%AE%E5%B7%B2%E8%A2%AB%E5%91%BD%E5%90%8D%EF%BC%88Make-sure-our-URL-patterns-are-named%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">让我们的URL配置已被命名（Make sure our URL patterns are named）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E9%A1%B5%E5%8A%9F%E8%83%BD"><span class="toc-number">1.5.</span> <span class="toc-text">添加分页功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E6%9B%B4%E6%94%B9%E4%B9%8B%E5%90%8E%E7%9A%84API"><span class="toc-number">1.6.</span> <span class="toc-text">浏览更改之后的API</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&text=DjangoRESTframework-关系与超链接API"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&is_video=false&description=DjangoRESTframework-关系与超链接API"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DjangoRESTframework-关系与超链接API&body=Check out this article: http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&title=DjangoRESTframework-关系与超链接API"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&name=DjangoRESTframework-关系与超链接API&description=&lt;h3 id=&#34;DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs&#34;&gt;&lt;a href=&#34;#DjangoRESTframework-关系和超链接API-Relationships-amp-Hyperlinked-APIs&#34; class=&#34;headerlink&#34; title=&#34;DjangoRESTframework 关系和超链接API(Relationships &amp;amp; Hyperlinked APIs)&#34;&gt;&lt;/a&gt;DjangoRESTframework 关系和超链接API(Relationships &amp;amp; Hyperlinked APIs)&lt;/h3&gt;&lt;p&gt;目前，我们的API内部的关系是通过使用主键来表示的。在本教程的这一部分中，我们将通过使用超链接关系来改善我们的API的内聚性和可发现性。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/11/DjangoRESTframework-RelationshipsHyperlinkedAPI/&t=DjangoRESTframework-关系与超链接API"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

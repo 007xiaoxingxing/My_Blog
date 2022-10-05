@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在自己的VPS上编译部署Ngrok">
+<meta property="og:url" content="http://example.com/2017/06/02/CompileNgrok/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/fan.png">
+<meta property="article:published_time" content="2017-06-02T03:12:12.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.136Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="转发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/fan.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>在自己的VPS上编译部署Ngrok</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/06/02/LoginNewTP/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/05/31/CompileOpenJDK/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/06/02/CompileNgrok/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/06/02/CompileNgrok/&text=在自己的VPS上编译部署Ngrok"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/06/02/CompileNgrok/&is_video=false&description=在自己的VPS上编译部署Ngrok"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在自己的VPS上编译部署Ngrok&body=Check out this article: http://example.com/2017/06/02/CompileNgrok/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/06/02/CompileNgrok/&name=在自己的VPS上编译部署Ngrok&description=&lt;p&gt;由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/06/02/CompileNgrok/&t=在自己的VPS上编译部署Ngrok"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ngrok%E6%98%AF%E4%B8%AA%E5%95%A5%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">Ngrok是个啥？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">3.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">运行测试</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        在自己的VPS上编译部署Ngrok
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-06-02T03:12:12.000Z" itemprop="datePublished">2017-06-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%BD%AC%E5%8F%91/" rel="tag">转发</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。</p>
+<span id="more"></span>
+
+<h3 id="Ngrok是个啥？"><a href="#Ngrok是个啥？" class="headerlink" title="Ngrok是个啥？"></a>Ngrok是个啥？</h3><blockquote>
+<p>ngrok is a reverse proxy that creates a secure tunnel from a public endpoint to a locally running web service. ngrok captures and analyzes all traffic over the tunnel for later inspection and replay.</p>
+<p>——-github上作者对ngrok的说明</p>
+</blockquote>
+<p>简单的来说，ngrok就是一个反向代理，可以通过公网服务器来和本地内网机器之间建立一个隧道，使得可以从外网访问内网的服务。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>1.在服务器上搭建go环境</p>
+<p>我选择直接下载go的源码</p>
+<blockquote>
+<p> <a target="_blank" rel="noopener" href="http://www.golangtc.com/download">http://www.golangtc.com/download</a> </p>
+</blockquote>
+<p>选取适合服务器系统的go环境压缩包，由于我的VPS是Centos 7 64位，所以我下载的是1.8 amd64</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok_compile]<span class="comment"># wget http://www.golangtc.com/static/go/1.8/go1.8.linux-amd64.tar.gz</span></span><br></pre></td></tr></table></figure>
+
+<p>然后需要解压一下，需要注意的是要把go解压到&#x2F;usr&#x2F;local，免得后面出现一些不可描述的问题。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok_compile]<span class="comment"># tar -C /usr/local  -xzf go1.8.linux-amd64.tar.gz</span></span><br></pre></td></tr></table></figure>
+
+<p>为go创建个软连接到&#x2F;usr&#x2F;bin，方便直接使用go命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok_compile]<span class="comment"># ln -s /usr/local/go/bin/* /usr/bin</span></span><br></pre></td></tr></table></figure>
+
+<p>到此，go环境就搭建好了。</p>
+<p>2.克隆ngrok的git仓库到本地</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok_compile]<span class="comment"># git clone https://github.com/inconshreveable/ngrok.git</span></span><br></pre></td></tr></table></figure>
+
+<p>3.设置一些编译所需的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok]<span class="comment"># export GOPATH=/opt/ngrok_compile/ngrok/</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># export NGROK_DOMAIN=&quot;ngrok.star-chen.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>4.为域名生成证书</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok_compile]<span class="comment"># cd ngrok</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out rootCA.key 2048</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj &quot;/CN=$NGROK_DOMAIN&quot; days 5000 -out rootCA.pem</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl req -x509 -new -nodes -key rootCA.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -days 5000 -out rootCA.pem</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl -genrsa -out sever.key 2048</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out sever.key 2048</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out server.csr</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl genrsa -out server.key 2048</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl req -new -key server.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out server.csr</span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 5000</span></span><br></pre></td></tr></table></figure>
+<p>5.把生成的证书拷贝到指定的目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok]<span class="comment"># cp rootCA.pem assets/client/tls/ngrokroot.crt </span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># cp server.crt assets/server/tls/snakeoil.crt </span></span><br><span class="line">[root@vultr ngrok]<span class="comment"># cp server.key assets/server/tls/snakeoil.key </span></span><br></pre></td></tr></table></figure>
+
+<p>6.为域名设置A记录泛解析</p>
+<p><img src="/blogimg/fan.png" alt="img"></p>
+<h3 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先编译个Linux 64位的服务端和客户端程序</span></span><br><span class="line">[root@vultr ngrok]<span class="comment">#  GOOS=linux GOARCH=amd64 make release-server</span></span><br><span class="line">[root@vultr ngrok]<span class="comment">#  GOOS=linux GOARCH=amd64 make release-client</span></span><br><span class="line"><span class="comment">#再编译个windows64位的客户端</span></span><br><span class="line">[root@vultr ngrok]<span class="comment">#  GOOS=windows GOARCH=amd64 make release-client</span></span><br></pre></td></tr></table></figure>
+
+<p>看一下编译好的程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ngrok]<span class="comment"># ls -la bin</span></span><br><span class="line">total 21544</span><br><span class="line">drwxr-xr-x 3 root root     4096 Jun  2 03:06 .</span><br><span class="line">drwxr-xr-x 9 root root     4096 Jun  2 02:31 ..</span><br><span class="line">-rwxr-xr-x 1 root root  2527810 Jun  2 02:31 go-bindata</span><br><span class="line">-rwxr-xr-x 1 root root 10672322 Jun  2 02:31 ngrok</span><br><span class="line">-rwxr-xr-x 1 root root  8841733 Jun  2 03:06 ngrokd</span><br><span class="line">drwxr-xr-x 2 root root     4096 Jun  2 02:35 windows_amd64</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h3><p>服务端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">#因为我的服务上的80和443端口上运行着这个博客，所以我把http和https的端口进行了更改</span></span><br><span class="line"> [root@vultr ngrok]<span class="comment"># bin/ngrokd -domain=ngrok.star-chen.com -httpAddr=&quot;:8080&quot; -httpsAddr=&quot;:8081&quot;</span></span><br><span class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [registry] [tun] No affinity cache specified</span><br><span class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> public http connections on [::]:8080</span><br><span class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> public https connections on [::]:8081</span><br><span class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.Info:112) Listening <span class="keyword">for</span> control and proxy connections on [::]:4443</span><br><span class="line">[04:00:34 UTC 2017/06/02] [INFO] (ngrok/log.(*PrefixLogger).Info:83) [metrics] Reporting every 30 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>windows客户端:</p>
+<p>在ngrok.exe的所在目录新建一个简单的配置文件，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server_addr: &quot;ngrok.star-chen.com:4443&quot;   #尤其注意，这里的域名需要和你生成证书所使用的域名一致</span><br><span class="line">trust_host_root_certs: false  </span><br></pre></td></tr></table></figure>
+
+<p>运行客户端程序：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS G:\&gt; .\ngrok.exe -config .\ngrok.cfg  -subdomain local <span class="number">80</span> #subdomain为指定的子域名</span><br></pre></td></tr></table></figure>
+
+<p>运行的显示，status为online则表明已经建立了转发连接。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ngrok</span><br><span class="line"></span><br><span class="line">Tunnel Status                 online</span><br><span class="line">Version                       <span class="number">1</span>.<span class="number">7</span>/<span class="number">1</span>.<span class="number">7</span></span><br><span class="line">Forwarding                    http://local.ngrok.star-chen.com:<span class="number">8080</span> -&gt; <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">80</span></span><br><span class="line">Forwarding                    https://local.ngrok.star-chen.com:<span class="number">8080</span> -&gt; <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">80</span></span><br><span class="line">Web Interface                 <span class="number">127</span>.<span class="number">0</span>.<span class="number">0</span>.<span class="number">1</span>:<span class="number">4040</span></span><br><span class="line"># Conn                        <span class="number">0</span></span><br><span class="line">Avg Conn <span class="built_in">Time</span>                 <span class="number">0</span>.<span class="number">00</span>ms</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后访问 <a target="_blank" rel="noopener" href="http://local.ngrok.star-chen.com:8080/">http://local.ngrok.star-chen.com:8080</a>  就可以访问到我本机的xampp测试环境了。当然客户端还可以转发tcp连接，例如我的虚拟机里边的ssh：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS G:\&gt; .\ngrok.exe -config .\ngrok.cfg  -proto tcp <span class="number">192</span>.<span class="number">168</span>.<span class="number">10</span>.<span class="number">176</span>:<span class="number">22</span></span><br></pre></td></tr></table></figure>
+
+<p>这样子，在外边也可以方便的ssh到内网中的虚拟机了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ngrok%E6%98%AF%E4%B8%AA%E5%95%A5%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">Ngrok是个啥？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E8%AF%91"><span class="toc-number">3.</span> <span class="toc-text">开始编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">运行测试</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/06/02/CompileNgrok/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/06/02/CompileNgrok/&text=在自己的VPS上编译部署Ngrok"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/06/02/CompileNgrok/&is_video=false&description=在自己的VPS上编译部署Ngrok"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=在自己的VPS上编译部署Ngrok&body=Check out this article: http://example.com/2017/06/02/CompileNgrok/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/06/02/CompileNgrok/&title=在自己的VPS上编译部署Ngrok"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/06/02/CompileNgrok/&name=在自己的VPS上编译部署Ngrok&description=&lt;p&gt;由于我有一些测试服务需要从内网映射到公网，但是又不想使用其他第三方的转发服务，索性就自己编译一把Ngrok放到自己的服务器上用吧。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/06/02/CompileNgrok/&t=在自己的VPS上编译部署Ngrok"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

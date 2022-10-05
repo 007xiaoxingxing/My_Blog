@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从Django1.x迁移至2.0需要注意的几个点">
+<meta property="og:url" content="http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-03-21T05:54:37.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.166Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="django">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>从Django1.x迁移至2.0需要注意的几个点</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2018/03/26/win10-grub-default/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2018/03/14/iPXE-WinPE/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&text=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&is_video=false&description=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从Django1.x迁移至2.0需要注意的几个点&body=Check out this article: http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&name=从Django1.x迁移至2.0需要注意的几个点&description=&lt;p&gt;最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&t=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL%E7%9A%84%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">URL的匹配规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIDDLEWARE%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">MIDDLEWARE的变化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#User-is-authenticated-%E5%92%8CUser-is-anonymous"><span class="toc-number">3.</span> <span class="toc-text">User.is_authenticated 和User.is_anonymous</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%96%E9%94%AE%E7%9A%84on-delete%E5%B1%9E%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">外键的on_delete属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#django-filters%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">django-filters的变化</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        从Django1.x迁移至2.0需要注意的几个点
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-03-21T05:54:37.000Z" itemprop="datePublished">2018-03-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/django/" rel="tag">django</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：</p>
+<span id="more"></span>
+
+<h5 id="URL的匹配规则"><a href="#URL的匹配规则" class="headerlink" title="URL的匹配规则"></a>URL的匹配规则</h5><p>不再支持patterns，下边这种写法是不行的了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> patterns, url</span><br><span class="line"><span class="keyword">from</span> django.contrib.auth <span class="keyword">import</span> views <span class="keyword">as</span> auth_views</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = patterns(<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">    url(<span class="string">r&#x27;^logout/$&#x27;</span>, views.logout, name=<span class="string">&quot;logout&quot;</span>),</span><br><span class="line">    url(<span class="string">r&#x27;^login/$&#x27;</span>, views.LoginView.as_view(), name=<span class="string">&quot;login&quot;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>如果想保留以上的正则路由匹配的方式，可以微调成以下的样子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from django.conf.urls import url</span><br><span class="line">from django.contrib.auth import views as auth_views</span><br><span class="line"></span><br><span class="line">from . import views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(r&#x27;^logout/$&#x27;, views.logout, name=&quot;logout&quot;),</span><br><span class="line">    url(r&#x27;^login/$&#x27;, views.LoginView.as_view(), name=&quot;login&quot;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>对比一下可以看出，url函数一致，只是把patterns函数直接换为[]，去掉’’这个规则。</p>
+<p>另外一种使用正则路由的方式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> include, re_path</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    re_path(<span class="string">r&#x27;^index/$&#x27;</span>, views.index, name=<span class="string">&#x27;index&#x27;</span>),</span><br><span class="line">    re_path(<span class="string">r&#x27;^bio/(?P&lt;username&gt;\w+)/$&#x27;</span>, views.bio, name=<span class="string">&#x27;bio&#x27;</span>),</span><br><span class="line">    re_path(<span class="string">r&#x27;^weblog/&#x27;</span>, include(<span class="string">&#x27;blog.urls&#x27;</span>)),</span><br><span class="line">    ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>此外，Django2.0提供了新的path语法来定义路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">&#x27;articles/2003/&#x27;</span>, views.special_case_2003),</span><br><span class="line">    path(<span class="string">&#x27;articles/&lt;int:year&gt;/&#x27;</span>, views.year_archive),</span><br><span class="line">    path(<span class="string">&#x27;articles/&lt;int:year&gt;/&lt;int:month&gt;/&#x27;</span>, views.month_archive),</span><br><span class="line">    path(<span class="string">&#x27;articles/&lt;int:year&gt;/&lt;int:month&gt;/&lt;slug:slug&gt;/&#x27;</span>, views.article_detail),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>具体说明和使用方法请参见Django官方文档。</p>
+<h5 id="MIDDLEWARE的变化"><a href="#MIDDLEWARE的变化" class="headerlink" title="MIDDLEWARE的变化"></a>MIDDLEWARE的变化</h5><p><code>settings.py</code>文件，<code>MIDDLEWARE_CLASSES</code>更改成了<code>MIDDLEWARE</code>，这个一定要注意。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MIDDLEWARE = (</span><br><span class="line">    <span class="string">&#x27;webapp.lib.acl.AclMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>为了将之前的1.x的middleware迁移至2.0的middleware，可以这么做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .<span class="built_in">globals</span> <span class="keyword">import</span> set_thread_globals</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin  <span class="comment">#引入此包</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Global</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):  <span class="comment">#继承MiddlewareMixin</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        set_thread_globals(<span class="string">&#x27;request&#x27;</span>, request)</span><br><span class="line">        set_thread_globals(<span class="string">&#x27;user&#x27;</span>, <span class="built_in">getattr</span>(request, <span class="string">&#x27;user&#x27;</span>, <span class="literal">None</span>))</span><br><span class="line">        set_thread_globals(<span class="string">&#x27;engine_exceptions&#x27;</span>, [])</span><br></pre></td></tr></table></figure>
+
+<p>这样做之后，MiddlewareMixin的 <code>__call__</code>方法会去调用process_request等方法。具体详情可参见官方文档说明：<a target="_blank" rel="noopener" href="https://docs.djangoproject.com/en/2.0/topics/http/middleware/#view-middleware">https://docs.djangoproject.com/en/2.0/topics/http/middleware/#view-middleware</a></p>
+<p>当然有更简单的编写midlleware的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SimpleMiddleware</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, get_response</span>):</span><br><span class="line">        self.get_response = get_response</span><br><span class="line">        <span class="comment"># One-time configuration and initialization.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="comment"># Code to be executed for each request before</span></span><br><span class="line">        <span class="comment"># the view (and later middleware) are called.</span></span><br><span class="line"></span><br><span class="line">        response = self.get_response(request)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Code to be executed for each request/response after</span></span><br><span class="line">        <span class="comment"># the view is called.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+<h5 id="User-is-authenticated-和User-is-anonymous"><a href="#User-is-authenticated-和User-is-anonymous" class="headerlink" title="User.is_authenticated 和User.is_anonymous"></a>User.is_authenticated 和User.is_anonymous</h5><p>之前的<code>User.is_authenticated()</code>和<code>User.is_anonymous()</code>方法更改成了属性：<code>User.is_authenticated</code>和<code>User.is_anonymous</code>。</p>
+<h5 id="外键的on-delete属性"><a href="#外键的on-delete属性" class="headerlink" title="外键的on_delete属性"></a>外键的on_delete属性</h5><p>外键的on_delete关系必须指明，不可省略。</p>
+<h5 id="django-filters的变化"><a href="#django-filters的变化" class="headerlink" title="django-filters的变化"></a>django-filters的变化</h5><p>之前项目中使用的django-filter是0.x版本，对于现在的drf 3.7.x版本支持不是那么好，所以更换为了1.x版本。它有两点发生了变化。</p>
+<p>MethodFilter在1.x中被去掉了，所以下面的引用方式应当做响应改变</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django_filters <span class="keyword">import</span> (FilterSet, MethodFilter)  <span class="comment">#之前的引用方式</span></span><br><span class="line"><span class="keyword">from</span> django_filters <span class="keyword">import</span> (FilterSet, Filter)   <span class="comment">#现在应将MethodFilter改为Filter即可</span></span><br></pre></td></tr></table></figure>
+
+<p>MethodFilter的写法从：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> django_filters</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomerAccountFilter</span>(django_filters.FilterSet):</span><br><span class="line">    is_staff = django_filters.MethodFilter(name=<span class="string">&quot;is_staff&quot;</span>, action=<span class="string">&quot;is_staff_filter&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>变为了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> django_filters</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomerAccountFilter</span>(django_filters.FilterSet):</span><br><span class="line">    is_staff = django_filters.Filter(name=<span class="string">&quot;is_staff&quot;</span>, method=<span class="string">&quot;is_staff_filter&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+<p>这几点是我在迁移的时候遇到的几个问题，可能还有其它需要注意点的点，遇到之后再做补充。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL%E7%9A%84%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">URL的匹配规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MIDDLEWARE%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">MIDDLEWARE的变化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#User-is-authenticated-%E5%92%8CUser-is-anonymous"><span class="toc-number">3.</span> <span class="toc-text">User.is_authenticated 和User.is_anonymous</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%96%E9%94%AE%E7%9A%84on-delete%E5%B1%9E%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">外键的on_delete属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#django-filters%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">django-filters的变化</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&text=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&is_video=false&description=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=从Django1.x迁移至2.0需要注意的几个点&body=Check out this article: http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&title=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&name=从Django1.x迁移至2.0需要注意的几个点&description=&lt;p&gt;最近在把项目从django1.x往django2.x迁移，过程遇到了不少问题，大都根据报错信息进行了处理，现将过程中遇到的几个典型的问题记录如下：&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2018/03/21/Migrate-Django1-x-To-Django2-0/&t=从Django1.x迁移至2.0需要注意的几个点"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

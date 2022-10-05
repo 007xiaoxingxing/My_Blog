@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这学期前几个月为了写Mango Cloud的网站和微信公众号程序，耽搁了不少时间，已经很长时间没有学习新的知识了。现在终于可以拿出点时间学点新东西了，在之前的网站开发过程中也深刻感受到了面向对象程序编写中存在很多问题，许多业务代码只是简单的调用方法来完成业务逻辑，其中有不少代码存在重复使用，总之代码看起来不是那么的漂亮，对于强迫症的我是不可容忍的。这次继续设计模式的学习——–装饰者模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式学习之装饰者模式">
+<meta property="og:url" content="http://example.com/2017/05/12/Decorator-Notes/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="这学期前几个月为了写Mango Cloud的网站和微信公众号程序，耽搁了不少时间，已经很长时间没有学习新的知识了。现在终于可以拿出点时间学点新东西了，在之前的网站开发过程中也深刻感受到了面向对象程序编写中存在很多问题，许多业务代码只是简单的调用方法来完成业务逻辑，其中有不少代码存在重复使用，总之代码看起来不是那么的漂亮，对于强迫症的我是不可容忍的。这次继续设计模式的学习——–装饰者模式">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-05-11T18:16:06.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.137Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="设计模式">
+<meta property="article:tag" content="装饰者模式">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>设计模式学习之装饰者模式</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/05/12/Factory-Notes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/03/11/MariaDB-Create-Remote/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/05/12/Decorator-Notes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/05/12/Decorator-Notes/&text=设计模式学习之装饰者模式"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/05/12/Decorator-Notes/&is_video=false&description=设计模式学习之装饰者模式"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=设计模式学习之装饰者模式&body=Check out this article: http://example.com/2017/05/12/Decorator-Notes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/05/12/Decorator-Notes/&name=设计模式学习之装饰者模式&description=&lt;p&gt;这学期前几个月为了写Mango Cloud的网站和微信公众号程序，耽搁了不少时间，已经很长时间没有学习新的知识了。现在终于可以拿出点时间学点新东西了，在之前的网站开发过程中也深刻感受到了面向对象程序编写中存在很多问题，许多业务代码只是简单的调用方法来完成业务逻辑，其中有不少代码存在重复使用，总之代码看起来不是那么的漂亮，对于强迫症的我是不可容忍的。&lt;br&gt;这次继续设计模式的学习——–装饰者模式  &lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/05/12/Decorator-Notes/&t=设计模式学习之装饰者模式"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">装饰者模式要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">装饰者模式的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E4%BE%8B%EF%BC%88%E6%91%98%E8%87%AAHeadFirst%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8A%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">代码实例（摘自HeadFirst设计模式上的例子）</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        设计模式学习之装饰者模式
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-05-11T18:16:06.000Z" itemprop="datePublished">2017-05-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link-link" href="/tags/%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">装饰者模式</a>, <a class="tag-link-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这学期前几个月为了写Mango Cloud的网站和微信公众号程序，耽搁了不少时间，已经很长时间没有学习新的知识了。现在终于可以拿出点时间学点新东西了，在之前的网站开发过程中也深刻感受到了面向对象程序编写中存在很多问题，许多业务代码只是简单的调用方法来完成业务逻辑，其中有不少代码存在重复使用，总之代码看起来不是那么的漂亮，对于强迫症的我是不可容忍的。<br>这次继续设计模式的学习——–装饰者模式  </p>
+<span id="more"></span> 
+
+<p>其实装饰者模式在学习JAVA IO部分的时候就接触到了，例如以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;test.txt&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>其中stream就经过了stream-&gt;streamreader-&gt;bufferedreader的包装过程。下面对装饰者模式进行拆分理解，搞清楚它是怎么实现的。</p>
+<h3 id="装饰者模式要解决的问题"><a href="#装饰者模式要解决的问题" class="headerlink" title="装饰者模式要解决的问题"></a>装饰者模式要解决的问题</h3><p>通常一个类的功能拓展是通过继承来实现的，而往往一个子类相较于父类只增添了一点属性或更改了一个方法的具体实现内容，随着功能需求的增多，会生成很多子类，增大了程序的维护难度。使用继承也意味着这些功能在编译的时候就已经确定了，是静态的。</p>
+<h3 id="装饰者模式的定义"><a href="#装饰者模式的定义" class="headerlink" title="装饰者模式的定义"></a>装饰者模式的定义</h3><p>装饰者模式动态地将责任附加到对象上。装饰者模式允许向一个现有的对象添加新的功能，同时又不改变其原有的结构。装饰者模式创建了一个装饰类，将原来的类进行包装，并在保持原来的类方法签名完整性的前提下，提供了额外的功能。OO原则之开放-关闭原则——对外扩展开放，对修改关闭，即不修改现有代码的情况下，扩充原有类的行为。</p>
+<h3 id="代码实例（摘自HeadFirst设计模式上的例子）"><a href="#代码实例（摘自HeadFirst设计模式上的例子）" class="headerlink" title="代码实例（摘自HeadFirst设计模式上的例子）"></a>代码实例（摘自HeadFirst设计模式上的例子）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个抽象类，为之后的被装饰对象提供一致的数据类型，这里也可以定义一个接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Beverage</span>&#123;</span><br><span class="line">  <span class="type">String</span> <span class="variable">description</span> <span class="operator">=</span> <span class="string">&quot;Unknown Beverage&quot;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">getDescription</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> description;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="type">double</span> <span class="title function_">cost</span><span class="params">()</span>;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装饰者抽象类，需要通过继承获得与被装饰者一致的属性和方法，也就是保持原有类的完整性</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">CondimentDecorator</span> <span class="keyword">extends</span> <span class="title class_">Beverage</span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title function_">getDescription</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个被装饰对象，这里的description是从父类继承得到的</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Espresso</span> <span class="keyword">extends</span> <span class="title class_">Beverage</span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Espresso</span><span class="params">()</span>&#123;</span><br><span class="line">    </span><br><span class="line">    description = <span class="string">&quot;Espresso&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">cost</span><span class="params">()</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.99</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个装饰者类，通过这个装饰者类可以为被装饰对象提供新的功能，比如这里的为咖啡加上摩卡，并计算新的价格</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Mocha</span> <span class="keyword">extends</span> <span class="title class_">CondimentDecorator</span>&#123;</span><br><span class="line">  </span><br><span class="line">  Beverage beverage;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Mocha</span><span class="params">(Beverage beverage)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.beverage = beverage;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">getDescription</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> beverage.getDescription() + <span class="string">&quot;, Mocha&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">cost</span><span class="params">()</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">.20</span> + beverage.cost();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//代码测试</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DecoratorTest</span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    </span><br><span class="line">    	<span class="type">Bdverage</span> <span class="variable">beverage</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Espresso</span>();</span><br><span class="line">    	beverage = <span class="keyword">new</span> <span class="title class_">Mocha</span>(beverage);</span><br><span class="line">    	System.out.println(<span class="string">&quot;The coffee is&quot;</span>+mocha.getDescription()+<span class="string">&quot; ,The price is &quot;</span>+mocha.cost());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我这里举的代码例子只使用了一个装饰类，当然还可以继续定义新的装饰类来继续对mocha咖啡进行扩充，例如是否加牛奶，设定容量大小等等。</p>
+<p>利用装饰者模式可以更灵活的对某个类的功能进行扩充，用不着派生出无数的子类，对于代码维护挺有好处的。但是装饰者模式会导致在使用过程中出现许多小对象，如果过度使用，会让程序变得很复杂。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">装饰者模式要解决的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">装饰者模式的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E4%BE%8B%EF%BC%88%E6%91%98%E8%87%AAHeadFirst%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8A%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">代码实例（摘自HeadFirst设计模式上的例子）</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/05/12/Decorator-Notes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/05/12/Decorator-Notes/&text=设计模式学习之装饰者模式"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/05/12/Decorator-Notes/&is_video=false&description=设计模式学习之装饰者模式"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=设计模式学习之装饰者模式&body=Check out this article: http://example.com/2017/05/12/Decorator-Notes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/05/12/Decorator-Notes/&title=设计模式学习之装饰者模式"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/05/12/Decorator-Notes/&name=设计模式学习之装饰者模式&description=&lt;p&gt;这学期前几个月为了写Mango Cloud的网站和微信公众号程序，耽搁了不少时间，已经很长时间没有学习新的知识了。现在终于可以拿出点时间学点新东西了，在之前的网站开发过程中也深刻感受到了面向对象程序编写中存在很多问题，许多业务代码只是简单的调用方法来完成业务逻辑，其中有不少代码存在重复使用，总之代码看起来不是那么的漂亮，对于强迫症的我是不可容忍的。&lt;br&gt;这次继续设计模式的学习——–装饰者模式  &lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/05/12/Decorator-Notes/&t=设计模式学习之装饰者模式"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

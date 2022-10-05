@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenWrt软件开发-----软件包HelloWorld的构建">
+<meta property="og:url" content="http://example.com/2017/09/09/OpenWrt-HelloWorl/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-09T07:24:56.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.170Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="OpenWrt">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>OpenWrt软件开发-----软件包HelloWorld的构建</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/09/10/PDF-watermask/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/06/19/ChangeUbuntuPassWd/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/09/09/OpenWrt-HelloWorl/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&text=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&is_video=false&description=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OpenWrt软件开发-----软件包HelloWorld的构建&body=Check out this article: http://example.com/2017/09/09/OpenWrt-HelloWorl/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&name=OpenWrt软件开发-----软件包HelloWorld的构建&description=&lt;p&gt;OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/09/09/OpenWrt-HelloWorl/&t=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        OpenWrt软件开发-----软件包HelloWorld的构建
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-09-09T07:24:56.000Z" itemprop="datePublished">2017-09-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/OpenWrt/" rel="tag">OpenWrt</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。</p>
+<span id="more"></span>
+
+<p>1.文件目录</p>
+<pre><code>helloworld/
+├── Makefile  #Makefile 必不可少
+└── src #源码目录
+    ├── Hello.c #程序源码
+    └── Makefile #编译源码的Makefile
+</code></pre>
+<p>2.文件内容</p>
+<p>src&#x2F;Hello.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">&quot;Hell! Dear OpenWrt!\n\n&quot;</span>);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>src&#x2F;Makefile</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build Hello executable when user executes &quot;make&quot;</span></span><br><span class="line"><span class="section">Hello:Hello.o</span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(LDFLAGS)</span> Hello.o -o Hello</span><br><span class="line"><span class="section">Hello.o:Hello.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -c Hello.c</span><br><span class="line"><span class="comment">#remove object files and executable when user executes &quot;make clean&quot;</span></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o Hello</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>构建OpenWrt软件包最主要的内容都包括在Makefile中了，首先看一下Makefile的内容。</p>
+<p>Makefile</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##############################################</span></span><br><span class="line"><span class="comment"># OpenWrtMakefile for HelloWorld program</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Most ofthe variables used here are defined in</span></span><br><span class="line"><span class="comment"># theinclude directives below. We just need to</span></span><br><span class="line"><span class="comment"># specifya basic description of the package,</span></span><br><span class="line"><span class="comment"># whereto build our program, where to find</span></span><br><span class="line"><span class="comment"># thesource files, and where to install the</span></span><br><span class="line"><span class="comment"># compiled program on the router.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Be verycareful of spacing in this file.</span></span><br><span class="line"><span class="comment"># Indentsshould be tabs, not spaces, and</span></span><br><span class="line"><span class="comment"># thereshould be no trailing whitespace in</span></span><br><span class="line"><span class="comment"># linesthat are not commented.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">##############################################</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(TOPDIR)</span>/rules.mk </span><br><span class="line"><span class="comment"># Nameand release number of this package</span></span><br><span class="line">PKG_NAME:=Hello <span class="comment">#软件包的名称，编译的时候可以看到，安装，卸载所用到的名称</span></span><br><span class="line">PKG_RELEASE:=1 <span class="comment">#软件包的版本</span></span><br><span class="line"><span class="comment"># Thisspecifies the directory where we&#x27;re going to build the program.</span></span><br><span class="line"><span class="comment"># Theroot build directory, $(BUILD_DIR), is by default the build_mipsel</span></span><br><span class="line"><span class="comment">#directory in your OpenWrt SDK directory</span></span><br><span class="line">PKG_BUILD_DIR:= <span class="variable">$(BUILD_DIR)</span>/<span class="variable">$(PKG_NAME)</span>  <span class="comment">#源码所在的目录</span></span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(INCLUDE_DIR)</span>/package.mk</span><br><span class="line"><span class="comment"># Specifypackage information for this program.</span></span><br><span class="line"><span class="comment"># Thevariables defined here should be self explanatory.</span></span><br><span class="line"><span class="comment"># If youare running Kamikaze, delete the DESCRIPTION</span></span><br><span class="line"><span class="comment">#variable below and uncomment the Kamikaze define</span></span><br><span class="line"><span class="comment"># directivefor the description below</span></span><br><span class="line"><span class="keyword">define</span> Package/<span class="variable">$(PKG_NAME)</span>  <span class="comment">#这里是定义在make menuconfig的时候，该软件包出现的位置</span></span><br><span class="line">	SECTION:=utils</span><br><span class="line">	CATEGORY:=Utilities</span><br><span class="line">	TITLE:=HelloOpenwrt-- Start to build software on your router!</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"><span class="comment"># Specifywhat needs to be done to prepare for building the package.</span></span><br><span class="line"><span class="comment"># In ourcase, we need to copy the source files to the build directory.</span></span><br><span class="line"><span class="comment"># This isNOT the default. The default uses thePKG_SOURCE_URL and the</span></span><br><span class="line"><span class="comment">#PKG_SOURCE which is not defined here to download the source from the web.</span></span><br><span class="line"><span class="comment"># Inorder to just build a simple program that we have just written, it is</span></span><br><span class="line"><span class="comment"># mucheasier to do it this way.</span></span><br><span class="line"><span class="keyword">define</span> Build/Prepare</span><br><span class="line">	mkdir -p <span class="variable">$(PKG_BUILD_DIR)</span></span><br><span class="line">	<span class="variable">$(CP)</span> ./src/* <span class="variable">$(PKG_BUILD_DIR)</span>/</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"><span class="comment"># We donot need to define Build/Configure or Build/Compile directives</span></span><br><span class="line"><span class="comment"># Thedefaults are appropriate for compiling a simple program such as this one</span></span><br><span class="line"><span class="comment"># Specifywhere and how to install the program. Since we only have one file,</span></span><br><span class="line"><span class="comment"># thehelloworld executable, install it by copying it to the /bin directory on</span></span><br><span class="line"><span class="comment"># therouter. The $(1) variable represents the root directory on the router running</span></span><br><span class="line"><span class="comment">#OpenWrt. The $(INSTALL_DIR) variable contains a command to prepare the install</span></span><br><span class="line"><span class="comment">#directory if it does not already exist. Likewise $(INSTALL_BIN) contains the</span></span><br><span class="line"><span class="comment"># commandto copy the binary file from its current location (in our case the build</span></span><br><span class="line"><span class="comment">#directory) to the install directory.</span></span><br><span class="line"><span class="keyword">define</span> Package/<span class="variable">$(PKG_NAME)</span>/install  <span class="comment">#定义软件包安装行为</span></span><br><span class="line">	<span class="variable">$(INSTALL_DIR)</span> $(1)/bin <span class="comment">#需要安装的目录，这里必须先指定，不然编译的会报找不到目录的错误</span></span><br><span class="line">	<span class="variable">$(INSTALL_BIN)</span> <span class="variable">$(PKG_BUILD_DIR)</span>/Hello $(1)/bin/</span><br><span class="line"><span class="keyword">endef</span></span><br><span class="line"><span class="comment"># Thisline executes the necessary commands to compile our program.</span></span><br><span class="line"><span class="comment"># Theabove define directives specify all the information needed, but this</span></span><br><span class="line"><span class="comment"># linecalls BuildPackage which in turn actually uses this information to</span></span><br><span class="line"><span class="comment"># build apackage.</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(<span class="built_in">eval</span> $(<span class="built_in">call</span> BuildPackage,<span class="variable">$(PKG_NAME)</span>)</span>) <span class="comment">#正式开始执行编译</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>代码编写完成后，就可以把软件包放到OpenWrt源码的Package目录或者OpenWrt SDk的Package目录中去，执行make，就可以生成ipk软件包了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/09/09/OpenWrt-HelloWorl/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&text=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&is_video=false&description=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=OpenWrt软件开发-----软件包HelloWorld的构建&body=Check out this article: http://example.com/2017/09/09/OpenWrt-HelloWorl/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&title=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/09/09/OpenWrt-HelloWorl/&name=OpenWrt软件开发-----软件包HelloWorld的构建&description=&lt;p&gt;OpenWrt提供了方便的机制来让用用户可以l扩充和实现自己所需的功能。这篇博文就说明一下怎么构建一个能够安装在OpenWrt上ipk包的过程。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/09/09/OpenWrt-HelloWorl/&t=OpenWrt软件开发-----软件包HelloWorld的构建"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="0x1:需求来源本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhoo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Github的webhook和tornado实现代码自动部署">
+<meta property="og:url" content="http://example.com/2016/12/04/Github-Webhook/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="0x1:需求来源本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhoo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/githook.png">
+<meta property="article:published_time" content="2016-12-04T02:39:31.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.158Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="Github">
+<meta property="article:tag" content="Webhook">
+<meta property="article:tag" content="自动部署">
+<meta property="article:tag" content="code deploy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/githook.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>利用Github的webhook和tornado实现代码自动部署</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2016/12/15/nginx-diable-domain/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2016/12/04/PIL-Grab/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/04/Github-Webhook/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/04/Github-Webhook/&text=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/04/Github-Webhook/&is_video=false&description=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用Github的webhook和tornado实现代码自动部署&body=Check out this article: http://example.com/2016/12/04/Github-Webhook/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/04/Github-Webhook/&name=利用Github的webhook和tornado实现代码自动部署&description=&lt;h3 id=&#34;0x1-需求来源&#34;&gt;&lt;a href=&#34;#0x1-需求来源&#34; class=&#34;headerlink&#34; title=&#34;0x1:需求来源&#34;&gt;&lt;/a&gt;0x1:需求来源&lt;/h3&gt;&lt;p&gt;本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhook向远程服务器发起链接，并携带一定的参数，这样的话，在远程服务器监听来自webhook的请求就可以执行代码更新操作了哇。  &lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/04/Github-Webhook/&t=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-%E9%9C%80%E6%B1%82%E6%9D%A5%E6%BA%90"><span class="toc-number">1.</span> <span class="toc-text">0x1:需求来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">0x2:服务端代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-Github%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">0x3:Github代码仓库相关设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">0x4:服务的运行</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        利用Github的webhook和tornado实现代码自动部署
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-12-04T02:39:31.000Z" itemprop="datePublished">2016-12-04</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Github/" rel="tag">Github</a>, <a class="tag-link-link" href="/tags/Webhook/" rel="tag">Webhook</a>, <a class="tag-link-link" href="/tags/code-deploy/" rel="tag">code deploy</a>, <a class="tag-link-link" href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" rel="tag">自动部署</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x1-需求来源"><a href="#0x1-需求来源" class="headerlink" title="0x1:需求来源"></a>0x1:需求来源</h3><p>本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhook向远程服务器发起链接，并携带一定的参数，这样的话，在远程服务器监听来自webhook的请求就可以执行代码更新操作了哇。  </p>
+<span id="more"></span>
+<h3 id="0x2-服务端代码"><a href="#0x2-服务端代码" class="headerlink" title="0x2:服务端代码"></a>0x2:服务端代码</h3><p>服务端代码的思路很清晰。 </p>
+<ol>
+<li>监听来自webhook的消息，并验证是否合法  </li>
+<li>拉取git仓库的内容至本地临时仓库</li>
+<li>拷贝代码至web根目录，并删除web部署目录中的.git目录，防止代码泄露</li>
+</ol>
+<p>正好最近在学习python，就利用python的tornado框架写几句话完成服务端的工作吧。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment">#pull my blog from github</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">PullBlog</span>():</span><br><span class="line">	os.system(<span class="string">&quot;cd ~/blog/My_Blog&amp;&amp;git pull https://github.com/007xiaoxingxing/My_Blog.git&amp;&amp;cp -r public/* /var/blog/&quot;</span>)</span><br><span class="line">	<span class="built_in">print</span> <span class="string">&quot;pull blog&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainHandler</span>(tornado.web.RequestHandler):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self</span>):</span><br><span class="line">		self.write(<span class="string">&quot;Hello Guys!&quot;</span>);</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self</span>):</span><br><span class="line">		json_str=self.request.body</span><br><span class="line">		data=json.loads(json_str)</span><br><span class="line">        <span class="comment">#这里的内容需要根据github的post数据自行进行判断，我这里一切从简了</span></span><br><span class="line">		target= data[<span class="string">&quot;repository&quot;</span>][<span class="string">&quot;name&quot;</span>]</span><br><span class="line">		<span class="keyword">if</span> target == <span class="string">&quot;My_Blog&quot;</span>:</span><br><span class="line">			PullBlog()</span><br><span class="line">			<span class="built_in">print</span> <span class="string">&quot;ooo&quot;</span></span><br><span class="line">		<span class="keyword">if</span> target == <span class="string">&quot;photo_manage&quot;</span>:</span><br><span class="line">			PullPhoto()</span><br><span class="line">application = tornado.web.Application([</span><br><span class="line">	(<span class="string">r&quot;/&quot;</span>,MainHandler),</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	application.listen(<span class="number">8888</span>)</span><br><span class="line">	tornado.ioloop.IOLoop.instance().start()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这段代码是不是很眼熟？Yes，它就是tornado的Hello World，我在其中增添了获取post内容，并把接收到的json字符串解析成python对象，如果符合要求就进行代码更新操作。</p>
+<h3 id="0x3-Github代码仓库相关设置"><a href="#0x3-Github代码仓库相关设置" class="headerlink" title="0x3:Github代码仓库相关设置"></a>0x3:Github代码仓库相关设置</h3><p>在github代码仓库需要设置webhook的远程服务器地址，post的数据格式和密钥。</p>
+<p><img src="/blogimg/githook.png" alt="image"></p>
+<p>设置好webhook的url，并点击Add webhook按钮后，github的服务器会第一次发送数据到你设置的url地址上，我们来看一下它都发送了些什么数据。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;refs/heads/master&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;before&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2db041797c019dd3f04b45203ba4ad09ffef2654&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;after&quot;</span><span class="punctuation">:</span> <span class="string">&quot;454cc4e6bfce259cd29fbc112c9b3714e0750ab7&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;created&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;deleted&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;forced&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;base_ref&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;compare&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/007xiaoxingxing/My_Blog/compare/2db041797c01...454cc4e6bfce&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;commits&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;454cc4e6bfce259cd29fbc112c9b3714e0750ab7&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;tree_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;09538c4e1f362018d9e230d4de2225ca469fb32a&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;distinct&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PIL grab&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;timestamp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2016-12-04T10:38:02+08:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/007xiaoxingxing/My_Blog/commit/454cc4e6bfce259cd29fbc112c9b3714e0750ab7&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxing&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chanxing9@gmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;committer&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxing&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chanxing9@gmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;added&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;public/2016/12/04/PIL-Grab/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;public/archives/2016/12/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;public/tags/PIL/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;public/tags/python/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;source/_posts/PIL-Grab.md&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;removed&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;modified&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;db.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">        略去一万字.....</span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;head_commit&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;454cc4e6bfce259cd29fbc112c9b3714e0750ab7&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tree_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;09538c4e1f362018d9e230d4de2225ca469fb32a&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;distinct&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PIL grab&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timestamp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2016-12-04T10:38:02+08:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/007xiaoxingxing/My_Blog/commit/454cc4e6bfce259cd29fbc112c9b3714e0750ab7&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxing&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chanxing9@gmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;committer&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxing&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;chanxing9@gmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;added&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;public/2016/12/04/PIL-Grab/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;public/archives/2016/12/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;public/tags/PIL/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;public/tags/python/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;source/_posts/PIL-Grab.md&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;removed&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;modified&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;db.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">      这都不重要，略.....</span><br><span class="line">      <span class="string">&quot;public/tags/萌新第一次/index.html&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;repository&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">64537807</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;My_Blog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;full_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing/My_Blog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;owner&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;007xiaoxingxing&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;994983825@qq.com&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;private&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;html_url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/007xiaoxingxing/My_Blog&quot;</span><span class="punctuation">,</span></span><br><span class="line">    鬼知道这中间少了些什么？滑稽 - -！</span><br><span class="line">    <span class="attr">&quot;site_admin&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据内容十分丰富，包括了你对仓库的操作，仓库改变等等……  </p>
+<p>这些数据都可以在服务端进行获取，验证等，然后自定义操作即可。</p>
+<h3 id="0x4-服务的运行"><a href="#0x4-服务的运行" class="headerlink" title="0x4:服务的运行"></a>0x4:服务的运行</h3><p>最后只需要将自动部署的服务端跑起来即可。我选择使用nohub将服务挂起来在后台运行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$nobub</span> python git_deploy.py &amp;</span><br></pre></td></tr></table></figure>
+
+<p>nohub会把后台运行的标准输出重定向到当前目录的nohub.dat中，在这之中我们可以查看相关操作日志。Ok，大功告成，以后就可以直接提交代码的github代码仓库，服务器就能够自动的更新博客文章了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-%E9%9C%80%E6%B1%82%E6%9D%A5%E6%BA%90"><span class="toc-number">1.</span> <span class="toc-text">0x1:需求来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">0x2:服务端代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-Github%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">0x3:Github代码仓库相关设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">0x4:服务的运行</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/04/Github-Webhook/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/04/Github-Webhook/&text=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/04/Github-Webhook/&is_video=false&description=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=利用Github的webhook和tornado实现代码自动部署&body=Check out this article: http://example.com/2016/12/04/Github-Webhook/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/04/Github-Webhook/&title=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/04/Github-Webhook/&name=利用Github的webhook和tornado实现代码自动部署&description=&lt;h3 id=&#34;0x1-需求来源&#34;&gt;&lt;a href=&#34;#0x1-需求来源&#34; class=&#34;headerlink&#34; title=&#34;0x1:需求来源&#34;&gt;&lt;/a&gt;0x1:需求来源&lt;/h3&gt;&lt;p&gt;本博客使用的hexo生成的静态页面，整个博客代码是托管在github上的。这样可以方便我在不同的设备上随时同步位于github上的博客代码，并撰写新的内容。写博文的问题得到了解决，但是每次更新服务器上的内容时却要登录服务器去拉取github上的内容，很是繁琐。github提供了webhook功能，用户对仓库操作引起的事件，例如push，pull等可以触发github利用webhook向远程服务器发起链接，并携带一定的参数，这样的话，在远程服务器监听来自webhook的请求就可以执行代码更新操作了哇。  &lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/04/Github-Webhook/&t=利用Github的webhook和tornado实现代码自动部署"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tornado框架中的Requesthandler">
+<meta property="og:url" content="http://example.com/2016/12/15/tornado-requesthandler/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/blogimg/tornado_up_form.png">
+<meta property="og:image" content="http://example.com/blogimg/tornado_up_success.png">
+<meta property="article:published_time" content="2016-12-15T12:24:10.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.192Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="tornado">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/blogimg/tornado_up_form.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Tornado框架中的Requesthandler</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2016/12/16/Observer-Notes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2016/12/15/tornado-hello-world/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/15/tornado-requesthandler/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/15/tornado-requesthandler/&text=Tornado框架中的Requesthandler"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/15/tornado-requesthandler/&is_video=false&description=Tornado框架中的Requesthandler"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tornado框架中的Requesthandler&body=Check out this article: http://example.com/2016/12/15/tornado-requesthandler/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/15/tornado-requesthandler/&name=Tornado框架中的Requesthandler&description=&lt;p&gt;上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/15/tornado-requesthandler/&t=Tornado框架中的Requesthandler"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E5%AE%B6%E4%BC%99%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">0x1:RequestHandler是个什么家伙？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo%E7%9A%84%E9%9C%80%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">0x2:Demo的需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-%E5%85%B7%E4%BD%93%E7%BC%96%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">0x3:具体编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-%E5%AE%9E%E9%99%85%E9%AA%8C%E8%AF%81%E6%95%88%E6%9E%9C"><span class="toc-number">4.</span> <span class="toc-text">0x4:实际验证效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-%E6%80%9D%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">0x5:思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">0x6 参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Tornado框架中的Requesthandler
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-12-15T12:24:10.000Z" itemprop="datePublished">2016-12-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/tornado/" rel="tag">tornado</a>, <a class="tag-link-link" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.</p>
+<span id="more"></span>
+<h3 id="0x1-RequestHandler是个什么家伙？"><a href="#0x1-RequestHandler是个什么家伙？" class="headerlink" title="0x1:RequestHandler是个什么家伙？"></a>0x1:RequestHandler是个什么家伙？</h3><p>还记得上一个Helloworld工程的代码吗？我们的MainHandler继承了tornado.web.RequestHandler，那么这个RequestHandler到底是何方神圣？它能够干些什么呢？先看看官方提供的文档怎么说：</p>
+<blockquote>
+<p>Subclassing RequestHandler<br>Most of the work of a Tornado web application is done in subclasses of RequestHandler. The main entry point for a handler subclass is a method named after the HTTP method being handled: get(), post(), etc. Each handler may define one or more of these methods to handle different HTTP actions. As described above, these methods will be called with arguments corresponding to the capturing groups of the routing rule that matched.</p>
+<p>Within a handler, call methods such as RequestHandler.render or RequestHandler.write to produce a response. render() loads a Template by name and renders it with the given arguments. write() is used for non-template-based output; it accepts strings, bytes, and dictionaries (dicts will be encoded as JSON).</p>
+<p>Many methods in RequestHandler are designed to be overridden in subclasses and be used throughout the application. It is common to define a BaseHandler class that overrides methods such as write_error and get_current_user and then subclass your own BaseHandler instead of RequestHandler for all your specific handlers.</p>
+</blockquote>
+<p>可以看看得出来，RequestHandler是一个专门用于处理http请求的类。它能够获得用户访问的各种数据，也能够通过write方法等向用户回复响应。所以，应用的具体逻辑应该在RequestHanler的子类中进行，例如查询数据库、加载模版等等。该类的具体描述可参见官方更详尽的介绍<a target="_blank" rel="noopener" href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler">Tornado RequestHandler类文档</a>,这之中详细列出了该类的各成员变量及提供的方法。</p>
+<p>仔细阅读文档之后，我们就可以了解到:  </p>
+<ol>
+<li><p>每种类型的http请求方法都有一个对应的方法，例如常见的GET–&gt;get(),POST—&gt;post()。</p>
+</li>
+<li><p>render()方法可以加载模版</p>
+</li>
+<li><p>write()方法可以直接向客户端写入任意内容</p>
+</li>
+<li><p>get_argument()方法可以取得用户提交的某个参数的值</p>
+</li>
+<li><p>用户上传的文件会被转换成files变量，可以对用户上传的文件进行后续处理</p>
+</li>
+<li><p>……..</p>
+<p>有了以上这些内容，我们已经能够完成想完成的任务了。</p>
+</li>
+</ol>
+<h3 id="0x2-Demo的需求"><a href="#0x2-Demo的需求" class="headerlink" title="0x2:Demo的需求"></a>0x2:Demo的需求</h3><ol>
+<li><p>接收用户的文件上传请求</p>
+</li>
+<li><p>上传文件的后缀名检查，重命名，保存至指定目录</p>
+</li>
+<li><p>渲染模版，输出用户上传的文件的详细信息</p>
+</li>
+</ol>
+<p>明确了需求，接下来就是编码工作了。</p>
+<h3 id="0x3-具体编码"><a href="#0x3-具体编码" class="headerlink" title="0x3:具体编码"></a>0x3:具体编码</h3><p>python部分代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FileUPHandler</span>(tornado.web.RequestHandler):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self</span>):</span><br><span class="line">		origin_descri=self.get_argument(<span class="string">&quot;describe&quot;</span>)</span><br><span class="line">		origin_user=self.get_argument(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">		file=self.request.files[<span class="string">&#x27;photo&#x27;</span>][<span class="number">0</span>]</span><br><span class="line">		fname=file[<span class="string">&#x27;filename&#x27;</span>]</span><br><span class="line">		ftype=file[<span class="string">&#x27;content_type&#x27;</span>]</span><br><span class="line">		fbody=file[<span class="string">&#x27;body&#x27;</span>]</span><br><span class="line">		fsize=<span class="built_in">len</span>(fbody)</span><br><span class="line">		f=<span class="built_in">open</span>(<span class="string">&quot;upload/&quot;</span>+fname,<span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">		f.write(fbody)</span><br><span class="line">		self.render(<span class="string">&quot;templates/result.html&quot;</span>,size=fsize/(<span class="number">1024</span>),name=fname,user=origin_user,<span class="built_in">type</span>=ftype)</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self</span>):</span><br><span class="line">		self.render(<span class="string">&quot;templates/upform.html&quot;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main_app</span>():</span><br><span class="line">	<span class="keyword">return</span> tornado.web.Application([</span><br><span class="line"></span><br><span class="line">	(<span class="string">r&quot;/&quot;</span>,FileUPHandler),</span><br><span class="line">	(<span class="string">r&quot;/upload&quot;</span>,FileUPHandler),</span><br><span class="line">]) </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	app = main_app()</span><br><span class="line">	app.listen(<span class="number">8888</span>)</span><br><span class="line">	tornado.ioloop.IOLoop.instance().start()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>html模版部分代码：</p>
+<p>template&#x2F;upform.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Tornado File Upload Demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/upload&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span> <span class="attr">enctype</span>=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">文件用户：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">文件描述：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;describe&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">请选择文件：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">name</span>=<span class="string">&quot;photo&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;走你!&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>template&#x2F;result.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>The File Information:<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file name:&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>fiel size:&#123;&#123;size&#125;&#125; KB<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>request user:&#123;&#123;user&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>file type:&#123;&#123;type&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="0x4-实际验证效果"><a href="#0x4-实际验证效果" class="headerlink" title="0x4:实际验证效果"></a>0x4:实际验证效果</h3><p><img src="/blogimg/tornado_up_form.png" alt="image"></p>
+<p><img src="/blogimg/tornado_up_success.png" alt="image"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">star-chen@starchen-vb:~/ProDev/tornado$ <span class="built_in">ls</span> upload/</span><br><span class="line">ico.png</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后可以看到，上传的文件已经成功的躺在了目标文件夹之中了。  </p>
+<h3 id="0x5-思考"><a href="#0x5-思考" class="headerlink" title="0x5:思考"></a>0x5:思考</h3><p>这个简单的Demo完成用户请求信息的获取，并成功的上传了文件。但是并未进行文件的验证，用户可以上传任意文件，对于服务器君来说，这可是不能忍滴。</p>
+<h3 id="0x6-参考链接"><a href="#0x6-参考链接" class="headerlink" title="0x6 参考链接"></a>0x6 参考链接</h3><p><a target="_blank" rel="noopener" href="http://www.tornadoweb.org/en/stable/guide/structure.html">http://www.tornadoweb.org/en/stable/guide/structure.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://demo.pythoner.com/itt2zh/ch2.html">http://demo.pythoner.com/itt2zh/ch2.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/">https://technobeans.wordpress.com/2012/09/17/tornado-file-uploads/</a></p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/chenlei123/blog/127563">https://my.oschina.net/chenlei123/blog/127563</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-RequestHandler%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E5%AE%B6%E4%BC%99%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">0x1:RequestHandler是个什么家伙？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-Demo%E7%9A%84%E9%9C%80%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">0x2:Demo的需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-%E5%85%B7%E4%BD%93%E7%BC%96%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">0x3:具体编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x4-%E5%AE%9E%E9%99%85%E9%AA%8C%E8%AF%81%E6%95%88%E6%9E%9C"><span class="toc-number">4.</span> <span class="toc-text">0x4:实际验证效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x5-%E6%80%9D%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">0x5:思考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x6-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">0x6 参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/15/tornado-requesthandler/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/15/tornado-requesthandler/&text=Tornado框架中的Requesthandler"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/15/tornado-requesthandler/&is_video=false&description=Tornado框架中的Requesthandler"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tornado框架中的Requesthandler&body=Check out this article: http://example.com/2016/12/15/tornado-requesthandler/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/15/tornado-requesthandler/&title=Tornado框架中的Requesthandler"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/15/tornado-requesthandler/&name=Tornado框架中的Requesthandler&description=&lt;p&gt;上一篇博文中，我在我的机器上搭建了tornado框架，并运行了helloworld。在这篇文章中，我将尝试利用tornado接收用户提交的参数和数据，完成一个文件上传的小demo，之中会涉及到RequestHandler和tornado的模版机制。Let’s go.&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/15/tornado-requesthandler/&t=Tornado框架中的Requesthandler"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

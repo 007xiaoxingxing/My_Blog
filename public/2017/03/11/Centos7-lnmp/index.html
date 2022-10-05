@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Centos7 安装php7由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式. 首先rpm安装php7.0的yum源1[root@vultr ~]# rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;webtatic-rel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7.2 搭建lnmp环境">
+<meta property="og:url" content="http://example.com/2017/03/11/Centos7-lnmp/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="Centos7 安装php7由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式. 首先rpm安装php7.0的yum源1[root@vultr ~]# rpm -Uvh https:&#x2F;&#x2F;mirror.webtatic.com&#x2F;yum&#x2F;el7&#x2F;webtatic-rel">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-03-11T03:08:20.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.134Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="CentOS">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Nignx">
+<meta property="article:tag" content="MariaDB">
+<meta property="article:tag" content="LNMP">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CentOS 7.2 搭建lnmp环境</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/03/11/MariaDB-Create-Remote/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2016/12/16/Observer-Notes/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/03/11/Centos7-lnmp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/03/11/Centos7-lnmp/&text=CentOS 7.2 搭建lnmp环境"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/03/11/Centos7-lnmp/&is_video=false&description=CentOS 7.2 搭建lnmp环境"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS 7.2 搭建lnmp环境&body=Check out this article: http://example.com/2017/03/11/Centos7-lnmp/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/03/11/Centos7-lnmp/&name=CentOS 7.2 搭建lnmp环境&description=&lt;h3 id=&#34;Centos7-安装php7&#34;&gt;&lt;a href=&#34;#Centos7-安装php7&#34; class=&#34;headerlink&#34; title=&#34;Centos7 安装php7&#34;&gt;&lt;/a&gt;Centos7 安装php7&lt;/h3&gt;&lt;p&gt;由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式.&lt;/p&gt;
+&lt;h4 id=&#34;首先rpm安装php7-0的yum源&#34;&gt;&lt;a href=&#34;#首先rpm安装php7-0的yum源&#34; class=&#34;headerlink&#34; title=&#34;首先rpm安装php7.0的yum源&#34;&gt;&lt;/a&gt;首先rpm安装php7.0的yum源&lt;/h4&gt;&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;[root@vultr ~]&lt;span class=&#34;comment&#34;&gt;# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/03/11/Centos7-lnmp/&t=CentOS 7.2 搭建lnmp环境"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos7-%E5%AE%89%E8%A3%85php7"><span class="toc-number">1.</span> <span class="toc-text">Centos7 安装php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88rpm%E5%AE%89%E8%A3%85php7-0%E7%9A%84yum%E6%BA%90"><span class="toc-number">1.1.</span> <span class="toc-text">首先rpm安装php7.0的yum源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yum%E5%AE%89%E8%A3%85php7"><span class="toc-number">1.2.</span> <span class="toc-text">yum安装php7</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum%E5%AE%89%E8%A3%85php-fpm"><span class="toc-number">2.</span> <span class="toc-text">yum安装php-fpm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bphp%E7%89%88%E6%9C%AC"><span class="toc-number">2.1.</span> <span class="toc-text">查看php版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85MariaDB"><span class="toc-number">3.</span> <span class="toc-text">安装MariaDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-php-fpm%EF%BC%8C%E8%AE%A9Nginx%E8%83%BD%E5%A4%9F%E8%A7%A3%E6%9E%90php%E8%AF%B7%E6%B1%82"><span class="toc-number">4.</span> <span class="toc-text">Nginx+php-fpm，让Nginx能够解析php请求</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CentOS 7.2 搭建lnmp环境
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-03-11T03:08:20.000Z" itemprop="datePublished">2017-03-11</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CentOS/" rel="tag">CentOS</a>, <a class="tag-link-link" href="/tags/LNMP/" rel="tag">LNMP</a>, <a class="tag-link-link" href="/tags/MariaDB/" rel="tag">MariaDB</a>, <a class="tag-link-link" href="/tags/Nignx/" rel="tag">Nignx</a>, <a class="tag-link-link" href="/tags/PHP/" rel="tag">PHP</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Centos7-安装php7"><a href="#Centos7-安装php7" class="headerlink" title="Centos7 安装php7"></a>Centos7 安装php7</h3><p>由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式.</p>
+<h4 id="首先rpm安装php7-0的yum源"><a href="#首先rpm安装php7-0的yum源" class="headerlink" title="首先rpm安装php7.0的yum源"></a>首先rpm安装php7.0的yum源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="yum安装php7"><a href="#yum安装php7" class="headerlink" title="yum安装php7"></a>yum安装php7</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># yum install php70w</span></span><br></pre></td></tr></table></figure>
+<h3 id="yum安装php-fpm"><a href="#yum安装php-fpm" class="headerlink" title="yum安装php-fpm"></a>yum安装php-fpm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># yum install php70w-fpm</span></span><br></pre></td></tr></table></figure>
+<h4 id="查看php版本"><a href="#查看php版本" class="headerlink" title="查看php版本"></a>查看php版本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># php -v</span></span><br><span class="line">PHP 7.0.16 (cli) (built: Feb 18 2017 10:25:02) ( NTS )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装MariaDB"><a href="#安装MariaDB" class="headerlink" title="安装MariaDB"></a>安装MariaDB</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># yum install mariadb-server mariadb</span></span><br></pre></td></tr></table></figure>
+<p>启动MariaDB</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># systemctl start mariadb</span></span><br></pre></td></tr></table></figure>
+<p>刚刚安装好数据库，是没有设置root用户密码的，这样子显然是不安全的。在初次安装时，可以使用MariaDB自带的安全安装命令设置root用户密码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr ~]<span class="comment"># mysql_secure_installation </span></span><br><span class="line"></span><br><span class="line">NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB</span><br><span class="line">      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!</span><br><span class="line"></span><br><span class="line">In order to <span class="built_in">log</span> into MariaDB to secure it, we<span class="string">&#x27;ll need the current</span></span><br><span class="line"><span class="string">password for the root user.  If you&#x27;</span>ve just installed MariaDB, and</span><br><span class="line">you haven<span class="string">&#x27;t set the root password yet, the password will be blank,</span></span><br><span class="line"><span class="string">so you should just press enter here.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Enter current password for root (enter for none): </span></span><br><span class="line"><span class="string">ERROR 1045 (28000): Access denied for user &#x27;</span>root<span class="string">&#x27;@&#x27;</span>localhost<span class="string">&#x27; (using password: YES)</span></span><br><span class="line"><span class="string">Enter current password for root (enter for none): </span></span><br><span class="line"><span class="string">OK, successfully used password, moving on...</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Setting the root password ensures that nobody can log into the MariaDB</span></span><br><span class="line"><span class="string">root user without the proper authorisation.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Set root password? [Y/n] Y</span></span><br><span class="line"><span class="string">New password: </span></span><br><span class="line"><span class="string">Re-enter new password: </span></span><br><span class="line"><span class="string">Password updated successfully!</span></span><br><span class="line"><span class="string">Reloading privilege tables..</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">By default, a MariaDB installation has an anonymous user, allowing anyone</span></span><br><span class="line"><span class="string">to log into MariaDB without having to have a user account created for</span></span><br><span class="line"><span class="string">them.  This is intended only for testing, and to make the installation</span></span><br><span class="line"><span class="string">go a bit smoother.  You should remove them before moving into a</span></span><br><span class="line"><span class="string">production environment.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Remove anonymous users? [Y/n] Y</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Normally, root should only be allowed to connect from &#x27;</span>localhost<span class="string">&#x27;.  This</span></span><br><span class="line"><span class="string">ensures that someone cannot guess at the root password from the network.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Disallow root login remotely? [Y/n] Y</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">By default, MariaDB comes with a database named &#x27;</span><span class="built_in">test</span><span class="string">&#x27; that anyone can</span></span><br><span class="line"><span class="string">access.  This is also intended only for testing, and should be removed</span></span><br><span class="line"><span class="string">before moving into a production environment.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Remove test database and access to it? [Y/n] Y</span></span><br><span class="line"><span class="string"> - Dropping test database...</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"> - Removing privileges on test database...</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Reloading the privilege tables will ensure that all changes made so far</span></span><br><span class="line"><span class="string">will take effect immediately.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Reload privilege tables now? [Y/n] Y</span></span><br><span class="line"><span class="string"> ... Success!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Cleaning up...</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">All done!  If you&#x27;</span>ve completed all of the above steps, your MariaDB</span><br><span class="line">installation should now be secure.</span><br><span class="line"></span><br><span class="line">Thanks <span class="keyword">for</span> using MariaDB!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>根据提示设置好root帐号的密码，移除测试数据库等等，MariaDB就安装完成了。</p>
+<h3 id="Nginx-php-fpm，让Nginx能够解析php请求"><a href="#Nginx-php-fpm，让Nginx能够解析php请求" class="headerlink" title="Nginx+php-fpm，让Nginx能够解析php请求"></a>Nginx+php-fpm，让Nginx能够解析php请求</h3><p>在安装好Nginx和php-fpm之后，需要配置一下Nginx。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">		listen 80;</span><br><span class="line">		server_name www.xxx.com;</span><br><span class="line">		</span><br><span class="line">		root /var/www/html;</span><br><span class="line">		index index.html index.htm index.php;</span><br><span class="line">		</span><br><span class="line">		location ~ \.php$ &#123;</span><br><span class="line">			</span><br><span class="line">			include fastcgi_params;</span><br><span class="line">			fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">			fastcgi_index index.php;</span><br><span class="line">			fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开启php-fpm</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr lgsmb]<span class="comment"># systemctl start php-fpm</span></span><br></pre></td></tr></table></figure>
+<p>在web根目录写个phpinfo</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>访问一下，如果看到了phpinfo的页面，证明Nginx已经能够正常解析php文件了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Centos7-%E5%AE%89%E8%A3%85php7"><span class="toc-number">1.</span> <span class="toc-text">Centos7 安装php7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88rpm%E5%AE%89%E8%A3%85php7-0%E7%9A%84yum%E6%BA%90"><span class="toc-number">1.1.</span> <span class="toc-text">首先rpm安装php7.0的yum源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yum%E5%AE%89%E8%A3%85php7"><span class="toc-number">1.2.</span> <span class="toc-text">yum安装php7</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum%E5%AE%89%E8%A3%85php-fpm"><span class="toc-number">2.</span> <span class="toc-text">yum安装php-fpm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bphp%E7%89%88%E6%9C%AC"><span class="toc-number">2.1.</span> <span class="toc-text">查看php版本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85MariaDB"><span class="toc-number">3.</span> <span class="toc-text">安装MariaDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-php-fpm%EF%BC%8C%E8%AE%A9Nginx%E8%83%BD%E5%A4%9F%E8%A7%A3%E6%9E%90php%E8%AF%B7%E6%B1%82"><span class="toc-number">4.</span> <span class="toc-text">Nginx+php-fpm，让Nginx能够解析php请求</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/03/11/Centos7-lnmp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/03/11/Centos7-lnmp/&text=CentOS 7.2 搭建lnmp环境"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/03/11/Centos7-lnmp/&is_video=false&description=CentOS 7.2 搭建lnmp环境"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS 7.2 搭建lnmp环境&body=Check out this article: http://example.com/2017/03/11/Centos7-lnmp/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/03/11/Centos7-lnmp/&title=CentOS 7.2 搭建lnmp环境"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/03/11/Centos7-lnmp/&name=CentOS 7.2 搭建lnmp环境&description=&lt;h3 id=&#34;Centos7-安装php7&#34;&gt;&lt;a href=&#34;#Centos7-安装php7&#34; class=&#34;headerlink&#34; title=&#34;Centos7 安装php7&#34;&gt;&lt;/a&gt;Centos7 安装php7&lt;/h3&gt;&lt;p&gt;由于centos自己的软件仓库中的php版本为5.4，而yii2框架需要的php版本必须是5.4及以上。索性直接一步到位到7.0。为图方便就不使用编译安装的方式，而是采用yum安装方式.&lt;/p&gt;
+&lt;h4 id=&#34;首先rpm安装php7-0的yum源&#34;&gt;&lt;a href=&#34;#首先rpm安装php7-0的yum源&#34; class=&#34;headerlink&#34; title=&#34;首先rpm安装php7.0的yum源&#34;&gt;&lt;/a&gt;首先rpm安装php7.0的yum源&lt;/h4&gt;&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;[root@vultr ~]&lt;span class=&#34;comment&#34;&gt;# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/03/11/Centos7-lnmp/&t=CentOS 7.2 搭建lnmp环境"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

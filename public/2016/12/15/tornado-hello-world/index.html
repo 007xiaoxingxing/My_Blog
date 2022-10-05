@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Tornado框架是一款由Facebook团队开源的高效率的轻量级的非阻塞式web框架，由python编写而成。框架内部的具体实现我暂时不去深究，咱们首选学习一下它的简单使用，爽一爽先。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="与Tornado的第一次接触">
+<meta property="og:url" content="http://example.com/2016/12/15/tornado-hello-world/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="Tornado框架是一款由Facebook团队开源的高效率的轻量级的非阻塞式web框架，由python编写而成。框架内部的具体实现我暂时不去深究，咱们首选学习一下它的简单使用，爽一爽先。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-12-15T11:59:25.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.191Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="tornado">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>与Tornado的第一次接触</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2016/12/15/tornado-requesthandler/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2016/12/15/Let-s-Encrypt/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/15/tornado-hello-world/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/15/tornado-hello-world/&text=与Tornado的第一次接触"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/15/tornado-hello-world/&is_video=false&description=与Tornado的第一次接触"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=与Tornado的第一次接触&body=Check out this article: http://example.com/2016/12/15/tornado-hello-world/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/15/tornado-hello-world/&name=与Tornado的第一次接触&description=&lt;p&gt;Tornado框架是一款由Facebook团队开源的高效率的轻量级的非阻塞式web框架，由python编写而成。框架内部的具体实现我暂时不去深究，咱们首选学习一下它的简单使用，爽一爽先。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/15/tornado-hello-world/&t=与Tornado的第一次接触"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-tornado%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">0x1:tornado的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-tornado%E7%9A%84helloworld"><span class="toc-number">2.</span> <span class="toc-text">0x2:tornado的helloworld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">0x3:代码运行</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        与Tornado的第一次接触
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2016-12-15T11:59:25.000Z" itemprop="datePublished">2016-12-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/tornado/" rel="tag">tornado</a>, <a class="tag-link-link" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Tornado框架是一款由Facebook团队开源的高效率的轻量级的非阻塞式web框架，由python编写而成。框架内部的具体实现我暂时不去深究，咱们首选学习一下它的简单使用，爽一爽先。</p>
+<span id="more"></span>
+<h3 id="0x1-tornado的安装"><a href="#0x1-tornado的安装" class="headerlink" title="0x1:tornado的安装"></a>0x1:tornado的安装</h3><p>安装Tornado也简直不能再省事儿，一句话就可以搞定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">star-chen@starchen-vb:~$ pip install tornado</span><br><span class="line">Collecting tornado</span><br><span class="line">  Downloading tornado-4.4.2.tar.gz (460kB)</span><br><span class="line">    100% |████████████████████████████████| 460kB 21kB/s </span><br><span class="line">Collecting singledispatch (from tornado)</span><br><span class="line">  Downloading singledispatch-3.4.0.3-py2.py3-none-any.whl</span><br><span class="line">Collecting certifi (from tornado)</span><br><span class="line">  Downloading certifi-2016.9.26-py2.py3-none-any.whl (377kB)</span><br><span class="line">    100% |████████████████████████████████| 378kB 37kB/s </span><br><span class="line">Collecting backports_abc&gt;=0.4 (from tornado)</span><br><span class="line">  Downloading backports_abc-0.5-py2.py3-none-any.whl</span><br><span class="line">Collecting six (from singledispatch-&gt;tornado)</span><br><span class="line">  Downloading six-1.10.0-py2.py3-none-any.whl</span><br><span class="line">Building wheels <span class="keyword">for</span> collected packages: tornado</span><br><span class="line">  Running setup.py bdist_wheel <span class="keyword">for</span> tornado ... <span class="keyword">done</span></span><br><span class="line">  Stored <span class="keyword">in</span> directory: /home/star-chen/.cache/pip/wheels/b3/db/47/46e05d1ee3ecfba252fcab42f0a156dab0df0cddf99fa0827c</span><br><span class="line">Successfully built tornado</span><br><span class="line">Installing collected packages: six, singledispatch, certifi, backports-abc, tornado</span><br><span class="line">Successfully installed backports-abc-0.5 certifi-2016.9.26 singledispatch-3.4.0.</span><br></pre></td></tr></table></figure>
+<h3 id="0x2-tornado的helloworld"><a href="#0x2-tornado的helloworld" class="headerlink" title="0x2:tornado的helloworld"></a>0x2:tornado的helloworld</h3><p>话不多讲，直接上代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tornado.ioloop</span><br><span class="line"><span class="keyword">import</span> tornado.web</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainHandler</span>(tornado.web.RequestHandler):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self</span>):</span><br><span class="line">		self.write(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">HelloApp</span>():</span><br><span class="line">	<span class="keyword">return</span> tornado.web.Application([</span><br><span class="line">		(<span class="string">r&quot;/&quot;</span>,MainHandler),</span><br><span class="line">	])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	app = HelloApp()</span><br><span class="line">	app.listen(<span class="number">8888</span>)</span><br><span class="line">	tornado.ioloop.IOLoop.current().start()</span><br></pre></td></tr></table></figure>
+<p>看起来还是十分简洁明了的，就这么几句代码，就包含了路由规则的创建、事件处理函数的绑定、服务器的监听开启。</p>
+<h3 id="0x3-代码运行"><a href="#0x3-代码运行" class="headerlink" title="0x3:代码运行"></a>0x3:代码运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$python</span> hello.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$curl</span> localhost:8888</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<p>用浏览器访问一下，可以看到浏览器上已经输出了“hello world”,说明咱们的tornado已经正常运行了。接下来继续学习怎么在tornado中取得用户提交的参数。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x1-tornado%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">0x1:tornado的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x2-tornado%E7%9A%84helloworld"><span class="toc-number">2.</span> <span class="toc-text">0x2:tornado的helloworld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x3-%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">0x3:代码运行</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2016/12/15/tornado-hello-world/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2016/12/15/tornado-hello-world/&text=与Tornado的第一次接触"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2016/12/15/tornado-hello-world/&is_video=false&description=与Tornado的第一次接触"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=与Tornado的第一次接触&body=Check out this article: http://example.com/2016/12/15/tornado-hello-world/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2016/12/15/tornado-hello-world/&title=与Tornado的第一次接触"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2016/12/15/tornado-hello-world/&name=与Tornado的第一次接触&description=&lt;p&gt;Tornado框架是一款由Facebook团队开源的高效率的轻量级的非阻塞式web框架，由python编写而成。框架内部的具体实现我暂时不去深究，咱们首选学习一下它的简单使用，爽一爽先。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2016/12/15/tornado-hello-world/&t=与Tornado的第一次接触"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

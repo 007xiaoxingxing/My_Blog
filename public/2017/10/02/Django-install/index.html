@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Django简介Django是一款开源的web框架，由python编写。采用了MVC的框架模式。Django最初是被用来开发用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站（CMS）,于2005年以BSD许可证发布。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django快速上手笔记之安装Django">
+<meta property="og:url" content="http://example.com/2017/10/02/Django-install/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="Django简介Django是一款开源的web框架，由python编写。采用了MVC的框架模式。Django最初是被用来开发用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站（CMS）,于2005年以BSD许可证发布。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-02T04:33:17.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.140Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="python web Django">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Django快速上手笔记之安装Django</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/10/02/Django-helloworld/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/09/28/python-note-repr/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/02/Django-install/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/02/Django-install/&text=Django快速上手笔记之安装Django"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/02/Django-install/&is_video=false&description=Django快速上手笔记之安装Django"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Django快速上手笔记之安装Django&body=Check out this article: http://example.com/2017/10/02/Django-install/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/02/Django-install/&name=Django快速上手笔记之安装Django&description=&lt;h3 id=&#34;Django简介&#34;&gt;&lt;a href=&#34;#Django简介&#34; class=&#34;headerlink&#34; title=&#34;Django简介&#34;&gt;&lt;/a&gt;Django简介&lt;/h3&gt;&lt;p&gt;Django是一款开源的web框架，由python编写。采用了MVC的框架模式。Django最初是被用来开发用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站（CMS）,于2005年以BSD许可证发布。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/02/Django-install/&t=Django快速上手笔记之安装Django"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Django简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Django"><span class="toc-number">2.</span> <span class="toc-text">安装Django</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Django快速上手笔记之安装Django
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-02T04:33:17.000Z" itemprop="datePublished">2017-10-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python-web-Django/" rel="tag">python web Django</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Django简介"><a href="#Django简介" class="headerlink" title="Django简介"></a>Django简介</h3><p>Django是一款开源的web框架，由python编写。采用了MVC的框架模式。Django最初是被用来开发用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站（CMS）,于2005年以BSD许可证发布。</p>
+<span id="more"></span>
+
+<p>Django的设计之美：</p>
+<ul>
+<li>对象关系映射（ORM）:以Python类形式定义数据模型，ORM将模型和关系数据库连接起来，得到一个十分容易使用的数据库API,同时在Django中也可以使用原生SQL语句。</li>
+<li>URL路由：使用正则表达式匹配URL,可以设计任意的URL，没有框架的特定限定，十分灵活。</li>
+<li>模版系统：使用Django强大而可扩展的模版语言，可以分隔设计、内容和Python代码。具有可继承性。</li>
+<li>表单处理：可以方便的生成各种表单模型，实现表单的有效性检验。可以方便的从你定义的模型实例生成对应的表单。</li>
+<li>Cache系统：可以挂载内存缓冲或其它的框架实现超级缓冲。</li>
+<li>会话（session），用户登录与权限检查，快速开发用户会话功能。</li>
+<li>国际化：内置国际化系统，方便开发出多种语言的网站。</li>
+<li>自动化的管理界面：不需要你花大量的工作来创建人员管理和更新内容。Django自带一个Admin site，类似于内容管理系统。</li>
+</ul>
+<p>总的来说，Django是一个大而全的框架，你所需要的它都有。那么怎么来使用它呢？怎么去一步一步的学习使用它呢？从本篇博文开始，我就要开始探索Django框架了。</p>
+<h3 id="安装Django"><a href="#安装Django" class="headerlink" title="安装Django"></a>安装Django</h3><p>首先从安装开始，安装方式有两种：使用pip安装或源码安装。<br>pip安装很简单，在配置好python环境后，在命令提示符下或终端输入pip install django就行了。下面是我在自己的windowns电脑上的安装记录：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\Users\star<span class="literal">-chen</span>&gt; pip install django</span><br><span class="line">Collecting django</span><br><span class="line">  Downloading Django<span class="literal">-1</span>.<span class="number">11.5</span><span class="literal">-py2</span>.py3<span class="literal">-none-any</span>.whl (<span class="number">6.9</span>MB)</span><br><span class="line">    <span class="number">100</span>% |████████████████████████████████| <span class="number">7.0</span>MB <span class="number">149</span>kB/s</span><br><span class="line">Collecting pytz (from django)</span><br><span class="line">  Downloading pytz<span class="literal">-2017</span>.<span class="number">2</span><span class="literal">-py2</span>.py3<span class="literal">-none-any</span>.whl (<span class="number">484</span>kB)</span><br><span class="line">    <span class="number">100</span>% |████████████████████████████████| <span class="number">491</span>kB <span class="number">377</span>kB/s</span><br><span class="line">Installing collected packages: pytz, django</span><br><span class="line">Successfully installed django<span class="literal">-1</span>.<span class="number">11.5</span> pytz<span class="literal">-2017</span>.<span class="number">2</span></span><br><span class="line">You are <span class="keyword">using</span> pip version 8.1.2, however version 9.0.1 is available.</span><br><span class="line">You should consider upgrading via the <span class="string">&#x27;python -m pip install --upgrade pip&#x27;</span> command.</span><br></pre></td></tr></table></figure>
+
+<p>源码安装：</p>
+<p>从github上的Django项目上下载相关的release压缩包<br><a target="_blank" rel="noopener" href="https://github.com/django/django/releases%EF%BC%8C">https://github.com/django/django/releases，</a><br>选择你所需要的版本。这里我下载1.11.5版本的zip格式压缩包。将下载到的压缩包解压到任何目录，在该目录按住shift键再鼠标右击，打开命令提示符，输入python选择你所需要的版本。这里我下载1.11.5版本的zip格式压缩包。将下载到的压缩包解压到任何目录，在该目录按住shift键再鼠标右击，打开命令提示符，输入python setup.py install即可。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> F:\一些源码\django<span class="literal">-1</span>.<span class="number">11.5</span>&gt; python .\setup.py install</span><br></pre></td></tr></table></figure>
+
+<p>为了日后使用方便，可以将Django的相关可执行文件添加到系统的可执行目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Python27\Scripts</span><br></pre></td></tr></table></figure>
+
+<p>在我的机器上，没进行添加环境变量也可以正常调用django命令了，就省去这个步骤了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\star-chen&gt; django-admin</span><br><span class="line"></span><br><span class="line">Type &#x27;django-admin-script.py help &lt;subcommand&gt;&#x27; for help on a specific subcommand.</span><br><span class="line"></span><br><span class="line">Available subcommands:</span><br><span class="line"></span><br><span class="line">[django]</span><br><span class="line">    check</span><br><span class="line">    compilemessages</span><br><span class="line">    createcachetable</span><br><span class="line">    dbshell</span><br><span class="line">    diffsettings</span><br><span class="line">    dumpdata</span><br><span class="line">    flush</span><br><span class="line">    inspectdb</span><br><span class="line">    loaddata</span><br><span class="line">    makemessages</span><br><span class="line">    makemigrations</span><br><span class="line">    migrate</span><br><span class="line">    runserver</span><br><span class="line">    sendtestemail</span><br><span class="line">    shell</span><br><span class="line">    showmigrations</span><br><span class="line">    sqlflush</span><br><span class="line">    sqlmigrate</span><br><span class="line">    sqlsequencereset</span><br><span class="line">    squashmigrations</span><br><span class="line">    startapp</span><br><span class="line">    startproject</span><br><span class="line">    test</span><br><span class="line">    testserver</span><br></pre></td></tr></table></figure>
+
+
+
+<p>OK,安装过程就是这么简单，接下来就是实际体验时刻了，下篇博文见。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Django%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Django简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Django"><span class="toc-number">2.</span> <span class="toc-text">安装Django</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/02/Django-install/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/02/Django-install/&text=Django快速上手笔记之安装Django"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/02/Django-install/&is_video=false&description=Django快速上手笔记之安装Django"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Django快速上手笔记之安装Django&body=Check out this article: http://example.com/2017/10/02/Django-install/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/02/Django-install/&title=Django快速上手笔记之安装Django"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/02/Django-install/&name=Django快速上手笔记之安装Django&description=&lt;h3 id=&#34;Django简介&#34;&gt;&lt;a href=&#34;#Django简介&#34; class=&#34;headerlink&#34; title=&#34;Django简介&#34;&gt;&lt;/a&gt;Django简介&lt;/h3&gt;&lt;p&gt;Django是一款开源的web框架，由python编写。采用了MVC的框架模式。Django最初是被用来开发用于管理劳伦斯出版集团旗下的一些以新闻内容为主的网站（CMS）,于2005年以BSD许可证发布。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/02/Django-install/&t=Django快速上手笔记之安装Django"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="对于socket模式的通信来说，除了常见的TCP&#x2F;IP套接字还有Unix套接字。不过说Unix套接字是系统上的一个文件，而非主机名和端口，而Unix套接字关闭之后，文件系统上仍然会存在套接字文件，需要在服务端程序启动之前进行删除，它的其他操作和TCP&#x2F;IP套接字是一样的。下面用一个简单的echo server记录一下Unix套接字的基本使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python中使用Unix socket通信">
+<meta property="og:url" content="http://example.com/2017/10/19/UnixSocket-echodemo/index.html">
+<meta property="og:site_name" content="STAR-CHEN">
+<meta property="og:description" content="对于socket模式的通信来说，除了常见的TCP&#x2F;IP套接字还有Unix套接字。不过说Unix套接字是系统上的一个文件，而非主机名和端口，而Unix套接字关闭之后，文件系统上仍然会存在套接字文件，需要在服务端程序启动之前进行删除，它的其他操作和TCP&#x2F;IP套接字是一样的。下面用一个简单的echo server记录一下Unix套接字的基本使用方法。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-19T03:12:15.000Z">
+<meta property="article:modified_time" content="2022-10-05T15:12:59.180Z">
+<meta property="article:author" content="star-chen">
+<meta property="article:tag" content="python socket">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>python中使用Unix socket通信</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2017/10/19/PythonEpoll/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2017/10/18/WindowsTasklistFilter/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/19/UnixSocket-echodemo/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/19/UnixSocket-echodemo/&text=python中使用Unix socket通信"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/19/UnixSocket-echodemo/&is_video=false&description=python中使用Unix socket通信"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python中使用Unix socket通信&body=Check out this article: http://example.com/2017/10/19/UnixSocket-echodemo/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/19/UnixSocket-echodemo/&name=python中使用Unix socket通信&description=&lt;p&gt;对于socket模式的通信来说，除了常见的TCP&amp;#x2F;IP套接字还有Unix套接字。不过说Unix套接字是系统上的一个文件，而非主机名和端口，而Unix套接字关闭之后，文件系统上仍然会存在套接字文件，需要在服务端程序启动之前进行删除，它的其他操作和TCP&amp;#x2F;IP套接字是一样的。下面用一个简单的echo server记录一下Unix套接字的基本使用方法。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/19/UnixSocket-echodemo/&t=python中使用Unix socket通信"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        python中使用Unix socket通信
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">star-chen</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-10-19T03:12:15.000Z" itemprop="datePublished">2017-10-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Program/">Program</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python-socket/" rel="tag">python socket</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>对于socket模式的通信来说，除了常见的TCP&#x2F;IP套接字还有Unix套接字。不过说Unix套接字是系统上的一个文件，而非主机名和端口，而Unix套接字关闭之后，文件系统上仍然会存在套接字文件，需要在服务端程序启动之前进行删除，它的其他操作和TCP&#x2F;IP套接字是一样的。下面用一个简单的echo server记录一下Unix套接字的基本使用方法。</p>
+<span id="more"></span>
+
+<p>server端代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">server_addr = <span class="string">&#x27;./uds.sock&#x27;</span></span><br><span class="line"><span class="comment">#确保sock不存在</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	os.unlink(server_addr)</span><br><span class="line"><span class="keyword">except</span> OSError:</span><br><span class="line">	<span class="keyword">if</span> os.path.exists(server_addr):</span><br><span class="line">		<span class="keyword">raise</span></span><br><span class="line"><span class="comment">#创建一个unix类型的socket</span></span><br><span class="line">sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment">#将socket绑定到地址上</span></span><br><span class="line"><span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;Starting up on %s&#x27;</span>, server_addr</span><br><span class="line">sock.bind(server_addr)</span><br><span class="line"><span class="comment">#开始在绑定的地址上监听</span></span><br><span class="line">sock.listen(<span class="number">5</span>)</span><br><span class="line"><span class="comment">#死循环，阻塞式的接收数据</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">	<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;Waiting for connetion...&#x27;</span></span><br><span class="line">	conn, client_addr = sock.accept()</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;connection from &#x27;</span>, client_addr</span><br><span class="line">		<span class="comment">#使用较小的缓冲区接收数据，并返回它到客户端</span></span><br><span class="line">		<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">			data = conn.recv(<span class="number">6</span>)</span><br><span class="line">			<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;recv data %s&#x27;</span> % data</span><br><span class="line">			<span class="keyword">if</span> data:</span><br><span class="line">				<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;echo %s to client&#x27;</span> % data</span><br><span class="line">				conn.sendall(data)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;no data from client&#x27;</span></span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">	<span class="comment">#记得关闭连接</span></span><br><span class="line">	<span class="keyword">finally</span>:</span><br><span class="line">		conn.close() </span><br></pre></td></tr></table></figure>
+
+<p>客户端代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建一个unix socket</span></span><br><span class="line">sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment">#设置服务端socket的地址</span></span><br><span class="line">server_addr = <span class="string">&#x27;./uds.sock&#x27;</span></span><br><span class="line"><span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;connecting to %s&#x27;</span>, server_addr</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	sock.connect(server_addr)</span><br><span class="line"><span class="keyword">except</span> socket.error, msg:</span><br><span class="line">	<span class="built_in">print</span> &gt;&gt;sys.stderr, msg</span><br><span class="line">	sys.exit(<span class="number">1</span>)</span><br><span class="line"><span class="comment">#向服务器发送数据和接收数据</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="comment">#发送数据</span></span><br><span class="line">	message = <span class="string">&quot;This is the message. It will be repeated.&quot;</span></span><br><span class="line">	<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;sending %s&#x27;</span> % message</span><br><span class="line">	sock.sendall(message)</span><br><span class="line"></span><br><span class="line">	amount_received = <span class="number">0</span></span><br><span class="line">	amount_expected = <span class="built_in">len</span>(message)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> amount_received &lt; amount_expected:</span><br><span class="line">		data = sock.recv(<span class="number">16</span>)</span><br><span class="line">		amount_received += <span class="built_in">len</span>(data)</span><br><span class="line">		<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;received %s&#x27;</span> % data</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">	<span class="built_in">print</span> &gt;&gt;sys.stderr, <span class="string">&#x27;closing socket&#x27;</span></span><br><span class="line">	sock.close()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p>服务端：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">xing@xing:~/pypractice$ python uds_server.py </span><br><span class="line">Starting up on %s ./uds.sock</span><br><span class="line">Waiting for connetion...</span><br><span class="line">connection from  </span><br><span class="line">recv data This i</span><br><span class="line">echo This i to client</span><br><span class="line">recv data s the </span><br><span class="line">echo s the  to client</span><br><span class="line">recv data messag</span><br><span class="line">echo messag to client</span><br><span class="line">recv data e. It </span><br><span class="line">echo e. It  to client</span><br><span class="line">recv data will b</span><br><span class="line">echo will b to client</span><br><span class="line">recv data e repe</span><br><span class="line">echo e repe to client</span><br><span class="line">recv data ated.</span><br><span class="line">echo ated. to client</span><br><span class="line">recv data </span><br><span class="line">no data from client</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>客户端：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xing@xing:~/pypractice$ python uds_client.py </span><br><span class="line">connecting to %s ./uds.sock</span><br><span class="line">sending This is the message. It will be repeated.</span><br><span class="line">received This is the mess</span><br><span class="line">received age. It will be </span><br><span class="line">received repeated.</span><br><span class="line">closing socket</span><br></pre></td></tr></table></figure>
+
+<p>使用Unix套接字需要注意程序是否有权限去读写套接字文件。</p>
+<p>Unix套接字最主要的一个用途就是用于进程间通信，为此还有本大部头的书籍《Unix网络编程卷2：进程间通信》，看来还得买来学习一下。</p>
+<p>这里有个简单的进程间通信的小例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">parent, child = socket.socketpair()</span><br><span class="line"></span><br><span class="line">pid = os.fork()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> pid:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;in parent, sending message&#x27;</span></span><br><span class="line">    child.close()</span><br><span class="line">    parent.sendall(<span class="string">&#x27;ping&#x27;</span>)</span><br><span class="line">    response = parent.recv(<span class="number">1024</span>)</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;response from child:&#x27;</span>, response</span><br><span class="line">    parent.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;in child, waiting for message&#x27;</span></span><br><span class="line">    parent.close()</span><br><span class="line">    message = child.recv(<span class="number">1024</span>)</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;message from parent:&#x27;</span>, message</span><br><span class="line">    child.sendall(<span class="string">&#x27;pong&#x27;</span>)</span><br><span class="line">    child.close()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xing@xing:~/pypractice$ python pro.py </span><br><span class="line">in parent, sending message</span><br><span class="line">in child, waiting for message</span><br><span class="line">message from parent: ping</span><br><span class="line">response from child: pong</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：<a target="_blank" rel="noopener" href="https://pymotw.com/2/socket/uds.html">https://pymotw.com/2/socket/uds.html</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2017/10/19/UnixSocket-echodemo/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2017/10/19/UnixSocket-echodemo/&text=python中使用Unix socket通信"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2017/10/19/UnixSocket-echodemo/&is_video=false&description=python中使用Unix socket通信"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=python中使用Unix socket通信&body=Check out this article: http://example.com/2017/10/19/UnixSocket-echodemo/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2017/10/19/UnixSocket-echodemo/&title=python中使用Unix socket通信"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2017/10/19/UnixSocket-echodemo/&name=python中使用Unix socket通信&description=&lt;p&gt;对于socket模式的通信来说，除了常见的TCP&amp;#x2F;IP套接字还有Unix套接字。不过说Unix套接字是系统上的一个文件，而非主机名和端口，而Unix套接字关闭之后，文件系统上仍然会存在套接字文件，需要在服务端程序启动之前进行删除，它的其他操作和TCP&amp;#x2F;IP套接字是一样的。下面用一个简单的echo server记录一下Unix套接字的基本使用方法。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2017/10/19/UnixSocket-echodemo/&t=python中使用Unix socket通信"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    star-chen
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
